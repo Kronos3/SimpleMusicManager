@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+   mainPage.html
+
+   Copyright 2016 Andrei Tumbar <atuser@Kronos>
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+   MA 02110-1301, USA.
+
+
+-->
+
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+<link rel="stylesheet" href="css/materialize.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+<body>
+<div class="top-bar red card-panel lighten-2">
+    <button id="menu" onclick="openNav()" class="waves-effect waves-light waves-circle btn-float red lighten-2">
+        <i class="material-icons">menu</i>
+    </button>
+    <div id="nav" class="card-panel">
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('home')"><i class="nav-icon material-icons">home</i><p>Home</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('lib')"><i class="nav-icon material-icons">library_music</i><p>Library</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('lib')"><i class="nav-icon material-icons">queue_music</i><p>Playlists</p></a></div>
+        <span class="nav-divider"></span>
+    </div>
+</div>
+
+</html>
