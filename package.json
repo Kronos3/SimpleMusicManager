@@ -1,0 +1,21 @@
+{
+  "name": "SMM",
+  "version": "1.0.0",
+  "description": "A music manager that integrates with Google Music",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/Kronos3/SimpleMusicManager",
+  "keywords": [
+    "Simple",
+    "Music",
+    "Manager",
+    "Google"
+  ],
+  "author": "Kronos3",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "electron": "^1.4.1"
+  }
+}
