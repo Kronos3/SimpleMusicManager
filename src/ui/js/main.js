@@ -1,7 +1,7 @@
 var navOpened = 0;
 
  $(document).ready(function(){
-    $('.tooltipped').tooltip({delay: 750});
+    $('.tooltipped').tooltip({delay: 2000});
   });
 
 function openNav() {
