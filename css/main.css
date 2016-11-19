@@ -204,7 +204,7 @@ textarea, input, input:focus {
 }
 
 body {
-    -webkit-app-region: drag;
+    -webkit-app-region: no-drag;
     min-height: 100%;
     position: relative;
 }

@@ -27,7 +27,7 @@ catch (e) {
 function createWindow () {
   if (installed === true) {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 800, height: 720, frame: false, minWidth: 600, minHeight: 720, transparent: true, icon:'img/icon-small.png'})
+    mainWindow = new BrowserWindow({width: 1080, height: 720, frame: false, minWidth: 600, minHeight: 720, transparent: true, icon:'img/icon-small.png'})
     
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
