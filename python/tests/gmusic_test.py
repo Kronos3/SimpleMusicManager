@@ -23,7 +23,7 @@
 #  
 
 
-import sys, getpass
+import sys, getpass, traceback
 sys.path.append ("../")
 from gmusic.gmusic import * 
 
@@ -38,7 +38,10 @@ def main(args):
         
     cmd = ""
     while (cmd not in ("q", "quit")):
-        exec (cmd)
+        try:
+            exec (cmd)
+        except:
+            traceback.print_exc(file=sys.stdout)
         cmd = input ("> ")
     
     return 0
