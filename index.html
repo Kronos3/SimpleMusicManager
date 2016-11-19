@@ -38,6 +38,12 @@ var hammer = require('./js/hammer.min.js');
 <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+<div class="title-bar">
+    <button id="close" onclick="close_win()"></button>
+    <button id="max" onclick="maximize()"></button>
+    <button id="min" onclick="minimize()"></button>
+</div>
+<div class="window">
 <div class="top-bar red card-panel lighten-2">
     <button id="menu" onclick="openNav()" class="waves-effect waves-light waves-circle btn-float red lighten-2">
         <i class="material-icons">menu</i>
@@ -65,9 +71,10 @@ var hammer = require('./js/hammer.min.js');
     </div>
 </div>
 <div class="top-bar-div"></div>
-<div class="container">
+<div class="home">
     <div class="row">
-        
+        <div class="">
+        </div>
     </div>
 </div>
 <div class="card-panel control-bar">
@@ -89,6 +96,6 @@ var hammer = require('./js/hammer.min.js');
         </button>
     </div>
 </div>
+</div>
 </body>
-    
 </html>

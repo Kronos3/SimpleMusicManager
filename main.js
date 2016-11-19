@@ -1,4 +1,5 @@
 const electron = require('electron')
+var fs = require('fs');
 // Module to control application life.
 const app = electron.app
 // Module to create native browser window.
@@ -11,16 +12,41 @@ const url = require('url')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+var installed;
 
-  // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
+// Check if it has been installed
+try {
+    // Query the entry
+    i = fs.lstatSync('./.installed');
+    installed = true;
+}
+catch (e) {
+    installed = false;
+}
+
+function createWindow () {
+  if (installed === true) {
+    // Create the browser window.
+    mainWindow = new BrowserWindow({width: 800, height: 720, frame: false, minWidth: 600, minHeight: 720, transparent: true, icon:'img/icon-small.png'})
+    
+    // and load the index.html of the app.
+    mainWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'index.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
+  }
+  else {
+      // Create the browser window.
+    mainWindow = new BrowserWindow({width: 100, height: 50, frame: false, transparent: true, icon:'img/icon-small.png'})
+    
+    // and load the index.html of the app.
+    mainWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'install.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
+  }
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools()

@@ -1,3 +1,4 @@
+const remote = require('electron').remote;
 var navOpened = 0;
 
  $(document).ready(function(){
@@ -95,4 +96,38 @@ function playf () {
             n_shuffle = 0;
             $("#play > i").text("play_arrow");
         }
+}
+
+function minimize(){
+    var window = remote.getCurrentWindow();
+    window.minimize();  
+}
+
+function close_win(){
+    var window = remote.getCurrentWindow();
+    window.close();  
+}
+
+$( window ).resize(function() {
+    var window = remote.getCurrentWindow ()
+    if (window.isMaximized())
+    {
+        //$("#max").css("background-image", "url(img/unmaximize.png)");
+    }
+    else
+    {
+        $("#max").css("background-image", "url(img/maximize.png)");
+    }
+});
+
+function maximize(){
+    var window = remote.getCurrentWindow ()
+    if (window.isMaximized())
+    {
+        window.unmaximize();
+    }
+    else
+    {
+        window.maximize ();
+    }
 }

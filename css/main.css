@@ -1,5 +1,9 @@
 /*  The main stylesheet for SMM  */
 
+html {
+    height: 100%;
+}
+
 body
 {
     background: #fcfcfc;
@@ -17,14 +21,16 @@ textarea, input, input:focus {
 
 .top-bar
 {
-    position: fixed;
+    position: absolute;
     height: 64px;
     width: 100%;
-    top: 0;
+    top: 30px;
     padding-bottom: 0;
     padding-top: 0;
     margin-top: 0;
     z-index: 4;
+    border-radius: 0;
+    box-shadow
 }
 
 #menu
@@ -47,7 +53,7 @@ textarea, input, input:focus {
 
 #nav
 {
-    top: 0;
+    top: 30px;
     left: -280px;
     position: fixed;
     height: 100%;
@@ -56,7 +62,7 @@ textarea, input, input:focus {
     background: #fff;
     transition: all 0.2s ease-out;
     margin-top: 0;
-    padding: 120px 0 30px 0;
+    padding: 55px 0 30px 0;
 }
 
 .nav-panel {
@@ -142,7 +148,7 @@ textarea, input, input:focus {
 }
 
 .control-bar {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -195,4 +201,73 @@ textarea, input, input:focus {
 .add {
     bottom: 6.5%;
     right: 40px
+}
+
+body {
+    -webkit-app-region: drag;
+    min-height: 100%;
+    position: relative;
+}
+
+.window {
+    -webkit-app-region: no-drag;
+    min-height: 100%;
+}
+
+.title-bar {
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 30px;
+    -webkit-app-region: drag;
+    background: #EF5350;
+}
+
+.title-bar > button {
+    position: relative;
+    float: right;
+    padding: 0;
+    border: 0;
+    width: 30px;
+    height: 100%;
+    -webkit-app-region: no-drag;
+    transition: 0.15s all ease-out;
+    background: #EF5350;
+}
+
+#close {
+    background-repeat: no-repeat;
+    background-image: url(../img/close.png);
+    background-position: center;
+}
+
+#max {
+    background-repeat: no-repeat;
+    background-image: url(../img/maximize.png);
+    background-position: center;
+}
+
+#min {
+    background-repeat: no-repeat;
+    background-image: url(../img/minimize.png);
+    background-position: center;
+}
+
+.title-bar > button:hover {
+    background-color: #F44336;
+    cursor: auto;
+}
+
+.wait {
+    font-size: 12px;
+}
+
+.home {
+    height: 100%;
+    width: 66%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: auto;
+    position: relative;
 }
