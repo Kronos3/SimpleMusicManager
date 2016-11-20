@@ -27,7 +27,7 @@ catch (e) {
 function createWindow () {
   if (installed === true) {
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 1080, height: 720, frame: false, minWidth: 600, minHeight: 720, transparent: true, icon:'img/icon-small.png'})
+    mainWindow = new BrowserWindow({width: 1080, height: 720, frame: false, minWidth: 800, minHeight: 720, transparent: true, icon:'img/icon-small.png'})
     
     // and load the index.html of the app.
     mainWindow.loadURL(url.format({
@@ -81,6 +81,28 @@ app.on('activate', function () {
     createWindow()
   }
 })
+
+var google = require('googleapis');
+var OAuth2 = google.auth.OAuth2;
+
+var oauth2Client = new OAuth2(
+  '653251527309-tiee4p0qukslagge2g7cahhshh3e908t.apps.googleusercontent.com',
+  'o1585JENWg6pyRaWr1XKeOYB',
+  'urn:ietf:wg:oauth:2.0:oob'
+);
+
+// generate a url that asks permissions for Google+ and Google Calendar scopes
+var scopes = [
+  'https://www.googleapis.com/auth/musicmanager'
+];
+
+global.authurl = oauth2Client.generateAuthUrl({
+  // 'online' (default) or 'offline' (gets refresh_token)
+  access_type: 'offline',
+
+  // If you only need one scope you can pass it as string
+  scope: scopes
+});
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

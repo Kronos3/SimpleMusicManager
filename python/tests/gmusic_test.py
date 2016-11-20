@@ -25,16 +25,16 @@
 
 import sys, getpass, traceback
 sys.path.append ("../")
-from gmusic.gmusic import * 
+from gmusic.gmusic import *
 
 def main(args):
     #user = input ("username: ")
     buff = {}
     passwd = getpass.getpass ("password: ")
-    if (not r_login (["dovakhiin1359", passwd])):
+    if (not login (["dovakhiin1359", passwd])):
         print ("Incorrect password!")
         exit(1)
-    buff = r_refresh_lib()
+    buff = refresh()
         
     cmd = ""
     while (cmd not in ("q", "quit")):

@@ -1,6 +1,8 @@
 const remote = require('electron').remote;
 var navOpened = 0;
 
+console.log(remote.getGlobal('authurl'));
+
  $(document).ready(function(){
     $('.tooltipped').tooltip({delay: 2000});
   });

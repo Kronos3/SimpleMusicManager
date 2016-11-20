@@ -22,27 +22,33 @@
 #  
 #  
 
-from gmusicapi import *
+import sys
+sys.path.append ('..')
+sys.path.append ('../api/')
+from api.gmusicapi import *
 
-global gm_api
+global gm_api_m
+global gm_api_man
 global gm_library
 global gm_stations
-gm_api = Mobileclient()
+global google_creds
+gm_api_m = Mobileclient()
+gm_api_man = Musicmanager()
 gm_library = None
 gm_stations = None
 
-
+google_creds = []
 
 #class Library:
 #    
 
 # info[0] = username
 # info[1] = password
-def r_login (info):
+def login (info):
     if (not info[0].endswith("@gmail.com")):
         info[0] = info[0] + "@gmail.com"
-    return gm_api.login(info[0], info[1], Mobileclient.FROM_MAC_ADDRESS)
+    return gm_api_m.login(info[0], info[1], Mobileclient.FROM_MAC_ADDRESS)
 
-def r_refresh_lib():
-    gm_library = gm_api.get_all_songs ()
+def refresh():
+    gm_library = gm_api_m.get_all_songs ()
     return gm_library

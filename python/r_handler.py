@@ -41,9 +41,13 @@ The return value will be sent back to NodeJS
 
 """
 
-def main(args):
-    return 0
+from blinker import signal
+from gmusic.gmusic import *
+import zerorpc
 
-if __name__ == '__main__':
-    import sys
-    sys.exit(main(sys.argv))
+class r_handler(object):
+    def __init__ (self):
+        super(r_handler, self).__init__()
+    
+    def login (self, i_list):
+        return 

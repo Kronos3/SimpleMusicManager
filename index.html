@@ -35,14 +35,31 @@ var hammer = require('./js/hammer.min.js');
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/backend.js"></script>
+<script type="text/javascript" src="js/rpc.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <link rel="stylesheet" href="css/main.css">
+<meta name="google-signin-client_id" content="653251527309-tiee4p0qukslagge2g7cahhshh3e908t.apps.googleusercontent.com">
 </head>
 <body>
+<div class="login">
+    <img class="login-img" src="img/google.png">
+    <p class="login-header">
+        Sign in to your Google account
+    </p>
+    <div class="login-wrapper">
+        <img class="login-avatar" src="img/no_acc.png">
+        <input id="email" type="email" value="" autocomplete="off" placeholder="Enter your email" spellcheck="false">
+        <input id="passwd" type="password" placeholder="Password">
+        <p class="wrongpass">Incorrect email or password.</p>
+        <input id="sign-in" type="submit" onclick="signal.trigger('login');" value="Sign In">
+    </div>
+</div>
 <div class="title-bar">
     <button id="close" onclick="close_win()"></button>
     <button id="max" onclick="maximize()"></button>
     <button id="min" onclick="minimize()"></button>
 </div>
+<div class="disable" onclick="login_close()"></div>
 <div class="window">
 <div class="top-bar red card-panel lighten-2">
     <button id="menu" onclick="openNav()" class="waves-effect waves-light waves-circle btn-float red lighten-2">
@@ -69,12 +86,13 @@ var hammer = require('./js/hammer.min.js');
             <input id="search" class="search" type="text" placeholder="Search">
         </div>
     </div>
+    <input id="sign-in" class="sign-in-small" onclick="open_login()" type="submit" value="Sign In"> 
 </div>
 <div class="top-bar-div"></div>
 <div class="home">
     <div class="row">
-        <div class="">
-        </div>
+        
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
     </div>
 </div>
 <div class="card-panel control-bar">
