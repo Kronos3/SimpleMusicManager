@@ -52,3 +52,7 @@ def login (info):
 def refresh():
     gm_library = gm_api_m.get_all_songs ()
     return gm_library
+
+def sort_by (lib, __property):
+    return sorted(lib, key=lambda k: k[__property]) 
+

@@ -5,33 +5,45 @@
  */
 
 var zerorpc = require("zerorpc");
-var signal = require('signal-js');
-var google = require('googleapis');
-var OAuth2 = google.auth.OAuth2;
 
-var oauth2Client = new OAuth2(
-  '653251527309-g0bbun3n029bghmrbhaa9c1sbvubusep.apps.googleusercontent.com',
-  'JmnwJYoEtR9uhTeAQLiCqmx_',
-  '#'
-);
+var exec = require('child_process').exec;
+
+function execute(command, callback){
+    exec(command, function(error, stdout, stderr){ callback(stdout); });
+};
+
+// call the function
+execute('python ./python/r_handler.py', function(output) {
+    console.log(output);
+});
 
 var client = new zerorpc.Client();
 client.connect("tcp://127.0.0.1:4242");
 
-signal.on('refresh', function(arg) {
+const BrowserWindow = remote.BrowserWindow;
+var win = new BrowserWindow({ width: 800, height: 600 });
+function refresh () {
     client.invoke("refresh", 0, function(error, res, more) {
-        signal.trigger("r_refresh", res);
+        //signal.trigger("got_refresh", res);
     });
-});
-signal.on('login', function(arg) {
-    client.invoke("login", [$('#email'),$('#passwd')], function(error, res, more) {
-        signal.trigger("r_login", res);
+}
+
+function login () {
+    client.invoke("login", [$('#email').val(),$('#passwd').val()], function(error, res, more) {
+        //signal.trigger("got_login", res);
     });
-});
+}
+
+function get_auth () {
+    client.invoke("get_auth", '', function(error, res, more) {
+        win.loadURL(res);
+    });
+}
 
 function open_login () {
     $('.login').css('display', 'block');
     $('.disable').css('display', 'block');
+    get_auth();
 }
 
 function login_close() {

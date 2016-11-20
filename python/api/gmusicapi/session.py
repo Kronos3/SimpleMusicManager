@@ -177,7 +177,14 @@ class Mobileclient(_Base):
         self._authtoken = None
         self._locale = None
         self._is_subscribed = None
+    
+    def login_oauth(self, master_token):
+        self._authtoken = master_token
 
+        self.is_authenticated = True
+
+        return True
+    
     def login(self, email, password, android_id, *args, **kwargs):
         """
         Get a master token, then use it to get a skyjam OAuth token.
@@ -203,7 +210,6 @@ class Mobileclient(_Base):
         self._authtoken = res['Auth']
 
         self.is_authenticated = True
-
         return True
 
     def _send_with_auth(self, req_kwargs, desired_auth, rsession):

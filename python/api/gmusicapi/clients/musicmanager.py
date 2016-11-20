@@ -109,7 +109,7 @@ class Musicmanager(_Base):
                                            debug_logging,
                                            validate,
                                            verify_ssl)
-
+    
     def login(self, oauth_credentials=OAUTH_FILEPATH,
               uploader_id=None, uploader_name=None):
         """Authenticates the Music Manager using OAuth.

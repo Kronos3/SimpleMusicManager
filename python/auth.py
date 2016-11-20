@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 #
-#  gmusic_test.py
+#  auth.py
 #  
 #  Copyright 2016 Andrei Tumbar <atuser@Kronos>
 #  
@@ -23,32 +23,19 @@
 #  
 
 
-import sys, getpass, traceback
-sys.path.append ("../")
-from gmusic.gmusic import *
-import auth
+from oauth2client import client
+import os
 
-def main():
-    #user = input ("username: ")
-    buff = {}
-    passwd = getpass.getpass ("password: ")
-    if (not login (["dovakhiin1359", passwd])):
-        print ("Incorrect password!")
-        exit(1)
-    buff = refresh()
-    cmd = ""
-    while (cmd not in ("q", "quit")):
-        try:
-            exec (cmd)
-        except:
-            traceback.print_exc(file=sys.stdout)
-        try:
-            cmd = input ("> ")
-        except:
-            pass
-    
-    return 0
+class OAuthGM:
+    def __init__(self, secret_file="creds.json"):
+        self.flow = client.flow_from_clientsecrets(
+                    secret_file,
+                    scope=['https://www.googleapis.com/auth/musicmanager', 'profile', 'email',  'https://android.clients.google.com/auth'],
+                    redirect_uri='urn:ietf:wg:oauth:2.0:oob')
+    def get_url (self):
+        return self.flow.step1_get_authorize_url()
+    def get_access_token (self, auth_code):
+        self.credentials = self.flow.step2_exchange(auth_code)
+        return self.credentials
 
-if __name__ == '__main__':
-    import sys
-    sys.exit(main())
+MainAuth = OAuthGM(os.path.dirname(os.path.abspath(__file__)) + '/creds.json')

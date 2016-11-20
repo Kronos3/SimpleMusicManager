@@ -389,3 +389,15 @@ body {
     text-align: left;
     text-indent: 10px;
 }
+
+.disable-nav {
+    background: rgba(0,0,0,0);
+    display: none;
+    position: absolute;
+    content: '';
+    width: calc(100% - 280px);
+    height: calc(100% - 30px);
+    z-index: 104;
+    display: block;
+    right: 0;
+}

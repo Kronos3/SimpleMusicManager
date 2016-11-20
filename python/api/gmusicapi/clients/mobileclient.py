@@ -72,7 +72,35 @@ class Mobileclient(_Base):
             self.session._is_subscribed = False
 
         return self.session._is_subscribed
+    
+    def login_oauth (self, master_token, android_id):
+        if android_id is None:
+            raise ValueError("android_id cannot be None.")
 
+        if android_id is self.FROM_MAC_ADDRESS:
+            mac_int = getmac()
+            if (mac_int >> 40) % 2:
+                raise OSError("a valid MAC could not be determined."
+                              " Provide an android_id (and be"
+                              " sure to provide the same one on future runs).")
+
+            android_id = utils.create_mac_string(mac_int)
+            android_id = android_id.replace(':', '')
+
+        if not self.session.login_oauth(master_token):
+            self.logger.info("failed to authenticate")
+            return False
+
+        self.android_id = android_id
+        self.logger.info("authenticated")
+
+        self.locale = 'en_US'
+
+        if self.is_subscribed:
+            self.logger.info("subscribed")
+
+        return True
+    
     def login(self, email, password, android_id, locale='en_US'):
         """Authenticates the Mobileclient.
         Returns ``True`` on success, ``False`` on failure.

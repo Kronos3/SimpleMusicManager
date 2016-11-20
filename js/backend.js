@@ -1,7 +1,6 @@
 const remote = require('electron').remote;
-var navOpened = 0;
 
-console.log(remote.getGlobal('authurl'));
+var navOpened = 0;
 
  $(document).ready(function(){
     $('.tooltipped').tooltip({delay: 2000});
@@ -17,6 +16,7 @@ function openNav() {
         $("#menu").css("color", "rgb(255, 255, 255)");
         $("#menu > i").text("close");
         navOpened = 1;
+        $('.disable-nav').css('display', 'block');
     }
     else {
         $("#menu").addClass("red");
@@ -26,6 +26,7 @@ function openNav() {
         $("#menu").css("color", "rgb(80, 77, 71)");
         $("#menu > i").text("menu");
         navOpened = 0;
+        $('.disable-nav').css('display', 'none');
     }
 }
 
@@ -132,4 +133,15 @@ function maximize(){
     {
         window.maximize ();
     }
+}
+
+function nav_close() {
+    $("#menu").addClass("red");
+    $("#menu").removeClass("white");
+    $("#menu > i").css("color", "#fff");
+    $("#nav").css("left", "-280px");
+    $("#menu").css("color", "rgb(80, 77, 71)");
+    $("#menu > i").text("menu");
+    navOpened = 0;
+    $('.disable-nav').css('display', 'none');
 }

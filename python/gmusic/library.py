@@ -23,40 +23,52 @@
 #  
 
 class Song:
-    {'composer': '',
-     'albumArtist': 'Bad Meets Evil',
-     'artist': 'Bad Meets Evil',
-     'beatsPerMinute': 0,
-     'totalTrackCount': 11,
-     'title': 'Welcome 2 Hell (Explicit)',
-     'id': 'd4d43df0-9cd9-349a-aa29-b1110d77adcc',
-     'rating': '0',
-     'nid': 'Tvvehgsqc6nqkmsheakclnjenwu',
-     'discNumber': 1,
-     'recentTimestamp': '1454387563248000',
-     'genre': 'Rap',
-     'artistArtRef': [{'kind': 'sj#imageRef',
-                       'aspectRatio': '2',
-                       'url': 'http://lh3.googleusercontent.com/C-pP9gGe046QCz3n1RHjTdWS1Qn0uuFwocTVtbKDeCFQfnTnp1_P45Xhq1v4CK2JodykAbhbRA',
-                       'autogen': False}],
-     'year': 2011,
-     'totalDiscCount': 1,
-     'playCount': 25,
-     'comment': '',
-     'clientId': 'Oz9uMfdAPTqSxIfCINyq0Q',
-     'lastModifiedTimestamp': '1454369563448194',
-     'trackNumber': 1,
-     'albumId': 'Bowmdhgpnaiuxke7u5qp5emgzva',
-     'kind': 'sj#track',
-     'estimatedSize': '5897919',
-     'album': 'Hell: The Sequel (Deluxe Version)',
-     'durationMillis': '176956',
-     'albumArtRef': [{'kind': 'sj#imageRef',
-                      'url': 'https://lh5.ggpht.com/_Bws7Py5_DWL8_PaNTmN-ePn3Hq9vA3-U93yPvbgIVPXMkXa84aut5kq0r9giy_Dw2bSv93K'}],
-     'deleted': False,
-     'creationTimestamp': '1452030866890286',
-     'artistId': ['Awpotvx5pqrfaj7gkhuth3dshfq'],
-     'storeId': 'Tvvehgsqc6nqkmsheakclnjenwu'}
+    {
+      "title": "Welcome 2 Hell (Explicit)",
+      "artistId": [
+        "Awpotvx5pqrfaj7gkhuth3dshfq"
+      ],
+      "nid": "Tvvehgsqc6nqkmsheakclnjenwu",
+      "albumId": "Bowmdhgpnaiuxke7u5qp5emgzva",
+      "creationTimestamp": "1452030866890286",
+      "kind": "sj#track",
+      "totalTrackCount": 11,
+      "artistArtRef": [
+        {
+          "aspectRatio": "2",
+          "kind": "sj#imageRef",
+          "autogen": false,
+          "url": "http://lh3.googleusercontent.com/C-pP9gGe046QCz3n1RHjTdWS1Qn0uuFwocTVtbKDeCFQfnTnp1_P45Xhq1v4CK2JodykAbhbRA"
+        }
+      ],
+      "albumArtist": "Bad Meets Evil",
+      "lastModifiedTimestamp": "1454369563448194",
+      "albumArtRef": [
+        {
+          "kind": "sj#imageRef",
+          "url": "https://lh5.ggpht.com/_Bws7Py5_DWL8_PaNTmN-ePn3Hq9vA3-U93yPvbgIVPXMkXa84aut5kq0r9giy_Dw2bSv93K"
+        }
+      ],
+      "comment": "",
+      "durationMillis": "176956",
+      "trackNumber": 1,
+      "clientId": "Oz9uMfdAPTqSxIfCINyq0Q",
+      "deleted": false,
+      "id": "d4d43df0-9cd9-349a-aa29-b1110d77adcc",
+      "storeId": "Tvvehgsqc6nqkmsheakclnjenwu",
+      "rating": "0",
+      "discNumber": 1,
+      "composer": "",
+      "beatsPerMinute": 0,
+      "totalDiscCount": 1,
+      "album": "Hell: The Sequel (Deluxe Version)",
+      "playCount": 25,
+      "estimatedSize": "5897919",
+      "genre": "Rap",
+      "artist": "Bad Meets Evil",
+      "year": 2011,
+      "recentTimestamp": "1454387563248000"
+    }
 
 
 def main(args):

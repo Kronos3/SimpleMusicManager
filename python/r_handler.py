@@ -42,7 +42,8 @@ The return value will be sent back to NodeJS
 """
 
 from blinker import signal
-from gmusic.gmusic import *
+import gmusic
+import auth
 import zerorpc
 
 class r_handler(object):
@@ -50,4 +51,11 @@ class r_handler(object):
         super(r_handler, self).__init__()
     
     def login (self, i_list):
-        return 
+        return gmusic.login(i_list)
+    def get_access (self, arg):
+        print("test")
+        return auth.MainAuth.get_url()
+
+__handler = zerorpc.Server(r_handler())
+__handler.bind('tcp://0.0.0.0:4242')
+__handler.run()
