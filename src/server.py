@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 #
-#  auth.py
+#  server.py
 #  
 #  Copyright 2016 Andrei Tumbar <atuser@Kronos>
 #  
@@ -23,19 +23,23 @@
 #  
 
 
-from oauth2client import client
-import os
+import SocketServer
 
-class OAuthGM:
-    def __init__(self, secret_file="creds.json"):
-        self.flow = client.flow_from_clientsecrets(
-                    secret_file,
-                    scope=['https://www.googleapis.com/auth/musicmanager', 'profile', 'email',  'https://android.clients.google.com/auth'],
-                    redirect_uri='urn:ietf:wg:oauth:2.0:oob')
-    def get_url (self):
-        return self.flow.step1_get_authorize_url()
-    def get_access_token (self, auth_code):
-        self.credentials = self.flow.step2_exchange(auth_code)
-        return self.credentials
+class SocketHandler(SocketServer.BaseRequestHandler):
 
-MainAuth = OAuthGM(os.path.dirname(os.path.abspath(__file__)) + '/creds.json')
+    def handle(self):
+        req = self.request
+        if (req.startswith('r_')):
+            
+        
+        self.request.sendall()
+
+if __name__ == "__main__":
+    HOST, PORT = "localhost", 9999
+
+    # Create the server, binding to localhost on port 9999
+    server = SocketServer.TCPServer((HOST, PORT), SocketHandler)
+
+    # Activate the server; this will keep running until you
+    # interrupt the program with Ctrl-C
+    server.serve_forever()
