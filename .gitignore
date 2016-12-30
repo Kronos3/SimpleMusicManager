@@ -1,0 +1,32 @@
+<<<<<<< HEAD
+node_modules
+__pycache__
+scripts
+*.pyc
+Google Music Offline*
+=======
+Thumbs.db
+#~
+.DS_Store
+\#*\#
+.\#*
+.*.swp
+*.un~
+.*.swo
+*.tmproj
+
+_local_*.py
+*.pyc
+
+docs/build
+dist
+__pycache__
+gmusicapi.log
+*egg-info
+
+bin
+lib
+include
+share
+.tox
+>>>>>>> d1825672767e88dc91d6d80980892082799a000f

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+   mainPage.html
+
+   Copyright 2016 Andrei Tumbar <atuser@Kronos>
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+   MA 02110-1301, USA.
+
+
+-->
+
+<head>
+<meta charset="utf-8" />
+<script>
+var $ = jQuery = require('./js/jquery-2.1.1.min.js');
+var hammer = require('./js/hammer.min.js');
+</script>
+<link href="css/roboto.css" "stylesheet">
+<link rel="stylesheet" href="css/materialize.css">
+<link href="css/material-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="import" href="bower_components/paper-card/paper-card.html">
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/color-thief.min.js"></script>
+<link rel="stylesheet" href="css/main.css">
+<script type="text/javascript" src="js/templates.js"></script>
+<script type="text/javascript" src="js/backend.js"></script>
+<script type="text/javascript" src="js/client.js"></script>
+</head>
+<body>
+<iframe class="login" src="http://localhost:8002" style="height:554px;">
+</iframe>
+<div class="title-bar">
+    <button id="close" onclick="close_win()"></button>
+    <button id="max" onclick="maximize()"></button>
+    <button id="min" onclick="minimize()"></button>
+</div>
+<div class="disable" onclick="login_close()"></div>
+<div class="disable-nav" onclick="nav_close()"></div>
+<div class="window">
+<div class="top-bar red card-panel lighten-2">
+    <button id="menu" onclick="openNav()" class="waves-effect waves-light waves-circle btn-float red lighten-2">
+        <i class="material-icons">menu</i>
+    </button>
+    <div id="nav" class="card-panel">
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('0')"><i class="nav-icon material-icons">home</i><p>Home</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('1')"><i class="nav-icon material-icons">library_music</i><p>Library</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('3')"><i class="nav-icon material-icons">queue_music</i><p>Playlists</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('4')"><i class="nav-icon material-icons">file_upload</i><p>Upload Music</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('7')"><i class="nav-icon fa fa-lg fa-youtube-play"></i><p>Youtube</p></a></div>
+        <div class="nav-divider"></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('8')"><i class="nav-icon"><iron-icon class="x-scope iron-icon-0"><svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; fill: #424242; width: 24px; height: 24px;"><g class="style-scope iron-icon"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z" class="style-scope iron-icon"></path></g></svg></iron-icon></i><p>Settings</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('9')"><i class="nav-icon material-icons">help_outline</i><p>Help</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('10')"><i class="nav-icon material-icons">info_outline</i><p>Information</p></a></div>
+    </div>
+    <div class="top-search-wrapper">
+        <div id="search-color" class="top-search-inner red lighten-3">
+            <i class="search-icon material-icons">search</i>
+            <input id="search" class="search" type="text" placeholder="Search">
+        </div>
+    </div>
+    <input id="sign-in" class="sign-in-small" onclick="open_login()" type="submit" value="Sign In"> 
+</div>
+<div class="main-content">
+    <div id="content-wrapper">
+        <div class="artists ">
+            <paper-card image="">
+              <div class="card-content">
+                Some artist
+              </div>
+            </paper-card>
+        </div>
+    </div>
+</div>
+<div class="card-panel control-bar">
+    <div class="control-middle">
+        <button id="repeat" onclick="repeatf()" data-position="top" data-tooltip="Repeat" class="tooltipped waves-effect waves-light waves-circle btn-float waves-red white lighten-2 control-button">
+            <i class="material-icons">repeat</i>
+        </button>
+        <button id="back" data-position="top" data-tooltip="Skip Back" class="tooltipped waves-effect waves-light waves-circle btn-float waves-red white lighten-2 control-button">
+            <i class="material-icons">skip_previous</i>
+        </button>
+        <button id="play" onclick="playf()" data-position="top" data-tooltip="Play/Pause" class="tooltipped waves-effect waves-light waves-circle btn-float waves-light red lighten-2 control-button">
+            <i class="material-icons">play_arrow</i>
+        </button>
+        <button id="skip" data-position="top" data-tooltip="Skip Next" class="tooltipped waves-effect waves-light waves-circle btn-float waves-red white lighten-2 control-button">
+            <i class="material-icons">skip_next</i>
+        </button>
+        <button id="shuffle" onclick="shufflef()" data-position="top" data-tooltip="Shuffle" class="tooltipped waves-effect waves-light waves-circle btn-float waves-red white lighten-2 control-button">
+            <i class="material-icons">shuffle</i>
+        </button>
+    </div>
+</div>
+</div>
+</body>
+</html>
