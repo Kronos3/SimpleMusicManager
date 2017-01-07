@@ -22,18 +22,16 @@
 #  
 #  
 
-import sys
-sys.path.append ("/usr/lib/python3.5/")
-sys.path.append ("/usr/lib/python3.5/site-packages")
 
 import time
 start_time = time.time()
 
+import sys
+
 import socketserver, sys, traceback
 from src.r_handler import MainRHandler
-import multiprocessing
-import os
-import time
+import os, subprocess, urlparse
+from threading import Thread
 
 def sleep (_time):
     for x in reversed(range (_time)):
@@ -49,7 +47,46 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
     override the handle() method to implement communication to the
     client.
     """
+	
+	def _gen_headers(self,  code):
+		""" Generates HTTP response Headers. Ommits the first line! """
 
+		# determine response code
+		h = ''
+		if (code == 200):
+			h = 'HTTP/1.1 200 OK\n'
+		elif(code == 404):
+			h = 'HTTP/1.1 404 Not Found\n'
+		elif(code == 400):
+			h = 'HTTP/1.0 400 Bad Request'
+		
+		# write further headers
+		current_date = time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())
+		h += 'Date: ' + current_date +'\n'
+		h += 'Server: Simple-Python-HTTP-Server\n'
+		h += 'Connection: close\n\n'  # signal that the conection wil be closed after complting the request
+		return h
+	
+	def get_handle (self, request):
+		parsed = request.split (' ')
+		file_req = parsed[1];
+		if file_req = '/':
+			file_req = '/index.html'
+		file_req = 'oauth' + file_req
+		try:
+			file_buf = open (file_req, 'rb')
+			response = file_buf.read ()
+			response_head = self._gen_headers(200)
+			file_buf.close()
+		except Exception as e:
+			response_head = self._gen_headers (404)
+			response = b'<html><body><p>Error 404: File %s not found</p></body></html>' % parsed[1]
+		
+		server_res = response_head.encode()
+		server_res += response
+		return server_res
+		
+	
     def handle(self):
         # self.request is the TCP socket connected to the client
         self.data = self.request.recv(1024).strip()
@@ -61,8 +98,10 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
             self.request.sendall(str.encode(return_val))
         elif (request[0].startswith('d_')):
             exec ('%s(%s)' % (request[0][2:], request[1]))
-        else:
-            self.request.sendall(b'HTTP/1.0 400 Bad Request\n')
+        elif (request[0:request.find(' ')] == 'GET'):
+			self.request.sendall(self.get_handle ())
+		else:
+            self.request.sendall(self._gen_headers(400))
 
 log_num = 0
 
@@ -80,9 +119,7 @@ def main():
     HOST, PORT = "localhost", 8000
     
     server = socketserver.TCPServer((HOST, PORT), MyTCPHandler)
-    newpid = os.fork()
-    if newpid == 0:
-        os.system('npm start -enable-transparent-visuals --disable-gpu')
+    Thread(target=subprocess.call, args=['npm start -enable-transparent-visuals --disable-gpu'], kwargs={'shell':True}).start()
     server.serve_forever()
 
 if __name__ == "__main__":
