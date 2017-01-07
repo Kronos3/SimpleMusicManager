@@ -16,5 +16,5 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-*.tcl linguist-vendored=false
+*.tcl linguist-vendored=true
 
