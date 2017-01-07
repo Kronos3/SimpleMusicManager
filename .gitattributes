@@ -16,5 +16,5 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-*.tcl linguist-vendored=true
-
+Python36/* linguist-vendored
+gmusicapi/* linguist-vendored
