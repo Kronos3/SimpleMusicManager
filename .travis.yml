@@ -1,5 +1,11 @@
 sudo: false
 language: python node_js
+
+node_js:
+  - "node"
+  - "iojs"
+  - "6"
+
 python:
   - "2.7"
   - "3.4"
