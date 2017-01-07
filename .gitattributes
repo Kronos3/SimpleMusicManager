@@ -1,11 +1,11 @@
 Python36/* linguist-vendored
 Python36/tcl/* linguist-vendored
 gmusicapi/* linguist-vendored
-font-awesome.css linguist-vendored=false
-font-awesome.min.css linguist-vendored=false
-material-icons.css linguist-vendored=false
-materialize.css linguist-vendored=false
-materialize.min.css linguist-vendored=false
-roboto.css linguist-vendored=false
+font-awesome.css linguist-vendored=true
+font-awesome.min.css linguist-vendored=true
+material-icons.css linguist-vendored=true
+materialize.css linguist-vendored=true
+materialize.min.css linguist-vendored=true
+roboto.css linguist-vendored=true
 
 #main.css linguist-vendored=false
