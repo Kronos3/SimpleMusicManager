@@ -1,10 +1,8 @@
-<<<<<<< HEAD
 node_modules
 __pycache__
 scripts
 *.pyc
 Google Music Offline*
-=======
 Thumbs.db
 #~
 .DS_Store
@@ -29,4 +27,5 @@ lib
 include
 share
 .tox
->>>>>>> d1825672767e88dc91d6d80980892082799a000f
+build
+server.spec
