@@ -1,5 +1,3 @@
-var encrypt = new JSEncrypt();
-
 String.prototype.format = function() {
     var formatted = this;
     for (var i = 0; i < arguments.length; i++) {
@@ -13,21 +11,15 @@ function enc_pass(user, pass)
 {
     if (user == "" || pass == "")
     {
-        return encrypt.encrypt("user={0}\\pass={1}\\save=1".format ("placeholder", "passholder"));
+        return "user={0}\\pass={1}\\save=1".format ("placeholder", "passholder");
     }
-    return encrypt.encrypt("user={0}\\pass={1}\\save=1".format (user, pass));
+    return "user={0}\\pass={1}\\save=1".format (user, pass);
 }
-
-var encrypted;
-
-$.get("rsakey", function(data, status){
-    encrypt.setPublicKey(data);
-});
 
 function __login(){
     $.ajax({
     type: "POST",
-    url: window.location.href,
+    url: "{0}login".format (window.location.href),
     data: enc_pass($("#email").val(), $("#passwd").val()),
     success: function(msg){
             $('.wrongpass').css("display", "none");

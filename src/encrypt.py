@@ -43,7 +43,8 @@ class RSA_obj:
     
     def decrypt (self, encrypted):
         bits = base64.b64decode (encrypted)
-        return self.private_key.decrypt (bits)
+        print (bits)
+        return self.private_key.decrypt (bits, cryptography.hazmat.primitives.asymmetric.padding.PKCS1v15())
     
     def get_pub (self):
-        self.public_key.public_bytes(cryptography.hazmat.primitives.serialization.Encoding.PEM, cryptography.hazmat.primitives.serialization.PublicFormat.PKCS1)
+        return self.public_key.public_bytes(cryptography.hazmat.primitives.serialization.Encoding.PEM, cryptography.hazmat.primitives.serialization.PublicFormat.PKCS1)

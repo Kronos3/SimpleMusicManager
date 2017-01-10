@@ -23,10 +23,6 @@
 #  
 
 
-import sys, getpass, traceback, os
-sys.path.append ("src")
-import auth, gmusic, json, socket
-
 class r_handler(object):
     def __init__ (self):
         super(r_handler, self)

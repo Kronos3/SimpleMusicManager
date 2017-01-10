@@ -31,8 +31,12 @@ import sys
 import socketserver, sys, traceback
 from src.r_handler import MainRHandler
 from src.encrypt import RSA_obj
-import os, subprocess, threading
+import sys, getpass, traceback, os
+from src import auth, gmusic
+import json, socket
+import os, ssl
 from multiprocessing import Process
+from urllib3.packages import ssl_match_hostname
 
 def sleep (_time):
     for x in reversed(range (_time)):
@@ -72,12 +76,10 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         parsed = request.split (' ')
         file_req = parsed[1];
         
-        if file_req == 'rsakey':
-          return creds.get_pub()
-        
         if file_req == '/':
             file_req = '/index.html'
         file_req = 'oauth' + file_req
+        print (file_req)
         try:
             file_buf = open (file_req, 'rb')
             response = file_buf.read ()
@@ -91,19 +93,32 @@ class MyTCPHandler(socketserver.BaseRequestHandler):
         server_res += response
         return server_res
         
+    def post_handle (self, request):
+        parsed = request.split (' ')
+        print (parsed)
+        file_req = parsed[1];
+        
+        if file_req == '/login':
+          print (request)
+          request = request[request.rfind ('\n', 0, len(request)-2):].strip()
+          print (request)
+          request = str(request.split ('\\'))
+          return_val = MainRHandler.r_get (request[0][2:], request[1:])
+          return json.JSONEncoder().encode(return_val)
     
     def handle(self):
         # self.request is the TCP socket connected to the client
         self.data = self.request.recv(1024).strip()
         formatted = self.data.decode ('UTF-8')
         request = str(self.data.decode('UTF-8')).split ('|')
-        log ('got request %s' % request[0])
+        log ('got request %s' % formatted[0:formatted.find("\n\n")])
         if (request[0].startswith('r_')):
             return_val = MainRHandler.r_get (request[0][2:], request[1:])
-            print (return_val)
             self.request.sendall(str.encode(return_val))
         elif (request[0].startswith('d_')):
             exec ('%s(%s)' % (request[0][2:], request[1]))
+        elif formatted[0:formatted.find(' ')] == 'POST':
+            self.request.sendall (self.post_handle (formatted))
         elif (formatted[0:formatted.find(' ')] == 'GET'):
             self.request.sendall(self.get_handle (formatted))
         else:
@@ -119,32 +134,17 @@ def log (string, newl=True):
     else:
         print ('--- %s --- [%s] %s' % (round(time.time()-start_time, 3), log_num, string))
 
-def background(f):
-    '''
-    a threading decorator
-    use @background above the function you want to run in the background
-    '''
-    def bg_f(*a, **kw):
-        threading.Thread(target=f, args=a, kwargs=kw).start()
-    return bg_f
-
-@background
-def start_server (server):
-    return server.serve_forever()
-
 def main():
     global HOST
     global PORT
     global creds
-    creds = RSA_obj ()
+    creds = RSA_obj (1024)
     
     HOST, PORT = "localhost", 8000
     
     server = socketserver.TCPServer((HOST, PORT), MyTCPHandler)
-    cmd = os.path.join (os.path.dirname(os.path.realpath('__file__')), "npm\\npm.cmd")
-    print (cmd)
-    start_server (server)
-    os.spawnl (os.P_NOWAIT, cmd, cmd, "start")
+    server.socket = ssl.wrap_socket (server.socket, certfile='./server.pem', server_side=True)
+    server.serve_forever()
 
 if __name__ == "__main__":
     try:

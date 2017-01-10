@@ -13,7 +13,10 @@ let mainWindow
 
 
 function createWindow () {
-	// Create the browser window.
+    // Start the server
+    var subpy = require('child_process').spawn('python', ['./server.py']);
+    
+    // Create the browser window.
     mainWindow = new BrowserWindow({width: 1080, height: 720, frame: false, minWidth: 800, minHeight: 720, transparent: true, icon:'img/icon-small.png'})
     
     // and load the index.html of the app.
@@ -22,9 +25,9 @@ function createWindow () {
       protocol: 'file:',
       slashes: true
     }))
-
-  // Open the DevTools.
-	mainWindow.webContents.openDevTools()
+    
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
