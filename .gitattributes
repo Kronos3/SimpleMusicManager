@@ -1,7 +1,9 @@
 Python36/* linguist-vendored
 Python36/tcl/* linguist-vendored
 gmusicapi/* linguist-vendored
-*.css linguist-vendored
+.css linguist-vendored
 bower_components linguist-vendored
-
-css/main.css linguist-vendored=false
+/css/font-awesome.min.css linguist-vendored
+/css/material-icons.css linguist-vendored
+/css/materialize.min.css linguist-vendored
+/css/roboto.css linguist-vendored
