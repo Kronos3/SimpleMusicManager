@@ -29,16 +29,21 @@ from .r_handler import MainRHandler
 
 class postHandler (server.SimpleHTTPRequestHandler):
     def parse_post (self, _str):
-        itms = _str.split ("&")
-        ret = {}
-        for x in itms:
-            name, val = x.split ('=')
-            ret[name] = val
+        try:
+            itms = _str.split ("&")
+            ret = {}
+            for x in itms:
+                name, val = x.split ('=')
+                ret[name] = val
+        except:
+            return None
         return ret
     
     def do_POST (self):
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
 
         data = self.parse_post(self.data_string.decode("utf-8"))
-        self.send_response(MainRHandler.r_get (self.path, data))
+        res = MainRHandler.r_get (self.path, data)
+        print (res)
+        self.send_response(res)
         self.end_headers()

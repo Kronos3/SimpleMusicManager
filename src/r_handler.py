@@ -23,13 +23,14 @@
 #  
 
 from . import gmusic, auth
+import json, os
 
 def ret (ret, path):
     if ret:
         return 200
     if path == "/login":
         return 401
-    if path == "/check-login":
+    if path == "/check_login":
         return 511
     if path in ["/library", "/now"]:
         return 502
@@ -39,15 +40,29 @@ class r_handler(object):
         pass
     
     def r_get (self, path, data):
+        if data == None:
+            return ret(eval('self.%s()' % path[1:]), path)
         return ret(eval('self.%s(%s)' % (path[1:], data)), path)
     
     def login(self, creds):
-        return gmusic.login (creds['login'], creds['passwd'])
+        return gmusic.login (creds['login'], creds['passwd'], creds['save'])
     
-    def library(self, arg):
+    def check_login (self):
+        if not os.path.isfile('.token'):
+            return False
+        with open ('.token', 'r') as f:
+            ret = gmusic.load_login (*eval(f.read()))
+            f.close()
+        return ret
+    
+    def library(self):
         with open('data/library.json', 'w+') as lib:
-            lib.write(json.JSONEncoder().encode(gmusic.refresh()._in))
-            lib.close()
+            lib_b = gmusic.refresh()
+            if lib_b != '':
+                lib.write(json.JSONEncoder().encode(lib_b._in))
+                lib.close()
+            else:
+                return False
         return True
     
     def now(self, arg):

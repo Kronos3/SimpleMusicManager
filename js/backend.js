@@ -164,3 +164,37 @@ function login_close() {
     $('.disable').css('display', 'none');
     $('.disable').css('z-index', '-1');
 }
+
+function login_load (path){
+    if (path != "http://localhost:8000/oauth/"){
+        login_close ();
+        $('#sign-in').css ('display', 'none');
+    }
+}
+
+function check_login () {
+    var saveData = $.ajax({
+        type: 'POST',
+        url: "/check_login",
+        dataType: "text",
+        success: function(resultData) { 
+            login_close ();
+            refresh();
+        }
+    });
+    saveData.error(function() {open_login();});
+}
+
+function refresh () {
+    var saveData = $.ajax({
+        type: 'POST',
+        url: "/library",
+        dataType: "text",
+        success: function(resultData) { 
+            
+        }
+    });
+    saveData.error(function() {});
+}
+
+check_login();

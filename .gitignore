@@ -30,3 +30,4 @@ share
 build
 server.spec
 .token
+data/*

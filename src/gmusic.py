@@ -61,16 +61,24 @@ def load_login (_auth, _master):
 def dump_login ():
     return gm_api_mob.session._authtoken, gm_api_mob.session._master_token
 
-def login (username, password):
+def login (username, password, save):
     ret = False
     try:
         ret = gm_api_mob.login(username, password, Mobileclient.FROM_MAC_ADDRESS)
     except exceptions.AlreadyLoggedIn:
-        return True
+        ret = True
+    if ret and save == 'on':
+        with open ('.token', 'w+') as f:
+            f.write(str(dump_login ()))
+            f.close()
     return ret
 
 def refresh():
-    gm_library = library.Library(gm_api_mob.get_all_songs ())
+    try:
+        out_s = gm_api_mob.get_all_songs ()
+    except:
+        return ''
+    gm_library = library.Library(out_s)
     return gm_library
 
 def get_now():

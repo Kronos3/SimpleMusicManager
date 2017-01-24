@@ -28,7 +28,7 @@
 <script>
 </script>
 <link href="css/roboto.css" "stylesheet">
-<link rel="stylesheet" href="css/materialize.css">
+<link rel="stylesheet" href="css/materialize.min.css">
 <link href="css/material-icons.css" rel="stylesheet">
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="import" href="bower_components/paper-card/paper-card.html">
@@ -39,27 +39,7 @@
 <script type="text/javascript" src="js/backend.js"></script>
 </head>
 <body>
-<!-- <div class="login" style="height:554px;">
-    <div class="_login">
-    <img class="login-img" src="img/google.png">
-    <p class="login-header">
-        Sign in to your Google account for metadata requests
-    </p>
-    <div class="login-wrapper">
-        <img class="login-avatar" src="img/no_acc.png">
-        <input id="email" type="email" value="" autocomplete="off" placeholder="Enter your email" spellcheck="false">
-        <input id="passwd" type="password" placeholder="Password">
-        <p class="wrongpass">Incorrect email or password.</p>
-        <input id="sign-in" type="submit" onclick="__login();" value="Sign In">
-    </div>
-    </div>
-</div> -->
-<iframe class="login" src="http://localhost:8000/oauth"></iframe>
-<!--<div class="title-bar">
-    <button id="close" onclick="close_win()"></button>
-    <button id="max" onclick="maximize()"></button>
-    <button id="min" onclick="minimize()"></button>
-</div>-->
+<iframe class="login" src="http://localhost:8000/oauth/" onLoad="login_load(this.contentWindow.location);"></iframe>
 <div class="disable" onclick="login_close()"></div>
 <div class="disable-nav" onclick="nav_close()"></div>
 <div class="window">
