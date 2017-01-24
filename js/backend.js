@@ -1,4 +1,5 @@
-const remote = require('electron').remote;
+//const remote = require('electron').remote;
+
 
 var navOpened = 0;
 
@@ -152,3 +153,14 @@ function nav_close() {
 }
 
 
+function open_login () {
+    $('.login').css('display', 'block');
+    $('.disable').css('display', 'block');
+    $('.disable').css('z-index', '104');
+}
+
+function login_close() {
+    $('.login').css('display', 'none');
+    $('.disable').css('display', 'none');
+    $('.disable').css('z-index', '-1');
+}

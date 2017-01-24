@@ -201,8 +201,6 @@ class Mobileclient(_Base):
             return False
         self._authtoken = res['Auth']
 
-        print ("token:%s" % self._authtoken)
-
         self.is_authenticated = True
 
         return True

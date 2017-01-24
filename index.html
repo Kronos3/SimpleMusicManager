@@ -26,29 +26,40 @@
 <head>
 <meta charset="utf-8" />
 <script>
-var $ = jQuery = require('./js/jquery-2.1.1.min.js');
-var hammer = require('./js/hammer.min.js');
 </script>
 <link href="css/roboto.css" "stylesheet">
 <link rel="stylesheet" href="css/materialize.css">
 <link href="css/material-icons.css" rel="stylesheet">
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="import" href="bower_components/paper-card/paper-card.html">
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/color-thief.min.js"></script>
 <link rel="stylesheet" href="css/main.css">
-<script type="text/javascript" src="js/templates.js"></script>
 <script type="text/javascript" src="js/backend.js"></script>
-<script type="text/javascript" src="js/client.js"></script>
 </head>
 <body>
-<iframe class="login" src="http://localhost:8000" style="height:554px;">
-</iframe>
-<div class="title-bar">
+<!-- <div class="login" style="height:554px;">
+    <div class="_login">
+    <img class="login-img" src="img/google.png">
+    <p class="login-header">
+        Sign in to your Google account for metadata requests
+    </p>
+    <div class="login-wrapper">
+        <img class="login-avatar" src="img/no_acc.png">
+        <input id="email" type="email" value="" autocomplete="off" placeholder="Enter your email" spellcheck="false">
+        <input id="passwd" type="password" placeholder="Password">
+        <p class="wrongpass">Incorrect email or password.</p>
+        <input id="sign-in" type="submit" onclick="__login();" value="Sign In">
+    </div>
+    </div>
+</div> -->
+<iframe class="login" src="http://localhost:8000/oauth"></iframe>
+<!--<div class="title-bar">
     <button id="close" onclick="close_win()"></button>
     <button id="max" onclick="maximize()"></button>
     <button id="min" onclick="minimize()"></button>
-</div>
+</div>-->
 <div class="disable" onclick="login_close()"></div>
 <div class="disable-nav" onclick="nav_close()"></div>
 <div class="window">

@@ -1,3 +1,0 @@
-[submodule "src/ServerAuth"]
-	path = src/ServerAuth
-	url = https://github.com/Kronos3/ServerAuth

@@ -22,41 +22,38 @@
 #  
 #  
 
+from . import gmusic, auth
+
+def ret (ret, path):
+    if ret:
+        return 200
+    if path == "/login":
+        return 401
+    if path == "/check-login":
+        return 511
+    if path in ["/library", "/now"]:
+        return 502
 
 class r_handler(object):
     def __init__ (self):
-        super(r_handler, self)
+        pass
     
-    def r_get (self, name, arg):
-        return "%s|%s" % (name, eval('self.%s(%s)' % (name, arg)))
+    def r_get (self, path, data):
+        return ret(eval('self.%s(%s)' % (path[1:], data)), path)
     
-    # Arg is the encrypted creds that will be sent to 8001
-    def check_login (self, arg):
-        if (os.path.exists("passwd.cache")):
-            tcpsoc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            tcpsoc.bind(('localhost', 8002))
-            tcpsoc.send('PASS IR HTTP/1.1\n')
-            data = (tcpsoc.recv(1000000))
-            if data != "HTTP/1.0 200 OK":
-                return json.JSONEncoder().encode(False)
-            else:
-                return json.JSONEncoder().encode(True)
-        else:
-            return json.JSONEncoder().encode(False)
     def login(self, creds):
-        ret = gmusic.login (creds[0], creds[1])
-        return json.JSONEncoder().encode(ret)
+        return gmusic.login (creds['login'], creds['passwd'])
     
     def library(self, arg):
         with open('data/library.json', 'w+') as lib:
-            lib.write(json.JSONEncoder().encode(gmusic.refresh()))
+            lib.write(json.JSONEncoder().encode(gmusic.refresh()._in))
             lib.close()
-        return json.JSONEncoder().encode(True)
+        return True
     
     def now(self, arg):
         with open('data/now.json', 'w+') as now:
             now.write(json.JSONEncoder().encode(gmusic.get_now()))
             now.close()
-        return json.JSONEncoder().encode(True)
+        return True
 
 MainRHandler = r_handler ()

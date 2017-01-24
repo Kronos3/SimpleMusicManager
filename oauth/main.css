@@ -32,7 +32,7 @@ textarea, input, input:focus {
     transform: translateX(-50%);
     z-index: 105;
     padding: 30px 40px 30px 40px;
-    background: #fff;
+    background: rgba(255,255,255,0);
     border: solid 1px !important;
     border-top-color: #fff !important;
     border-right-color: #d9d9d9 !important;
@@ -40,6 +40,7 @@ textarea, input, input:focus {
     border-left-color: #d9d9d9 !important;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
+    border: none;
 }
 
 .login-img {

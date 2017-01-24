@@ -3,7 +3,6 @@ const electron = require('electron')
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
-
 const path = require('path')
 const url = require('url')
 
@@ -13,19 +12,18 @@ let mainWindow
 
 
 function createWindow () {
-    // Start the server
-    var subpy = require('child_process').spawn('python', ['./server.py']);
     
     // Create the browser window.
     mainWindow = new BrowserWindow({width: 1080, height: 720, frame: false, minWidth: 800, minHeight: 720, transparent: true, icon:'img/icon-small.png'})
     
     // and load the index.html of the app.
-    mainWindow.loadURL(url.format({
+    /*mainWindow.loadURL(url.format({
       pathname: path.join(__dirname, 'index.html'),
       protocol: 'file:',
       slashes: true
-    }))
-    
+    }))*/
+    mainWindow.loadURL ("http://localhost:8000");
+    mainWindow.webContents.session.clearCache(function(){})
     // Open the DevTools.
     mainWindow.webContents.openDevTools()
 }

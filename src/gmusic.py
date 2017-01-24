@@ -26,6 +26,7 @@ import sys
 from gmusicapi import *
 from colorthief import ColorThief
 import pickle
+from . import library
 
 if sys.version_info < (3, 0):
     from urllib2 import urlopen
@@ -48,21 +49,36 @@ gm_library = None
 gm_now = None
 gm_stations = None
 
-def login (username, password):
-    ret = None
+def load_login (_auth, _master):
     try:
-        ret = str('%s' % gm_api_mob.login(username, password, Mobileclient.FROM_MAC_ADDRESS)).lower()
+        gm_api_mob.session.is_authenticated = True
+        gm_api_mob.session._authtoken = _auth
+        gm_api_mob.session._master_token = _master
+    except:
+        return False
+    return True
+
+def dump_login ():
+    return gm_api_mob.session._authtoken, gm_api_mob.session._master_token
+
+def login (username, password):
+    ret = False
+    try:
+        ret = gm_api_mob.login(username, password, Mobileclient.FROM_MAC_ADDRESS)
     except exceptions.AlreadyLoggedIn:
-        pass
+        return True
     return ret
 
 def refresh():
-    gm_library = gm_api_mob.get_all_songs ()
+    gm_library = library.Library(gm_api_mob.get_all_songs ())
     return gm_library
 
 def get_now():
-    gm_now = add_colors(gm_api_mob.get_listen_now_situations())
+    gm_now = sit_add_colors(gm_api_mob.get_listen_now_situations())
     return gm_now
+
+def get_albums ():
+    return
 
 def sort_by (lib, __property):
     return sorted(lib, key=lambda k: k[__property]) 
@@ -74,7 +90,7 @@ def get_text_color(color):
     else:
         return 'dark'
 
-def add_colors(lib):
+def sit_add_colors(lib):
     out_lib = []
     for item in lib:
         fd = urlopen(item['wideImageUrl'])
@@ -91,13 +107,3 @@ def add_colors(lib):
             item['startcolor'] = '0,0,0'
         out_lib.append(item)
     return out_lib
-
-def dump_data (data):
-    with open('data/mobile.pickle', 'wb') as f:
-        pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
-
-def get_data ():
-    with open('data/mobile.pickle', 'rb') as f:
-        ret = pickle.load(f)
-    return ret
-
