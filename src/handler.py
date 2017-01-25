@@ -44,6 +44,5 @@ class postHandler (server.SimpleHTTPRequestHandler):
 
         data = self.parse_post(self.data_string.decode("utf-8"))
         res = MainRHandler.r_get (self.path, data)
-        print (res)
         self.send_response(res)
         self.end_headers()

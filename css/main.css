@@ -568,3 +568,78 @@ body {
 .now-header.light {
     color: #fff;
 }
+
+.albums > paper-card > .hover-play > i {
+    font-size: 20px;
+    color: #fff;
+    margin: 0 auto;
+    line-height: 40px;
+}
+
+.hover-play {
+    position: absolute;
+    text-align: center;
+    right: 12px;
+    bottom: 85px;
+    background: #000;
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+    border-radius: 50%;
+    transition: 0.2s all;
+}
+
+.albums > paper-card:hover > .hover-play {
+    opacity: 0.64;
+}
+
+.hover-play:hover {
+    opacity: 0.85 !important;
+}
+
+.albums > paper-card {
+    cursor: pointer;
+    margin: 0 3px 20px 3px;
+    --widthA: calc(100% - 60px);
+}
+
+@media (max-width: 600px) {
+.albums > paper-card{
+    margin: 0 3px 20px 3px;
+    --widthA: calc(100% - 60px);
+    width: calc(var(--widthA) / 2 ) !important;
+}
+}
+
+@media (min-width: 600px) {
+.albums > paper-card{
+    margin: 0 3px 20px 3px;
+    --widthA: calc(100% - 60px);
+    width: calc(var(--widthA) / 3 ) !important;
+}
+}
+
+@media (min-width: 800px) {
+.albums > paper-card{
+    margin: 0 3px 20px 3px;
+    --widthA: calc(100% - 60px);
+    width: calc(var(--widthA) / 4 ) !important;
+}
+}
+
+@media (min-width: 1200px) {
+
+.albums > paper-card {
+    width: calc(var(--widthA) / 6 ) !important;
+}
+
+}
+
+.album-name, .album-artist {
+    margin: 0;
+}
+
+.album-artist {
+    color: #5F5F5F;
+    font-size: 13px;
+}

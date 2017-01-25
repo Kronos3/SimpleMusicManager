@@ -31,3 +31,4 @@ build
 server.spec
 .token
 data/*
+.cache

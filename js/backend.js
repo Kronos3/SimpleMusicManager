@@ -106,7 +106,7 @@ function playf () {
         }
     $('#play').toggleClass("paused");
 }
-
+/*
 function minimize(){
     var window = remote.getCurrentWindow();
     window.minimize();  
@@ -140,7 +140,7 @@ function maximize(){
         window.maximize ();
     }
 }
-
+*/
 function nav_close() {
     $("#menu").addClass("red");
     $("#menu").removeClass("white");
@@ -179,11 +179,15 @@ function check_login () {
         dataType: "text",
         success: function(resultData) { 
             login_close ();
+            $('#sign-in').css ('display', 'none');
             refresh();
         }
     });
     saveData.error(function() {open_login();});
 }
+
+songs = null;
+albums = null;
 
 function refresh () {
     var saveData = $.ajax({
@@ -191,10 +195,23 @@ function refresh () {
         url: "/library",
         dataType: "text",
         success: function(resultData) { 
-            
+            $.getJSON( "data/library.json", function( json ) {
+                songs = json;
+            });
+            $.getJSON( "data/albums.json", function( json ) {
+                parse_albums(json);
+                console.log (json)
+            });
         }
     });
     saveData.error(function() {});
+}
+
+function parse_albums (struct) {
+    $.get('templates/albums.mst', function(template) {
+        var rendered = Mustache.render(template, struct);
+        $('#content-wrapper').html(rendered);
+    });
 }
 
 check_login();

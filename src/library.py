@@ -32,10 +32,15 @@ class Library:
     artists = {}
     songs = []
     albums = {}
+    p_albums = []
     _in = None
     
     def __init__(self, _p_dict):
         self._in = _p_dict
+        self.songs = []
+        self.artists = {}
+        self.albums = {}
+        self.p_albums = []
         for song in self._in:
             self.songs.append (Song (song))
         for i, song in enumerate (self.songs):
@@ -50,8 +55,30 @@ class Library:
             except:
                 self.artists[song.artist] = []
             self.artists[song.artist].append (i)
+    
+    def get_albums (self):
+        ret = []
+        for i, album in enumerate(self.albums):
+            b_album = {}
+            b_album['name'] = album
+            if album == '':
+                b_album['name'] = 'Unknown Album'
+            b_album['img'] = self.songs[self.albums[album][0]].albumArtRef[0]['url']
+            b_album['artist'] = self.songs[self.albums[album][0]].albumArtist
+            b_album['songs'] = []
+            for song in self.albums[album]:
+                b_album['songs'].append(self.songs[song]._in)
+            ret.append (b_album)
+        res = {}
+        res['albums'] = ret
+        return res
 
 class Song:
     def __init__ (self, _p_song):
+        self._in = _p_song
+        self.albumArtRef = [{'url':'https://play-music.gstatic.com/fe/a7ec6b93867145af72bd1eeabd737a62/default_album.svg'}]
+        self.albumArtist = 'Unknown Artist'
         for k in _p_song:
             exec ("self.%s = _p_song['%s']" % (k, k))
+        if not self.albumArtist:
+            self.albumArtist = 'Unknown Artist'

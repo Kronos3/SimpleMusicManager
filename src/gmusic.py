@@ -27,13 +27,16 @@ from gmusicapi import *
 from colorthief import ColorThief
 import pickle
 from . import library
+import traceback
 
 if sys.version_info < (3, 0):
     from urllib2 import urlopen
 else:
     from urllib.request import urlopen
 
-import io
+import urllib
+
+import io, os
 
 global gm_api_mob
 global gm_api_web
@@ -73,20 +76,50 @@ def login (username, password, save):
             f.close()
     return ret
 
+def find_all(a_str, sub):
+    start = 0
+    while True:
+        start = a_str.find(sub, start)
+        if start == -1: return
+        yield start
+        start += len(sub)
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except FileExistsError:
+        pass
+
+def safe_open_w(path):
+    mkdir_p(os.path.dirname(path))
+    return open(path, 'wb')
+
+def write_img_cache (_in):
+    for x in list(find_all(_in, "https://")):
+        cache_buff = _in[x+len("https://"):_in.find ("\"", x)]
+        while (cache_buff.find ("\'")) != -1:
+            cache_buff = cache_buff[0:cache_buff.find ("\'")]
+        if not os.path.isfile('.cache/'+cache_buff):
+            with safe_open_w('.cache/'+cache_buff) as f:
+                url_buff = urllib.request.urlopen('https://'+cache_buff)
+                f.write(url_buff.read())
+                f.close()
+    return eval(_in.replace ("https://", "http://localhost:8000/.cache/"))
+
 def refresh():
     try:
         out_s = gm_api_mob.get_all_songs ()
+        out_s = write_img_cache (str(out_s))
     except:
+        traceback.print_exc(file=sys.stdout)
         return ''
+    
     gm_library = library.Library(out_s)
     return gm_library
 
 def get_now():
     gm_now = sit_add_colors(gm_api_mob.get_listen_now_situations())
     return gm_now
-
-def get_albums ():
-    return
 
 def sort_by (lib, __property):
     return sorted(lib, key=lambda k: k[__property]) 

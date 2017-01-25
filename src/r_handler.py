@@ -56,13 +56,16 @@ class r_handler(object):
         return ret
     
     def library(self):
-        with open('data/library.json', 'w+') as lib:
-            lib_b = gmusic.refresh()
-            if lib_b != '':
+        lib_b = gmusic.refresh()
+        if lib_b != '':
+            with open('data/library.json', 'w+') as lib:
                 lib.write(json.JSONEncoder().encode(lib_b._in))
                 lib.close()
-            else:
-                return False
+            with open('data/albums.json', 'w+') as ablms:
+                ablms.write (json.dumps(lib_b.get_albums()))
+                ablms.close()
+        else:
+            return False
         return True
     
     def now(self, arg):
