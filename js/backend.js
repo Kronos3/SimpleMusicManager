@@ -11,9 +11,10 @@ function openNav() {
     "use strict";
     if (navOpened === 0) {
         $("#menu > i").css("color", "#212121");
-        $("#menu").addClass("white");
-        $("#menu").removeClass("red");
         $("#nav").css("left", "0px");
+        $("#menu").removeClass("red");
+        $("#menu").removeClass("with-back");
+        $("#menu").addClass("white");
         $("#menu").css("color", "rgb(255, 255, 255)");
         $("#menu > i").text("close");
         navOpened = 1;
@@ -21,10 +22,9 @@ function openNav() {
         $('.disable-nav').css('z-index', '104');
     }
     else {
-        $("#menu").addClass("red");
-        $("#menu").removeClass("white");
         $("#menu > i").css("color", "#fff");
         $("#nav").css("left", "-280px");
+        $("#menu").addClass("white");
         $("#menu").css("color", "rgb(80, 77, 71)");
         $("#menu > i").text("menu");
         navOpened = 0;
@@ -37,13 +37,14 @@ function openNav() {
 
     $('#search').blur(function() {
         $('.top-search-inner').removeClass("white");
-        $('.top-search-inner').addClass("red")
+        $('.top-search-inner').addClass("with-back");
         $('.top-search-inner').css('box-shadow', 'none');
         $('.search-icon').css('color', '#fff');
         $('.search').css('color', '#fff');
       })
       .focus(function() {
-        $('.top-search-inner').removeClass("red");
+        $('.top-search-inner').removeClass("with-back");
+        $('.top-search-inner').addClass("white");
         $('.top-search-inner').css('box-shadow', '0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4)');
         $('.top-search-inner').addClass("white");
         $('.search-icon').css('color', '#424242');
@@ -142,7 +143,7 @@ function maximize(){
 }
 */
 function nav_close() {
-    $("#menu").addClass("red");
+    $("#menu").addClass("with-back");
     $("#menu").removeClass("white");
     $("#menu > i").css("color", "#fff");
     $("#nav").css("left", "-280px");
@@ -199,7 +200,10 @@ function refresh () {
                 songs = json;
             });
             $.getJSON( "data/albums.json", function( json ) {
-                parse_albums(json);
+                //parse_albums(json);
+                goto_album (json.albums[2])
+                switch_top ("clear", json.albums[2].artimg)
+                console.log (json.albums[2].artimg)
                 console.log (json)
             });
         }
@@ -207,10 +211,69 @@ function refresh () {
     saveData.error(function() {});
 }
 
+String.prototype.format = function() {
+    var formatted = this;
+    for (var i = 0; i < arguments.length; i++) {
+        var regexp = new RegExp('\\{'+i+'\\}', 'gi');
+        formatted = formatted.replace(regexp, arguments[i]);
+    }
+    return formatted;
+};
+
+function switch_top (t, artist_img) {
+    if (t == "red") {
+        $('#menu').removeClass('with-back');
+        $('#menu').removeClass('white');
+        $('#menu').addClass('red');
+        $('.window').addClass('z-depth-5');
+        $('.top-bar').removeClass('with-back');
+        $('.top-bar').removeClass('white');
+        $('.top-bar').addClass('red');
+        $('#search-color').removeClass('with-back');
+        $('#search-color').removeClass('white');
+        $('#search-color').addClass('red');
+    }
+    else if (t == "clear") {
+        if (artist_img != ''){
+            $('.window').css ('background-image', "url(" + artist_img + ")");
+        }
+        $('#menu').removeClass('red');
+        $('#menu').addClass('white');
+        $('#menu').addClass('with-back');
+        $('.window').removeClass('z-depth-5');
+        $('.top-bar').removeClass('red');
+        $('.top-bar').addClass('white');
+        $('.top-bar').addClass('with-back');
+        $('#search-color').removeClass('red');
+        $('#search-color').addClass('white');
+        $('#search-color').addClass('with-back');
+    }
+}
+
+function scrolled () {
+    var elmnt = document.getElementById("main");
+    var x = elmnt.scrollLeft;
+    var y = elmnt.scrollTop;
+    if (y >= ($(".album").position().top)*2) {
+        switch_top('red', '');
+    }
+    else {
+        switch_top('clear', '');
+    }
+}
+
+function goto_album (album) {
+    $.get('templates/album.mst', function(template) {
+        var rendered = Mustache.render(template, album);
+        $('#main').html(rendered);
+    });
+}
+
 function parse_albums (struct) {
+    window.albums = struct;
     $.get('templates/albums.mst', function(template) {
         var rendered = Mustache.render(template, struct);
-        $('#content-wrapper').html(rendered);
+        $('#main').html(rendered);
     });
 }
 

@@ -1,11 +1,13 @@
-<div class="albums">
-    {{#albums}}
-    <paper-card class="hoverable" image="{{img}}">
-        <div class="hover-play"><i class="fa fa-play" aria-hidden="true"></i></div>
-        <div class="card-content">
-            <p class="album-name truncate">{{name}}</p>
-            <p class="album-artist truncate">{{artist}}</p>
-        </div>
-    </paper-card>
-    {{/albums}}
+<div id="content-wrapper">
+    <div class="albums">
+        {{#albums}}
+        <paper-card class="hoverable" id="album-{{index}}" image="{{img}}">
+            <div class="hover-play"><i class="fa fa-play" aria-hidden="true"></i></div>
+            <div class="card-content">
+                <p class="album-name truncate">{{name}}</p>
+                <p class="album-artist truncate">{{artist}}</p>
+            </div>
+        </paper-card>
+        {{/albums}}
+    </div>
 </div>

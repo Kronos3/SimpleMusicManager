@@ -33,7 +33,7 @@ textarea, input, input:focus {
     margin: 0;
     z-index: 4;
     border-radius: 0;
-    box-shadow
+    transition: 0.2s all;
 }
 
 #menu
@@ -407,6 +407,7 @@ body {
     height: calc(100% - 124px);
     margin: 0;
     overflow: auto;
+    background-repeat: no-repeat;
 }
 
 #content-wrapper {
@@ -642,4 +643,159 @@ body {
 .album-artist {
     color: #5F5F5F;
     font-size: 13px;
+}
+
+.top-bar.with-back {
+    background: rgba(255,255,255,0) !important;
+    box-shadow: none !important;
+}
+
+.with-back {
+    background: rgba(255,255,255,0.4) !important;
+    background-color: rgba(255,255,255,0.4) !important;
+}
+
+.album {
+    top: 100%;
+    margin: 0 auto 40px auto;
+    position: relative;
+    max-width: 1500px;
+    width: 80vw;
+}
+
+.album-wrapper {
+    position: absolute;
+    top: 0;
+    margin: 0 30px 0 264px;
+    padding: 16px 20px 16px 20px;
+    height: 264px;
+    width: calc(80vw - 294px);
+    max-width: 1206px;
+}
+
+.album-art {
+    width: 264px;
+    height: 264px;
+}
+
+.album-title {
+    font-size: 28px;
+    margin: 0;
+}
+
+.album-wrapper > .album-artist {
+    font-size: 15px;
+    color: #212121;
+}
+
+.album-stats > * {
+    margin: 0 5px 0 0 !important;
+    font-size: 13px;
+    font-weight: 400;
+    color: #616161;
+}
+
+.album-splt {
+    position: relative;
+    width: 100%;
+    border-top: solid 1px #e5e5e5;
+    margin-top: 5px;
+}
+
+.song-wrapper {
+    margin-top: 20px;
+    padding: 16px 0 !important;
+    width: 100%;
+    font-size: 14px;
+    position: relative;
+}
+
+.title-row {
+    text-transform: uppercase;
+    color: #212121;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.tbl-num {
+    padding: 16px;
+    width: 76px;
+    text-align: right;
+    position: relative;
+    display: inline-block;
+}
+
+th.tbl-num {
+    text-align: center;
+}
+
+tr.title-row > th.tbl-name, tr.title-row > tr.tbl-num {
+    font-size: 12px !important;
+}
+
+.tbl-name {
+    padding: 16px 0;
+    text-align: left;
+    position: relative;
+    display: inline-block;
+    width: calc(100% - 76px);
+}
+
+.song-row {
+    color: #212121;
+    height: 56px;
+}
+
+.tbl-rating {
+    width: 70px;
+    padding-right: 20px;
+    text-align: center;
+}
+
+.tbl-plays {
+    width: 60px;
+    padding-right: 16px;
+    text-align: center;
+}
+
+.tbl-time {
+    text-align: right;
+    width: 70px;
+    padding-right: 16px;
+}
+
+.song-row:hover {
+    background: #eee !important;
+    cursor: pointer;
+}
+
+.song-play {
+    display: none;
+    text-align: center;
+    font-size: 22px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+}
+
+.song-number {
+    display: block;
+}
+
+.song-row:hover > .tbl-num > .song-number {
+    color: #eee;
+}
+
+.song-row:hover > .tbl-num > .song-play {
+    display: block;
+}
+
+.song-wrapper {
+    border-collapse: collapse;
+}
+
+.song-row {
+    padding: 10px 0;
+    border-bottom: 1px #eee solid;
 }

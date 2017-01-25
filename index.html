@@ -36,8 +36,8 @@
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/color-thief.min.js"></script>
 <script type="text/javascript" src="js/mustache.min.js"></script>
-<link rel="stylesheet" href="css/main.css">
 <script type="text/javascript" src="js/backend.js"></script>
+<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <iframe class="login" src="http://localhost:8000/oauth/" onLoad="login_load(this.contentWindow.location);"></iframe>
@@ -45,7 +45,7 @@
 <div class="disable-nav" onclick="nav_close()"></div>
 <div class="window">
 <div class="top-bar red card-panel lighten-2">
-    <button id="menu" onclick="openNav()" class="waves-effect waves-light waves-circle btn-float red lighten-2">
+    <button id="menu" onclick="openNav()" class="waves-effect  waves-light waves-circle btn-float red lighten-2">
         <i class="material-icons">menu</i>
     </button>
     <div id="nav" class="card-panel">
@@ -60,24 +60,38 @@
         <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('10')"><i class="nav-icon material-icons">info_outline</i><p>Information</p></a></div>
     </div>
     <div class="top-search-wrapper">
-        <div id="search-color" class="top-search-inner red lighten-3">
+        <div id="search-color" class="top-search-inner  lighten-3 red">
             <i class="search-icon material-icons">search</i>
             <input id="search" class="search" type="text" placeholder="Search">
         </div>
     </div>
     <input id="sign-in" class="sign-in-small" onclick="open_login()" type="submit" value="Sign In"> 
 </div>
-<div class="main-content">
-    <div id="content-wrapper">
-        <div class="albums">
-            <paper-card class="hoverable" image="https://lh5.ggpht.com/_Bws7Py5_DWL8_PaNTmN-ePn3Hq9vA3-U93yPvbgIVPXMkXa84aut5kq0r9giy_Dw2bSv93K">
-              <div class="hover-play"><i class="fa fa-play" aria-hidden="true"></i></div>
-              <div class="card-content">
-                <p class="album-name truncate">Some Album</p>
-                <p class="album-artist truncate">The artists</p>
-              </div>
-            </paper-card>
+<div class="main-content" id="main" onscroll="scrolled()">
+    <div id="al" class="album card">
+        <img src="http://localhost:8000/.cache/lh5.ggpht.com/_Bws7Py5_DWL8_PaNTmN-ePn3Hq9vA3-U93yPvbgIVPXMkXa84aut5kq0r9giy_Dw2bSv93K" class="album-art"></img>
+        <div id="alw" class="album-wrapper">
+            <p class="album-title">The title of the album</p>
+            <p class="album-artist">Album artist</p>
+            <div class="album-stats"><span>Year</span><span>•</span><span>6 songs</span><span>•</span><span>20:32</span><span>•</span><span>Rap</span></div>
+            <div class="album-splt"></div>
         </div>
+        <table class="song-wrapper">
+            <tr class="title-row">
+                <th class="tbl-num">#</th>
+                <th class="tbl-name">name</th> 
+                <th class="tbl-time"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                <th class="tbl-plays"><i class="fa fa-music" aria-hidden="true"></i></th>
+                <th class="tbl-rating"><i class="fa fa-thumbs-up" aria-hidden="true"></i></th>
+            </tr>
+            <tr class="song-row">
+                <td class="tbl-num"><i class="fa fa-play song-play" aria-hidden="true"></i><span class="song-number">1</span></td>
+                <td class="tbl-name">The song name</td>
+                <td class="tbl-time">2:32</td>
+                <td class="tbl-plays">14</td>
+                <td class="tbl-rating"></td>
+            </tr>
+        </table>
     </div>
 </div>
 <div class="card-panel control-bar">

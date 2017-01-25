@@ -23,6 +23,7 @@
 #  
 
 import json
+import datetime
 
 false = False
 true = True
@@ -64,10 +65,20 @@ class Library:
             if album == '':
                 b_album['name'] = 'Unknown Album'
             b_album['img'] = self.songs[self.albums[album][0]].albumArtRef[0]['url']
+            if self.songs[self.albums[album][0]].artistArtRef != '':
+                b_album['artimg'] = self.songs[self.albums[album][0]].artistArtRef[0]['url'] + "=s1920-e100?version=1"
             b_album['artist'] = self.songs[self.albums[album][0]].albumArtist
+            b_album['year'] = self.songs[self.albums[album][0]].year
+            b_album['genre'] = self.songs[self.albums[album][0]].genre
+            d = 0
+            for s in self.albums[album]:
+                d += int(self.songs[s].durationMillis)
+            b_album['totaltime'] = str(datetime.timedelta(seconds=(int(d)/1000)))[0:str(datetime.timedelta(seconds=(int(d)/1000))).find ('.')]
+            b_album['snum'] = len(self.albums[album])
             b_album['songs'] = []
+            b_album['index'] = i
             for song in self.albums[album]:
-                b_album['songs'].append(self.songs[song]._in)
+                b_album['songs'].append(self.songs[song].get_json())
             ret.append (b_album)
         res = {}
         res['albums'] = ret
@@ -78,7 +89,22 @@ class Song:
         self._in = _p_song
         self.albumArtRef = [{'url':'https://play-music.gstatic.com/fe/a7ec6b93867145af72bd1eeabd737a62/default_album.svg'}]
         self.albumArtist = 'Unknown Artist'
+        self.artistArtRef = ''
         for k in _p_song:
             exec ("self.%s = _p_song['%s']" % (k, k))
         if not self.albumArtist:
             self.albumArtist = 'Unknown Artist'
+        timeb = str(datetime.timedelta(seconds=(int(self.durationMillis)/1000)))
+        self.minutes = timeb[timeb.find(':')+1:timeb.find ('.')]
+    
+    def get_json (self):
+        r = '{'
+        for x in self.__dict__:
+            if x == '_in':
+                continue
+            if type(eval("self.%s" % x)).__name__ == 'str':
+                r += "\"%s\": \"\"\"%s\"\"\"," % (x, eval("self.%s" % x))
+                continue
+            r += "\"%s\": %s," % (x, eval("self.%s" % x))
+        r += '}'
+        return eval(r)
