@@ -50,28 +50,16 @@ class r_handler(object):
     def check_login (self):
         if not os.path.isfile('.token'):
             return False
+        if gmusic.gm_api_mob.is_authenticated:
+            return True
         with open ('.token', 'r') as f:
             ret = gmusic.load_login (*eval(f.read()))
             f.close()
         return ret
     
     def library(self):
-        lib_b = gmusic.refresh()
-        if lib_b != '':
-            with open('data/library.json', 'w+') as lib:
-                lib.write(json.JSONEncoder().encode(lib_b._in))
-                lib.close()
-            with open('data/albums.json', 'w+') as ablms:
-                ablms.write (json.dumps(lib_b.get_albums()))
-                ablms.close()
-        else:
-            return False
-        return True
-    
-    def now(self, arg):
-        with open('data/now.json', 'w+') as now:
-            now.write(json.JSONEncoder().encode(gmusic.get_now()))
-            now.close()
-        return True
+        if not gmusic.loaded:
+            gmusic.write_data ()
+        return gmusic.loaded
 
 MainRHandler = r_handler ()

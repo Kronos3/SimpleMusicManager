@@ -1,4 +1,4 @@
-<div class="album card">
+<div id="al" class="album card">
     <img src="{{img}}" class="album-art"></img>
     <div class="album-wrapper">
         <p class="album-title">{{name}}</p>
@@ -15,7 +15,7 @@
             <th class="tbl-rating"><i class="fa fa-thumbs-up" aria-hidden="true"></i></th>
         </tr>
         {{#songs}}
-        <tr class="song-row">
+        <tr class="song-row" data-streamUrl="{{streamUrl}}">
             <td class="tbl-num"><i class="fa fa-play song-play" aria-hidden="true"></i><span class="song-number">{{trackNumber}}</span></td>
             <td class="tbl-name">{{title}}</td>
             <td class="tbl-time">{{minutes}}</td>

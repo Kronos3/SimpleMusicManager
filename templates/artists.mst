@@ -1,0 +1,9 @@
+<div class="content-wrapper-artists">
+    {{#artists}}
+    <div class="artists" onclick="goto_artist(window.artists.artists[{{index}}])">
+        <img src="{{img}}" class="artists-img card">
+        <p class="artists-name">{{name}}</p>
+        <span class="artist-letter">{{letter}}</span>
+    </div>
+    {{/artists}}
+</div>

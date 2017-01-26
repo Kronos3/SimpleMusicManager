@@ -26,8 +26,11 @@
 import time
 start_time = time.time()
 import json, traceback, sys, os
-from src import handler
+from src import handler, gmusic
 from http.server import HTTPServer
+
+false = False
+true = True
 
 class cfg:
     domain = "localhost"
@@ -50,6 +53,12 @@ class cfg:
 def run(server_class=HTTPServer, handler_class=handler.postHandler):
     server_address = (cfg.ip, cfg.port)
     httpd = server_class(server_address, handler_class)
+    if os.path.isfile('.token'):
+        with open ('.token', 'r') as f:
+            ret = gmusic.load_login (*eval(f.read()))
+            f.close()
+        if ret:
+            gmusic.write_data ()
     print ("Started server on %s at port %s" % (cfg.ip, cfg.port))
     httpd.serve_forever()
 

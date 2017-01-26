@@ -32,3 +32,4 @@ server.spec
 .token
 data/*
 .cache
+load_lib.py

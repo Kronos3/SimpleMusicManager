@@ -32,6 +32,7 @@
 <link href="css/material-icons.css" rel="stylesheet">
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="import" href="bower_components/paper-card/paper-card.html">
+<link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/color-thief.min.js"></script>
@@ -44,12 +45,12 @@
 <div class="disable" onclick="login_close()"></div>
 <div class="disable-nav" onclick="nav_close()"></div>
 <div class="window">
-<div class="top-bar red card-panel lighten-2">
+<div class="top-bar red card-panel lighten-2 no-shadow">
     <button id="menu" onclick="openNav()" class="waves-effect  waves-light waves-circle btn-float red lighten-2">
         <i class="material-icons">menu</i>
     </button>
     <div id="nav" class="card-panel">
-        <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('0')"><i class="nav-icon material-icons">home</i><p>Home</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="parse_albums(window.albums); openNav ();"><i class="nav-icon material-icons">home</i><p>Home</p></a></div>
         <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('1')"><i class="nav-icon material-icons">library_music</i><p>Library</p></a></div>
         <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('3')"><i class="nav-icon material-icons">queue_music</i><p>Playlists</p></a></div>
         <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('4')"><i class="nav-icon material-icons">file_upload</i><p>Upload Music</p></a></div>
@@ -67,31 +68,26 @@
     </div>
     <input id="sign-in" class="sign-in-small" onclick="open_login()" type="submit" value="Sign In"> 
 </div>
+<div class="home-wrapper">
+    <paper-tabs class="home-tabs" selected="0" noink>
+        <paper-tab onclick="parse_albums(window.albums)">Albums</paper-tab>
+        <paper-tab onclick="parse_artists (window.artists)">Artists</paper-tab>
+        <paper-tab id="to-playlists">Playlists</paper-tab>
+        <paper-tab id="to-songs">Songs</paper-tab>
+    </paper-tabs>
+</div>
 <div class="main-content" id="main" onscroll="scrolled()">
-    <div id="al" class="album card">
-        <img src="http://localhost:8000/.cache/lh5.ggpht.com/_Bws7Py5_DWL8_PaNTmN-ePn3Hq9vA3-U93yPvbgIVPXMkXa84aut5kq0r9giy_Dw2bSv93K" class="album-art"></img>
-        <div id="alw" class="album-wrapper">
-            <p class="album-title">The title of the album</p>
-            <p class="album-artist">Album artist</p>
-            <div class="album-stats"><span>Year</span><span>•</span><span>6 songs</span><span>•</span><span>20:32</span><span>•</span><span>Rap</span></div>
-            <div class="album-splt"></div>
+    <div id="content-wrapper">
+        <div class="albums">
+            <paper-card class="hoverable" id="" image="http://localhost:8000/img/noalb.png">
+                <div class="hover-play"><i class="fa fa-play" aria-hidden="true"></i></div>
+                <i class="playlist-letter nav-icon material-icons">library_music</i>
+                <div class="card-content">
+                    <p class="album-name truncate">The name</p>
+                    <p class="album-artist truncate">Description</p>
+                </div>
+            </paper-card>
         </div>
-        <table class="song-wrapper">
-            <tr class="title-row">
-                <th class="tbl-num">#</th>
-                <th class="tbl-name">name</th> 
-                <th class="tbl-time"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
-                <th class="tbl-plays"><i class="fa fa-music" aria-hidden="true"></i></th>
-                <th class="tbl-rating"><i class="fa fa-thumbs-up" aria-hidden="true"></i></th>
-            </tr>
-            <tr class="song-row">
-                <td class="tbl-num"><i class="fa fa-play song-play" aria-hidden="true"></i><span class="song-number">1</span></td>
-                <td class="tbl-name">The song name</td>
-                <td class="tbl-time">2:32</td>
-                <td class="tbl-plays">14</td>
-                <td class="tbl-rating"></td>
-            </tr>
-        </table>
     </div>
 </div>
 <div class="card-panel control-bar">

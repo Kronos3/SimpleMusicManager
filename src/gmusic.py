@@ -22,11 +22,26 @@
 #  
 #  
 
+from __future__ import print_function, division, absolute_import, unicode_literals
 import sys
 from gmusicapi import *
 from colorthief import ColorThief
 import pickle
 from . import library
+
+from past.builtins import basestring
+from builtins import *  # noqa
+from collections import defaultdict
+import datetime
+from operator import itemgetter
+import re
+from uuid import getnode as getmac
+
+from gmusicapi import session
+from gmusicapi.clients.shared import _Base
+from gmusicapi.exceptions import CallFailure, NotSubscribed
+from gmusicapi.protocol import mobileclient
+from gmusicapi.utils import utils
 import traceback
 
 if sys.version_info < (3, 0):
@@ -36,7 +51,7 @@ else:
 
 import urllib
 
-import io, os
+import io, os, json
 
 global gm_api_mob
 global gm_api_web
@@ -52,12 +67,48 @@ gm_library = None
 gm_now = None
 gm_stations = None
 
+loaded = False
+
+false = False
+true = True
+
+def write_data ():
+    global loaded
+    lib_b = refresh()
+    if lib_b != '':
+        with open('data/library.json', 'w+') as lib:
+            lib.write(json.JSONEncoder().encode(lib_b._in))
+            lib.close()
+        with open('data/albums.json', 'w+') as ablms:
+            ablms.write (json.dumps(lib_b.get_albums()))
+            ablms.close()
+        with open('data/artists.json', 'w+') as arts:
+            arts.write (json.dumps(lib_b.get_artists()))
+            arts.close()
+        with open('data/playlists.json', 'w+') as play:
+            play.write (json.dumps(lib_b.get_playlists()))
+            play.close()
+    else:
+        loaded = False
+        return
+    loaded = True
+
 def load_login (_auth, _master):
     try:
         gm_api_mob.session.is_authenticated = True
         gm_api_mob.session._authtoken = _auth
         gm_api_mob.session._master_token = _master
+        mac_int = getmac()
+        if (mac_int >> 40) % 2:
+            raise OSError("a valid MAC could not be determined."
+                          " Provide an android_id (and be"
+                          " sure to provide the same one on future runs).")
+
+        android_id = utils.create_mac_string(mac_int)
+        android_id = android_id.replace(':', '')
+        gm_api_mob.android_id = android_id
     except:
+        traceback.print_exc(file=sys.stdout)
         return False
     return True
 
@@ -94,27 +145,44 @@ def safe_open_w(path):
     mkdir_p(os.path.dirname(path))
     return open(path, 'wb')
 
+def img_gen_cache_https (url):
+    if not os.path.isfile('.cache/'+url):
+        with safe_open_w('.cache/'+url) as f:
+            url_buff = urllib.request.urlopen('https://'+url)
+            f.write(url_buff.read())
+            f.close()
+
+def img_gen_cache_http (url):
+    if not os.path.isfile('.cache/'+url):
+        with safe_open_w('.cache/'+url) as f:
+            url_buff = urllib.request.urlopen('http://'+url)
+            f.write(url_buff.read())
+            f.close()
+
 def write_img_cache (_in):
     for x in list(find_all(_in, "https://")):
         cache_buff = _in[x+len("https://"):_in.find ("\"", x)]
         while (cache_buff.find ("\'")) != -1:
             cache_buff = cache_buff[0:cache_buff.find ("\'")]
-        if not os.path.isfile('.cache/'+cache_buff):
-            with safe_open_w('.cache/'+cache_buff) as f:
-                url_buff = urllib.request.urlopen('https://'+cache_buff)
-                f.write(url_buff.read())
-                f.close()
-    return eval(_in.replace ("https://", "http://localhost:8000/.cache/"))
+        img_gen_cache_https (cache_buff)
+    for x in list(find_all(_in, "http://")):
+        cache_buff = _in[x+len("http://"):_in.find ("\"", x)]
+        while (cache_buff.find ("\'")) != -1:
+            cache_buff = cache_buff[0:cache_buff.find ("\'")]
+        img_gen_cache_http (cache_buff)
+    return eval(_in.replace ("http://", "http://localhost:8000/.cache/").replace ("https://", "http://localhost:8000/.cache/"))
 
 def refresh():
     try:
         out_s = gm_api_mob.get_all_songs ()
         out_s = write_img_cache (str(out_s))
+        out_p = gm_api_mob.get_all_user_playlist_contents ()
+        out_p = write_img_cache (str(out_p))
     except:
         traceback.print_exc(file=sys.stdout)
         return ''
     
-    gm_library = library.Library(out_s)
+    gm_library = library.Library(out_s, out_p)
     return gm_library
 
 def get_now():

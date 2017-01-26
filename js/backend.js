@@ -12,9 +12,6 @@ function openNav() {
     if (navOpened === 0) {
         $("#menu > i").css("color", "#212121");
         $("#nav").css("left", "0px");
-        $("#menu").removeClass("red");
-        $("#menu").removeClass("with-back");
-        $("#menu").addClass("white");
         $("#menu").css("color", "rgb(255, 255, 255)");
         $("#menu > i").text("close");
         navOpened = 1;
@@ -44,6 +41,7 @@ function openNav() {
       })
       .focus(function() {
         $('.top-search-inner').removeClass("with-back");
+        $('.top-search-inner').removeClass("red");
         $('.top-search-inner').addClass("white");
         $('.top-search-inner').css('box-shadow', '0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.4)');
         $('.top-search-inner').addClass("white");
@@ -189,6 +187,8 @@ function check_login () {
 
 songs = null;
 albums = null;
+artist = null;
+playlists = null;
 
 function refresh () {
     var saveData = $.ajax({
@@ -197,14 +197,18 @@ function refresh () {
         dataType: "text",
         success: function(resultData) { 
             $.getJSON( "data/library.json", function( json ) {
-                songs = json;
+                window.songs = json;
             });
             $.getJSON( "data/albums.json", function( json ) {
                 //parse_albums(json);
-                goto_album (json.albums[2])
-                switch_top ("clear", json.albums[2].artimg)
-                console.log (json.albums[2].artimg)
-                console.log (json)
+                window.albums = json
+            });
+            $.getJSON( "data/artists.json", function( json ) {
+                window.artists = json
+            });
+            });
+            $.getJSON( "data/playlists.json", function( json ) {
+                window.playlists = json
             });
         }
     });
@@ -222,6 +226,12 @@ String.prototype.format = function() {
 
 function switch_top (t, artist_img) {
     if (t == "red") {
+        if (artist_img == "none") {
+            $('.window').css ('background-image', "");
+        }
+        else if (artist_img != ''){
+            $('.window').css ('background-image', "url(" + artist_img + ")");
+        }
         $('#menu').removeClass('with-back');
         $('#menu').removeClass('white');
         $('#menu').addClass('red');
@@ -232,6 +242,7 @@ function switch_top (t, artist_img) {
         $('#search-color').removeClass('with-back');
         $('#search-color').removeClass('white');
         $('#search-color').addClass('red');
+        $('.home-wrapper').css('opacity', '1');
     }
     else if (t == "clear") {
         if (artist_img != ''){
@@ -247,14 +258,21 @@ function switch_top (t, artist_img) {
         $('#search-color').removeClass('red');
         $('#search-color').addClass('white');
         $('#search-color').addClass('with-back');
+        $('.home-wrapper').css('opacity', '0');
     }
 }
 
 function scrolled () {
+    if ($(".album").position() == undefined) {
+        return;
+    }
     var elmnt = document.getElementById("main");
     var x = elmnt.scrollLeft;
     var y = elmnt.scrollTop;
     if (y >= ($(".album").position().top)*2) {
+        switch_top('red', '');
+    }
+    else if (y == (elmnt.scrollHeight - elmnt.offsetHeight)) {
         switch_top('red', '');
     }
     else {
@@ -266,15 +284,40 @@ function goto_album (album) {
     $.get('templates/album.mst', function(template) {
         var rendered = Mustache.render(template, album);
         $('#main').html(rendered);
+        document.getElementById('al').scrollIntoView();
     });
+    switch_top ("clear", album.artimg);
+}
+
+function goto_artist (artist) {
+    $.get('templates/artist.mst', function(template) {
+        var rendered = Mustache.render(template, artist);
+        $('#main').html(rendered);
+        document.getElementById('al').scrollIntoView();
+    });
+    switch_top ("clear", artist.artimg);
 }
 
 function parse_albums (struct) {
-    window.albums = struct;
     $.get('templates/albums.mst', function(template) {
         var rendered = Mustache.render(template, struct);
         $('#main').html(rendered);
+        $("#main").animate({
+                scrollTop: 0
+            }, 0);
     });
+    switch_top ("red", 'none');
+}
+
+function parse_artists (struct) {
+    $.get('templates/artists.mst', function(template) {
+        var rendered = Mustache.render(template, struct);
+        $('#main').html(rendered);
+        $("#main").animate({
+                scrollTop: 0
+            }, 0);
+    });
+    switch_top ("red", 'none');
 }
 
 check_login();

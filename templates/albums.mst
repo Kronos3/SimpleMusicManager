@@ -1,7 +1,7 @@
 <div id="content-wrapper">
     <div class="albums">
         {{#albums}}
-        <paper-card class="hoverable" id="album-{{index}}" image="{{img}}">
+        <paper-card class="hoverable" id="album-{{index}}" image="{{img}}" onclick="goto_album(window.albums.albums[{{index}}])">
             <div class="hover-play"><i class="fa fa-play" aria-hidden="true"></i></div>
             <div class="card-content">
                 <p class="album-name truncate">{{name}}</p>
