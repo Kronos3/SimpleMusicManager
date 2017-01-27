@@ -77,16 +77,16 @@ def write_data ():
     lib_b = refresh()
     if lib_b != '':
         with open('data/library.json', 'w+') as lib:
-            lib.write(json.JSONEncoder().encode(lib_b._in))
+            lib.write(json.dumps(lib_b.get_songs(), indent=4))
             lib.close()
         with open('data/albums.json', 'w+') as ablms:
-            ablms.write (json.dumps(lib_b.get_albums()))
+            ablms.write (json.dumps(lib_b.get_albums(), indent=4))
             ablms.close()
         with open('data/artists.json', 'w+') as arts:
-            arts.write (json.dumps(lib_b.get_artists()))
+            arts.write (json.dumps(lib_b.get_artists(), indent=4))
             arts.close()
         with open('data/playlists.json', 'w+') as play:
-            play.write (json.dumps(lib_b.get_playlists()))
+            play.write (json.dumps(lib_b.get_playlists(), indent=4))
             play.close()
     else:
         loaded = False
@@ -181,7 +181,7 @@ def refresh():
     except:
         traceback.print_exc(file=sys.stdout)
         return ''
-    
+    global gm_library
     gm_library = library.Library(out_s, out_p)
     return gm_library
 

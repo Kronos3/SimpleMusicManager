@@ -1,0 +1,14 @@
+<div id="content-wrapper">
+    <div class="albums">
+        {{#playlists}}
+        <paper-card class="hoverable" image="http://localhost:8000/img/noalb.png">
+            <div class="hover-play"><i class="fa fa-play" aria-hidden="true"></i></div>
+            <i class="playlist-letter nav-icon material-icons">library_music</i>
+            <div class="card-content">
+                <p class="album-name truncate">{{name}}</p>
+                <p class="album-artist truncate">{{description}}</p>
+            </div>
+        </paper-card>
+        {{/playlists}}
+    </div>
+</div>

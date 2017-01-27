@@ -37,7 +37,7 @@ def ret (ret, path):
 
 class r_handler(object):
     def __init__ (self):
-        pass
+        self.gmusic = gmusic
     
     def r_get (self, path, data):
         if data == None:

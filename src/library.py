@@ -46,8 +46,9 @@ class Library:
         self.artists = {}
         self.albums = {}
         self.p_albums = []
-        for song in self._in:
+        for i, song in enumerate(self._in):
             self.songs.append (Song (song))
+            self.songs[-1].songnum = i
         for i, song in enumerate (self.songs):
             try:
                 self.albums[song.album]
@@ -63,6 +64,9 @@ class Library:
         if self._pin != None:
             for _list in self._pin:
                 self.playlists.append(PlayList(_list).get_json())
+    
+    def get_stream (self, i):
+        return self.songs[i].get_stream ()
     
     def get_albums (self):
         ret = []
@@ -97,12 +101,12 @@ class Library:
     def get_salbums (self, song_list): # Generate albums from song list
         ret = []
         alb = {}
-        for i, song in enumerate (song_list):
+        for song in song_list:
             try:
                 alb[song.album]
             except:
                 alb[song.album] = []
-            alb[song.album].append (i)
+            alb[song.album].append (song)
         for i, album in enumerate(alb):
             b_album = {}
             b_album['name'] = album
@@ -125,7 +129,7 @@ class Library:
             b_album['songs'] = []
             b_album['index'] = i
             for song in alb[album]:
-                b_album['songs'].append(self.songs[song].get_json())
+                b_album['songs'].append(song.get_json())
             ret.append (b_album)
         res = {}
         res['albums'] = ret
@@ -173,6 +177,14 @@ class Library:
         res = {}
         res['playlists'] = ret
         return res
+    
+    def get_songs (self):
+        ret = []
+        for song in self.songs:
+            ret.append (song.get_json())
+        res = {}
+        res['songs'] = ret
+        return res
 
 class PlayList:
     def __init__ (self, _p_play_list):
@@ -204,6 +216,11 @@ class Song:
             self.albumArtist = 'Unknown Artist'
         timeb = str(datetime.timedelta(seconds=(int(self.durationMillis)/1000)))
         self.minutes = timeb[timeb.find(':')+1:timeb.find ('.')]
+        self.image = self.albumArtRef[0]['url']
+        self.songnum = None
+    
+    def get_stream (self):
+        return gmusic.gm_api_mob.get_stream_url (self.id)
     
     def get_json (self):
         r = '{'

@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="css/font-awesome.min.css">
 <link rel="import" href="bower_components/paper-card/paper-card.html">
 <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="bower_components/paper-slider/paper-slider.html">
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/color-thief.min.js"></script>
@@ -72,25 +73,61 @@
     <paper-tabs class="home-tabs" selected="0" noink>
         <paper-tab onclick="parse_albums(window.albums)">Albums</paper-tab>
         <paper-tab onclick="parse_artists (window.artists)">Artists</paper-tab>
-        <paper-tab id="to-playlists">Playlists</paper-tab>
-        <paper-tab id="to-songs">Songs</paper-tab>
+        <paper-tab onclick="parse_playlists (window.playlists)">Playlists</paper-tab>
+        <paper-tab onclick="parse_songs (window.songs)">Songs</paper-tab>
     </paper-tabs>
 </div>
-<div class="main-content" id="main" onscroll="scrolled()">
-    <div id="content-wrapper">
-        <div class="albums">
-            <paper-card class="hoverable" id="" image="http://localhost:8000/img/noalb.png">
-                <div class="hover-play"><i class="fa fa-play" aria-hidden="true"></i></div>
-                <i class="playlist-letter nav-icon material-icons">library_music</i>
-                <div class="card-content">
-                    <p class="album-name truncate">The name</p>
-                    <p class="album-artist truncate">Description</p>
-                </div>
-            </paper-card>
+<div class="loader">
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
         </div>
+      </div>
+
+      <div class="spinner-layer spinner-red">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-yellow">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-green">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div><div class="gap-patch">
+          <div class="circle"></div>
+        </div><div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
     </div>
 </div>
+<div class="main-content" id="main" onscroll="scrolled()"></div>
 <div class="card-panel control-bar">
+    <img src="http://localhost:8000/.cache/lh3.googleusercontent.com/8BRXWJAXthNjCzsikf0GJi7kdyfklx4PLvoZ1BZQoaZlYS03VRmxKtEt0lvJ" class="song-cover">
+    <paper-slider id="song-time" value="0" secondary-progress="0"></paper-slider>
+    <div class="song-info-wrapper">
+        <p class="song-name">The song-title</p>
+        <p class="song-under">the artist - the album</p>
+    </div>
     <div class="control-middle">
         <button id="repeat" onclick="repeatf()" data-position="top" data-tooltip="Repeat" class="tooltipped waves-effect waves-light waves-circle btn-float waves-red white lighten-2 control-button">
             <i class="material-icons">repeat</i>

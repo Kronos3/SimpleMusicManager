@@ -39,6 +39,13 @@ class postHandler (server.SimpleHTTPRequestHandler):
             return None
         return ret
     
+    def do_STREAM (self):
+        i = int(self.path[1:])
+        out = str.encode(MainRHandler.gmusic.gm_library.get_stream(i))
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write (out)
+    
     def do_POST (self):
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
 
