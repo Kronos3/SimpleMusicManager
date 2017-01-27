@@ -83,6 +83,8 @@ class Library:
                 b_album['artimg'] = 'http://localhost:8000/img/noart.png'
             b_album['artist'] = self.songs[self.albums[album][0]].albumArtist
             b_album['year'] = self.songs[self.albums[album][0]].year
+            if b_album['year'] in [0, '0']:
+                b_album['year'] = '-'
             b_album['genre'] = self.songs[self.albums[album][0]].genre
             d = 0
             for s in self.albums[album]:
@@ -121,6 +123,8 @@ class Library:
             b_album['artist'] = self.songs[self.albums[album][0]].albumArtist
             b_album['year'] = self.songs[self.albums[album][0]].year
             b_album['genre'] = self.songs[self.albums[album][0]].genre
+            if b_album['year'] == 0:
+                b_album['year'] = '-'
             d = 0
             for s in self.albums[album]:
                 d += int(self.songs[s].durationMillis)
