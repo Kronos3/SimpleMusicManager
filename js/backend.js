@@ -1,4 +1,4 @@
-//const remote = require('electron').remote;
+const remote = require('electron').remote;
 
 
 var navOpened = 0;
@@ -10,7 +10,7 @@ var is_changing = false
     });
     document.querySelector('#song-time').addEventListener('change', function(e) {;
         window.currentSong.playing.currentTime = document.querySelector('#song-time').value
-        window.is_changing = false
+        window.is_changing = false;
     });
 });
 
@@ -65,25 +65,25 @@ var n_shuffle = 0;
 var n_play = 0;
 
 function repeatf () {
-    if (n_repeat != 2)
+    if (window.n_repeat != 2)
         {
-            n_repeat = n_repeat + 1;
+            window.n_repeat = window.n_repeat + 1;
         }
     else
         {
-            n_repeat = 0;
+            window.n_repeat = 0;
         }
-    if (n_repeat === 0)
+    if (window.n_repeat === 0)
         {
             $("#repeat").css ("color", "#424242");
             $("#repeat > i").text ("repeat");
         }
-    else if (n_repeat === 1)
+    else if (window.n_repeat === 1)
         {
             $("#repeat").css ("color", "#ef5350");
             $("#repeat > i").text ("repeat");
         }
-    else if (n_repeat === 2)
+    else if (window.n_repeat === 2)
         {
             $("#repeat > i").text("repeat_one");
         }
@@ -103,31 +103,39 @@ function shufflef () {
 }
 
 function playf (play) {
+    if ($('#play').hasClass('disabled')){
+        $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', "url(''");
+        return;
+    }
     if (play==undefined){
-        if (n_play === 0)
+        if (window.n_play === 0)
             {
-                n_play = 1;
+                window.n_play = 1;
                 $("#play > i").text ("pause");
                 window.currentSong.playing.play ();
+                $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', "url('img/playing.gif')");
             }
         else
             {
-                n_play = 0;
+                window.n_play = 0;
                 $("#play > i").text("play_arrow");
                 window.currentSong.playing.pause ();
+                $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', "url('img/paused.png')");
             }
         $('#play').toggleClass("paused");
     }
     else if (play) {
-        n_play = 1;
+        window.n_play = 1;
         $("#play > i").text ("pause");
         window.currentSong.playing.play ();
+        $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', "url('img/playing.gif')");
         $('#play').removeClass("paused");
     }
     else if (!play) {
-        n_play = 0;
+        window.n_play = 0;
         $("#play > i").text("play_arrow");
         window.currentSong.playing.pause ();
+        $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', "url('img/paused.png')");
     }
 }
 
@@ -381,16 +389,19 @@ function end_load () {
 }
 
 function song_click (s) {
+    start_load ();
+    $('#play').removeClass ('disabled');
+    $('#back').removeClass ('disabled');
+    $('#skip').removeClass ('disabled');
+    
     s = $(s);
     if (s.data ('streamurl') == '') {
-        start_load ();
         var saveData = $.ajax({
             type: 'STREAM',
             url: "/" + s.data ('index'),
             dataType: "text",
             success: function(resultData) { 
                 s.data ('streamurl', resultData);
-                end_load ();
                 play_song (s);
             }
         });
@@ -405,7 +416,6 @@ function song_click (s) {
                     dataType: "text",
                     success: function(resultData) { 
                         s.data ('streamurl', resultData);
-                        end_load ();
                         play_song (s);
                     }
                 });
@@ -431,18 +441,26 @@ function urlExists(url, callback){
 }
 
 function play_song (s) {
+    playf(false);
     y = window.songs.songs[$(s).data('index')]
     try {
         window.currentSong.playing.src = s.data('streamurl');
     }
     catch (err) {
+        end_load ();
         return false;
     }
+    
+    /* Set background of the previous play back to default */
+    if (window.currentSong.songDiv != undefined) {
+        $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', 'url({0})'.format (window.currentSong.songObj.albumArtRef[0].url));
+    }
+    
     window.currentSong.songObj = y;
     window.currentSong.songName = y.title;
     window.currentSong.songArtist = y.artist;
     window.currentSong.songAlbum = y.album;
-    window.currentSong.songDiv = s
+    window.currentSong.songDiv = s;
     try {
         window.currentSong.songArt = y.albumArtRef[0].url;
     }
@@ -455,11 +473,54 @@ function play_song (s) {
     });
     playf (true);
     $('#song-time').css('display', 'block');
+    end_load ();
     return true;
 }
 
 function next_song () {
-    play_song ($(window.currentSong.songDiv).next ());
+    if ($('#next').hasClass('disabled')) {
+        return;
+    }
+    if (window.n_repeat == 0) {
+        n = $(window.currentSong.songDiv).next ();
+        if (n.height() == null) {
+            $('#song-info-template').html('');
+            $('#song-time').css('display', 'none');
+            playf(false);
+            $('#play').addClass ('disabled');
+            $('#skip').addClass ('disabled');
+            $('#back').addClass('disabled')
+            return;
+        }
+    }
+    else if (window.n_repeat == 1) {
+        n = $(window.currentSong.songDiv).next ();
+        if (n.height() == null && window.n_repeat == 1) {
+            n = $(window.currentSong.songDiv).first();
+        }
+    }
+    else if (window.n_repeat == 2) {
+        n = window.currentSong.songDiv;
+    }
+    
+    song_click (n);
+}
+
+function prev_song () {
+    if ($('#back').hasClass('disabled')) {
+        return;
+    }
+    if (parseInt(window.currentSong.playing.currentTime) > 5) {
+        window.currentSong.playing.currentTime = 0;
+    }
+    else {
+        n = $(window.currentSong.songDiv).prev ();
+        if (n.height() == null) {
+            window.currentSong.playing.currentTime = 0;
+            return;
+        }
+    }
+    song_click (n);
 }
 
 check_login();

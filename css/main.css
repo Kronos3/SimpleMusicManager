@@ -189,6 +189,13 @@ textarea, input, input:focus {
     color: #fff;
 }
 
+#back > i,
+#skip > i,
+#repeat > i,
+#shuffle > i {
+    transform: translateY(-15%);
+}
+
 #play > i
 {
     font-size: 40px;
@@ -991,7 +998,7 @@ th.tbl-alb {
 
 #song-time {
     position: absolute;
-    width: calc(100% - 60px);
+    width: calc(100% - 92px);
     top: -15px;
     left: -15px;
     height: 30px;
@@ -1053,6 +1060,11 @@ th.tbl-alb {
 
 #song-time > #sliderContainer > #sliderKnob > #ink {
     color: #E57373;
+}
+
+#song-time > #sliderContainer > div > #sliderBar > #progressContainer {
+    height: 4px;
+    background: #dcdcdc;
 }
 
 .song-row.song-list > td {

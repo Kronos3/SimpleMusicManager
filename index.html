@@ -131,19 +131,19 @@
     <paper-slider id="song-time" style="display:none" value="0" secondary-progress="0"></paper-slider>
     <div id="song-info-template"></div>
     <div class="control-middle">
-        <button id="repeat" onclick="repeatf()" data-position="top" data-tooltip="Repeat" class="tooltipped waves-effect waves-light waves-circle btn-float waves-red white lighten-2 control-button">
+        <button id="repeat" onclick="repeatf()" data-position="top" data-tooltip="Repeat" class="tooltipped waves-effect waves-light waves-circle btn waves-red white lighten-2 control-button">
             <i class="material-icons">repeat</i>
         </button>
-        <button id="back" data-position="top" data-tooltip="Skip Back" class="tooltipped waves-effect waves-light waves-circle btn-float waves-red white lighten-2 control-button">
+        <button id="back" onclick="prev_song()" data-position="top" data-tooltip="Skip Back" class="tooltipped waves-effect waves-light waves-circle waves-red white lighten-2 control-button btn disabled">
             <i class="material-icons">skip_previous</i>
         </button>
-        <button id="play" onclick="playf()" data-position="top" data-tooltip="Play/Pause" class="tooltipped waves-effect waves-light waves-circle btn-float waves-light red lighten-2 control-button">
+        <button id="play" onclick="playf()" data-position="top" data-tooltip="Play/Pause" class="tooltipped waves-effect waves-light waves-circle waves-light red lighten-2 control-button btn disabled">
             <i class="material-icons">play_arrow</i>
         </button>
-        <button id="skip" data-position="top" data-tooltip="Skip Next" class="tooltipped waves-effect waves-light waves-circle btn-float waves-red white lighten-2 control-button">
+        <button id="skip" onclick="next_song()" data-position="top" data-tooltip="Skip Next" class="tooltipped waves-effect waves-light waves-circle waves-red white lighten-2 control-button btn disabled">
             <i class="material-icons">skip_next</i>
         </button>
-        <button id="shuffle" onclick="shufflef()" data-position="top" data-tooltip="Shuffle" class="tooltipped waves-effect waves-light waves-circle btn-float waves-red white lighten-2 control-button">
+        <button id="shuffle" onclick="shufflef()" data-position="top" data-tooltip="Shuffle" class="tooltipped waves-effect waves-light waves-circle btn waves-red white lighten-2 control-button">
             <i class="material-icons">shuffle</i>
         </button>
     </div>
