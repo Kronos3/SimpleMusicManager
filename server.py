@@ -73,6 +73,7 @@ def main (argv):
 if __name__ == "__main__":
     try:
         main(sys.argv)
+        exit(0)
     except SystemExit:
         exit(0)
     except:
