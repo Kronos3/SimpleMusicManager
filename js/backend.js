@@ -96,7 +96,7 @@ function shufflef () {
 }
 
 function playf (play) {
-    if (typeof(a)==='undefined'){
+    if (play==undefined){
         if (n_play === 0)
             {
                 n_play = 1;
@@ -428,12 +428,12 @@ function urlExists(url, callback){
 function play_song (url) {
     try {
         window.playing.src = url;
-        playf (true);
-        return true;
     }
     catch (err) {
         return false;
     }
+    playf (true);
+    return true;
 }
 
 check_login();
