@@ -1,9 +1,16 @@
-const remote = require('electron').remote;
-
+try { // So that we can test in the browser
+    const remote = require('electron').remote;
+}
+catch (err) {
+    $(document).ready(function(){
+        $('.title-bar').css('display', 'none');
+        $('.window').css('height', '100vh');
+    });
+}
 
 var navOpened = 0;
 var is_changing = false
- $(document).ready(function(){
+$(document).ready(function(){
     $('.tooltipped').tooltip({delay: 2000});
     document.querySelector('#song-time').addEventListener('immediate-value-change', function(e) {
         window.is_changing = true;

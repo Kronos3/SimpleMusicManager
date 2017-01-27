@@ -1026,12 +1026,14 @@ th.tbl-alb {
     color: #212121;
     font-size: 16px;
     display: block;
+    max-width: 22vw;
 }
 
 .song-under {
     color: #616161;
     font-size: 13px;
     display: block;
+    max-width: 22vw;
 }
 
 #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {

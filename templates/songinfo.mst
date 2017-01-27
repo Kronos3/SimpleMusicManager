@@ -1,5 +1,5 @@
 <img src="{{songArt}}" class="song-cover">
 <div class="song-info-wrapper">
-    <p class="song-name">{{songName}}</p>
-    <p class="song-under">{{songArtist}} - {{songAlbum}}</p>
+    <p class="song-name truncate">{{songName}}</p>
+    <p class="song-under truncate">{{songArtist}} - {{songAlbum}}</p>
 </div>
