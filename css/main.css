@@ -941,7 +941,7 @@ tr.title-row > th.tbl-name, tr.title-row > tr.tbl-num, tr.title-row > tr.tbl-alb
     left: 50%;
     transform: translateX(-75%) translateY(-75%);
 }
-
+/*
 .song-list > td.tbl-num > span {
     width: 44px;
     height: 44px;
@@ -971,7 +971,7 @@ th.tbl-alb {
     width: 50%;
     display: inline-block;
 }
-
+*/
 .loader {
     position: absolute;
     width: 100%;
@@ -1051,4 +1051,47 @@ th.tbl-alb {
 
 #song-time > #sliderContainer > #sliderKnob > #ink {
     color: #E57373;
+}
+
+.song-row.song-list > td {
+    display: inline-block;
+}
+
+#al > table > tbody > tr.title-row > th {
+    display: inline-block;
+}
+
+.songlist {
+    top: 30px;
+}
+.song-list > td.tbl-num > span {
+    width: 44px;
+    height: 44px;
+    background-size: 44px 44px;
+}
+
+.songlist > table > tbody > tr > .tbl-name {
+    width: calc(25% - 56px);
+}
+
+.songlist > table > tbody > tr > .tbl-art {
+    width: calc(25% - 56px);
+}
+
+.songlist > table > tbody > tr > .tbl-alb {
+    width: calc(35% - 56px);
+}
+
+@media (max-width: 920px) {
+
+.tbl-rating {
+    display: none !important;
+}
+
+}
+
+.tbl-rating {
+    transform: translateX(-50%);
+    left: 5%;
+    position: relative;
 }
