@@ -392,13 +392,48 @@ function song_click (s) {
         saveData.error(function() {});
     }
     else {
-        play_song (s.data('streamurl'));
+        urlExists(s.data('streamurl'), function (status){
+            if (!status) {
+                var saveData = $.ajax({
+                    type: 'STREAM',
+                    url: "/" + s.data ('index'),
+                    dataType: "text",
+                    success: function(resultData) { 
+                        s.data ('streamurl', resultData);
+                        end_load ();
+                        play_song (s.data('streamurl'));
+                    }
+                });
+            }
+            else {
+                play_song (s.data('streamurl'));
+            }
+        });
     }
 }
 
+function urlExists(url, callback){
+    $.ajax({
+        type: 'HEAD',
+        url: url,
+        success: function(){
+            callback(true);
+        },
+        error: function() {
+            callback(false);
+        }
+    });
+}
+
 function play_song (url) {
-    window.playing.src = url;
-    playf (true);
+    try {
+        window.playing.src = url;
+        playf (true);
+        return true;
+    }
+    catch (err) {
+        return false;
+    }
 }
 
 check_login();

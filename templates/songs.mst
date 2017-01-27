@@ -1,7 +1,7 @@
 <div id="al" class="album card songlist">
     <table class="song-wrapper">
         <tr class="title-row">
-            <th class="tbl-num">#</th>
+            <th class="tbl-num"></th>
             <th class="tbl-name">name</th> 
             <th class="tbl-time"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
             <th class="tbl-art">artist</th>

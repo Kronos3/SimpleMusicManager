@@ -147,7 +147,7 @@ class Library:
     
     def get_artists (self):
         ret = []
-        for i, artist in enumerate(self.artists):
+        for i, artist in enumerate(sorted(self.artists.keys())):
             b_artist = {}
             b_artist['name'] = artist
             if artist == '':
@@ -224,6 +224,8 @@ class Song:
         self.minutes = timeb[timeb.find(':')+1:timeb.find ('.')]
         self.image = self.albumArtRef[0]['url']
         self.songnum = None
+        if self.artist.find('&') != -1:
+            self.artist = self.artist[0:self.artist.find('&')].strip()
     
     def get_stream (self):
         return gmusic.gm_api_mob.get_stream_url (self.id)
