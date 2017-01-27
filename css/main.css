@@ -818,7 +818,8 @@ tr.title-row > th.tbl-name, tr.title-row > tr.tbl-num, tr.title-row > tr.tbl-alb
 
 .home-tabs {
     background: #E57373;
-    width: 30%;
+    width: 500px;
+    color: #fff;
 }
 
 #selectionBar {
