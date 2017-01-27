@@ -1026,11 +1026,15 @@ th.tbl-alb {
 }
 
 #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
+    border-color: rgba(229, 115, 155, 0);
+}
+
+.control-bar:hover > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
     border-color: #E57373;
 }
 
 #song-time > #sliderContainer > div > #sliderBar > #progressContainer > #secondaryProgress {
-    background-color: rgba(229, 115, 155, 0.5);
+    background-color: rgba(229, 115, 155, 0.3);
 }
 
 #song-time > #sliderContainer > div > #sliderBar > #progressContainer > #primaryProgress {

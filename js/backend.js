@@ -5,7 +5,10 @@ var navOpened = 0;
 
  $(document).ready(function(){
     $('.tooltipped').tooltip({delay: 2000});
-  });
+    document.querySelector('#song-time').addEventListener('change', function() {
+        window.playing.currentTime = document.querySelector('#song-time').value
+    });
+});
 
 function openNav() {
     "use strict";
@@ -410,7 +413,13 @@ window.playing.addEventListener('progress', function() {
 
 window.playing.addEventListener('timeupdate', function() {
     var duration = window.playing.duration;
-    document.querySelector('#song-time').max = duration;
+    try {
+        document.querySelector('#song-time').max = duration;
+    }
+    catch (err) 
+    {
+        ;
+    }
     if (duration > 0) {
         document.querySelector('#song-time').value = window.playing.currentTime;
     }
