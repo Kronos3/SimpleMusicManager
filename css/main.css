@@ -977,7 +977,7 @@ th.tbl-alb {
 .loader {
     position: absolute;
     width: 100%;
-    height: calc(100% - 172px);
+    height: calc(100% - 202px);
     background: rgba(255,255,255,0.75);
     z-index: 7;
     display: none;
@@ -1031,7 +1031,7 @@ th.tbl-alb {
     border-color: rgba(229, 115, 155, 0);
 }
 
-.control-bar:hover > div > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
+.control-bar:hover > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
     border-color: #E57373;
 }
 
@@ -1047,7 +1047,7 @@ th.tbl-alb {
     background-color: rgba(255,255,255,0);
 }
 
-.control-bar:hover > div > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
+.control-bar:hover > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
     background-color: #E57373;
 }
 

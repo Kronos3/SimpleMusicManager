@@ -2,11 +2,15 @@
 
 
 var navOpened = 0;
-
+var is_changing = false
  $(document).ready(function(){
     $('.tooltipped').tooltip({delay: 2000});
-    document.querySelector('#song-time').addEventListener('change', function() {
+    document.querySelector('#song-time').addEventListener('immediate-value-change', function(e) {
+        window.is_changing = true;
+    });
+    document.querySelector('#song-time').addEventListener('change', function(e) {;
         window.currentSong.playing.currentTime = document.querySelector('#song-time').value
+        window.is_changing = false
     });
 });
 
@@ -438,7 +442,7 @@ function play_song (s) {
     window.currentSong.songName = y.title;
     window.currentSong.songArtist = y.artist;
     window.currentSong.songAlbum = y.album;
-    
+    window.currentSong.songDiv = s
     try {
         window.currentSong.songArt = y.albumArtRef[0].url;
     }
@@ -450,7 +454,12 @@ function play_song (s) {
         $('#song-info-template').html(rendered);
     });
     playf (true);
+    $('#song-time').css('display', 'block');
     return true;
+}
+
+function next_song () {
+    play_song ($(window.currentSong.songDiv).next ());
 }
 
 check_login();
@@ -478,6 +487,12 @@ window.currentSong.playing.addEventListener('timeupdate', function() {
         ;
     }
     if (duration > 0) {
-        document.querySelector('#song-time').value = window.currentSong.playing.currentTime;
+        if (!window.is_changing) {
+            document.querySelector('#song-time').value = window.currentSong.playing.currentTime;
+        }
     }
 });
+
+window.currentSong.playing.onended = function() {
+    next_song ();
+};
