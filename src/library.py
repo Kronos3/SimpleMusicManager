@@ -209,6 +209,8 @@ class Song:
         self._in = _p_song
         self.albumArtRef = [{'url':'http://localhost:8000/img/default_album.svg'}]
         self.albumArtist = 'Unknown Artist'
+        self.year = '-'
+        self.genre = '-'
         self.artistArtRef = 'http://localhost:8000/img/noart.png'
         for k in _p_song:
             exec ("self.%s = _p_song['%s']" % (k, k))
