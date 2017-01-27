@@ -56,7 +56,7 @@ textarea, input, input:focus {
 
 #nav
 {
-    top: 0px;
+    top: 30px;
     left: -280px;
     position: fixed;
     height: 100%;
@@ -215,6 +215,7 @@ body {
 .window {
     -webkit-app-region: no-drag;
     min-height: 100%;
+    background-size: cover;
 }
 
 .title-bar {
@@ -847,28 +848,28 @@ tr.title-row > th.tbl-name, tr.title-row > tr.tbl-num, tr.title-row > tr.tbl-alb
     position: relative;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 801px) {
 .artists {
     --widthA: calc(100% - 120px);
     width: calc(var(--widthA) / 2 ) !important;
 }
 }
 
-@media (min-width: 600px) {
+@media (min-width: 900px) {
 .artists {
     --widthA: calc(100% - 120px);
     width: calc(var(--widthA) / 3 ) !important;
 }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 1000px) {
 .artists {
     --widthA: calc(100% - 120px);
     width: calc(var(--widthA) / 4 ) !important;
 }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1400px) {
 .artists {
     width: calc(var(--widthA) / 6 ) !important;
 }
@@ -990,7 +991,7 @@ th.tbl-alb {
 
 #song-time {
     position: absolute;
-    width: calc(100% + 30px);
+    width: calc(100% - 60px);
     top: -15px;
     left: -15px;
     height: 30px;
@@ -1030,12 +1031,12 @@ th.tbl-alb {
     border-color: rgba(229, 115, 155, 0);
 }
 
-.control-bar:hover > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
+.control-bar:hover > div > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
     border-color: #E57373;
 }
 
 #song-time > #sliderContainer > div > #sliderBar > #progressContainer > #secondaryProgress {
-    background-color: rgba(229, 115, 155, 0.3);
+    background-color: rgba(249, 135, 175, 0.5);
 }
 
 #song-time > #sliderContainer > div > #sliderBar > #progressContainer > #primaryProgress {
@@ -1046,7 +1047,7 @@ th.tbl-alb {
     background-color: rgba(255,255,255,0);
 }
 
-.control-bar:hover > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
+.control-bar:hover > div > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
     background-color: #E57373;
 }
 
@@ -1058,7 +1059,7 @@ th.tbl-alb {
     display: inline-block;
 }
 
-#al > table > tbody > tr.title-row > th {
+.songlist > table > tbody > tr.title-row > th {
     display: inline-block;
 }
 
@@ -1085,13 +1086,13 @@ th.tbl-alb {
 
 @media (max-width: 920px) {
 
-.tbl-rating {
+.songlist > table > tbody > tr > .tbl-rating {
     display: none !important;
 }
 
 }
 
-.tbl-rating {
+.songlist > table > tbody > tr > .tbl-rating {
     transform: translateX(-50%);
     left: 5%;
     position: relative;

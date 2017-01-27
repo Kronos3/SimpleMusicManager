@@ -128,11 +128,8 @@
 </div>
 <div class="main-content" id="main" onscroll="scrolled()"></div>
 <div class="card-panel control-bar">
-    <img src="http://localhost:8000/.cache/lh3.googleusercontent.com/8BRXWJAXthNjCzsikf0GJi7kdyfklx4PLvoZ1BZQoaZlYS03VRmxKtEt0lvJ" class="song-cover">
-    <paper-slider id="song-time" value="0" secondary-progress="0"></paper-slider>
-    <div class="song-info-wrapper">
-        <p class="song-name">The song-title</p>
-        <p class="song-under">the artist - the album</p>
+    <div id="song-info-template">
+        <paper-slider id="song-time" style="display:none" value="0" secondary-progress="0"></paper-slider>
     </div>
     <div class="control-middle">
         <button id="repeat" onclick="repeatf()" data-position="top" data-tooltip="Repeat" class="tooltipped waves-effect waves-light waves-circle btn-float waves-red white lighten-2 control-button">

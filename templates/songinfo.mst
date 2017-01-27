@@ -1,0 +1,6 @@
+<img src="{{songArt}}" class="song-cover">
+<paper-slider id="song-time" value="0" secondary-progress="0"></paper-slider>
+<div class="song-info-wrapper">
+    <p class="song-name">{{songName}}</p>
+    <p class="song-under">{{songArtist}} - {{songAlbum}}</p>
+</div>

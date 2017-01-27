@@ -6,9 +6,12 @@ var navOpened = 0;
  $(document).ready(function(){
     $('.tooltipped').tooltip({delay: 2000});
     document.querySelector('#song-time').addEventListener('change', function() {
-        window.playing.currentTime = document.querySelector('#song-time').value
+        window.currentSong.playing.currentTime = document.querySelector('#song-time').value
     });
 });
+
+currentSong = new Object();
+currentSong.playing = new Audio;
 
 function openNav() {
     "use strict";
@@ -101,29 +104,29 @@ function playf (play) {
             {
                 n_play = 1;
                 $("#play > i").text ("pause");
-                window.playing.play ();
+                window.currentSong.playing.play ();
             }
         else
             {
                 n_play = 0;
                 $("#play > i").text("play_arrow");
-                window.playing.pause ();
+                window.currentSong.playing.pause ();
             }
         $('#play').toggleClass("paused");
     }
     else if (play) {
         n_play = 1;
         $("#play > i").text ("pause");
-        window.playing.play ();
+        window.currentSong.playing.play ();
         $('#play').removeClass("paused");
     }
     else if (!play) {
         n_play = 0;
         $("#play > i").text("play_arrow");
-        window.playing.pause ();
+        window.currentSong.playing.pause ();
     }
 }
-/*
+
 function minimize(){
     var window = remote.getCurrentWindow();
     window.minimize();  
@@ -157,7 +160,7 @@ function maximize(){
         window.maximize ();
     }
 }
-*/
+
 function nav_close() {
     $("#menu").addClass("with-back");
     $("#menu").removeClass("white");
@@ -373,8 +376,6 @@ function end_load () {
     $('.loader').css('display', 'none');
 }
 
-window.playing = new Audio ();
-
 function song_click (s) {
     s = $(s);
     if (s.data ('streamurl') == '') {
@@ -386,7 +387,7 @@ function song_click (s) {
             success: function(resultData) { 
                 s.data ('streamurl', resultData);
                 end_load ();
-                play_song (s.data('streamurl'));
+                play_song (s);
             }
         });
         saveData.error(function() {});
@@ -401,12 +402,12 @@ function song_click (s) {
                     success: function(resultData) { 
                         s.data ('streamurl', resultData);
                         end_load ();
-                        play_song (s.data('streamurl'));
+                        play_song (s);
                     }
                 });
             }
             else {
-                play_song (s.data('streamurl'));
+                play_song (s);
             }
         });
     }
@@ -425,29 +426,50 @@ function urlExists(url, callback){
     });
 }
 
-function play_song (url) {
+function play_song (s) {
+    y = window.songs.songs[$(s).data('index')]
     try {
-        window.playing.src = url;
+        window.currentSong.playing.src = s.data('streamurl');
     }
     catch (err) {
         return false;
     }
+    window.currentSong.songObj = y;
+    window.currentSong.songName = y.title;
+    window.currentSong.songArtist = y.artist;
+    window.currentSong.songAlbum = y.album;
+    
+    try {
+        window.currentSong.songArt = y.albumArtRef[0].url;
+    }
+    catch (err) {
+        window.currentSong.songArt = '';
+    }
+    $.get('templates/songinfo.mst', function(template) {
+        var rendered = Mustache.render(template, window.currentSong);
+        $('#song-info-template').html(rendered);
+    });
     playf (true);
     return true;
 }
 
 check_login();
 
-window.playing.addEventListener('progress', function() {
-    var bufferedEnd = window.playing.buffered.end(window.playing.buffered.length - 1);
-    var duration =  window.playing.duration;
+window.currentSong.playing.addEventListener('progress', function() {
+    try {
+        var bufferedEnd = window.currentSong.playing.buffered.end(window.currentSong.playing.buffered.length - 1);
+    }
+    catch (err) {
+        bufferedEnd = document.querySelector('#song-time').secondaryProgress;
+    }
+    var duration =  window.currentSong.playing.duration;
     if (duration > 0) {
       document.querySelector('#song-time').secondaryProgress = bufferedEnd;
     }
 });
 
-window.playing.addEventListener('timeupdate', function() {
-    var duration = window.playing.duration;
+window.currentSong.playing.addEventListener('timeupdate', function() {
+    var duration = window.currentSong.playing.duration;
     try {
         document.querySelector('#song-time').max = duration;
     }
@@ -456,6 +478,6 @@ window.playing.addEventListener('timeupdate', function() {
         ;
     }
     if (duration > 0) {
-        document.querySelector('#song-time').value = window.playing.currentTime;
+        document.querySelector('#song-time').value = window.currentSong.playing.currentTime;
     }
 });
