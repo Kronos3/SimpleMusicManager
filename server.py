@@ -50,7 +50,7 @@ class cfg:
 #    s.serve_forever ()
 
 
-def run(server_class=HTTPServer, handler_class=handler.postHandler):
+def run(server_class=HTTPServer, handler_class=handler.postHandler, serve=True):
     server_address = (cfg.ip, cfg.port)
     httpd = server_class(server_address, handler_class)
     if os.path.isfile('.token'):
@@ -60,15 +60,19 @@ def run(server_class=HTTPServer, handler_class=handler.postHandler):
         if ret:
             gmusic.write_data ()
     print ("Started server on %s at port %s" % (cfg.ip, cfg.port))
-    httpd.serve_forever()
+    if serve:
+        httpd.serve_forever()
 
-def main ():
+def main (argv):
     os.chdir(cfg.root)
-    run ()
+    if '--test' in argv:
+        run (serve=False)
+    else:
+        run ()
 
 if __name__ == "__main__":
     try:
-        main()
+        main(sys.argv)
     except SystemExit:
         exit(0)
     except:
