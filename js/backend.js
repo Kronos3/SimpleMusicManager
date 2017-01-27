@@ -230,10 +230,10 @@ function refresh () {
         dataType: "text",
         success: function(resultData) { 
             $.getJSON( "data/library.json", function( json ) {
+                parse_songs(json);
                 window.songs = json;
             });
             $.getJSON( "data/albums.json", function( json ) {
-                parse_albums(json);
                 window.albums = json
             });
             $.getJSON( "data/artists.json", function( json ) {
