@@ -34,7 +34,8 @@
 <link rel="import" href="bower_components/paper-card/paper-card.html">
 <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="bower_components/paper-slider/paper-slider.html">
-<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script src="js/jquery-2.1.1.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+<script src="js/hammer.min.js" onload="window.Hammer = module.exports;"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/color-thief.min.js"></script>
 <script type="text/javascript" src="js/mustache.min.js"></script>
@@ -42,6 +43,11 @@
 <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+<div class="title-bar">
+    <button id="close" onclick="close_win()"></button>
+    <button id="max" onclick="maximize()"></button>
+    <button id="min" onclick="minimize()"></button>
+</div>
 <iframe class="login" src="http://localhost:8000/oauth/" onLoad="login_load(this.contentWindow.location);"></iframe>
 <div class="disable" onclick="login_close()"></div>
 <div class="disable-nav" onclick="nav_close()"></div>

@@ -224,7 +224,7 @@ body {
     left: 0;
     height: 30px;
     -webkit-app-region: drag;
-    background: #EF5350;
+    background: #E57373;
 }
 
 .title-bar > button {
@@ -236,7 +236,7 @@ body {
     height: 100%;
     -webkit-app-region: no-drag;
     transition: 0.15s all ease-out;
-    background: #EF5350;
+    background: #E57373;
 }
 
 #close {
@@ -403,7 +403,7 @@ body {
 
 .main-content {
     position: relative;
-    height: calc(100% - 172px);
+    height: calc(100% - 202px);
     margin: 0;
     overflow: auto;
     background-repeat: no-repeat;
@@ -1095,4 +1095,8 @@ th.tbl-alb {
     transform: translateX(-50%);
     left: 5%;
     position: relative;
+}
+
+#search {
+    width: calc(100% - 70px);
 }
