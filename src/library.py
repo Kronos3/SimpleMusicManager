@@ -70,7 +70,7 @@ class Library:
     
     def get_albums (self):
         ret = []
-        for i, album in enumerate(self.albums):
+        for i, album in enumerate(sorted(self.albums.keys())):
             b_album = {}
             b_album['name'] = album
             if album == '':
@@ -109,7 +109,7 @@ class Library:
             except:
                 alb[song.album] = []
             alb[song.album].append (song)
-        for i, album in enumerate(alb):
+        for i, album in enumerate(sorted(alb.keys())):
             b_album = {}
             b_album['name'] = album
             if album == '':
@@ -224,6 +224,10 @@ class Song:
         self.minutes = timeb[timeb.find(':')+1:timeb.find ('.')]
         self.image = self.albumArtRef[0]['url']
         self.songnum = None
+        
+        if self.trackNumber == 0:
+            self.trackNumber = ''
+        
         if self.artist.find('&') != -1:
             self.artist = self.artist[0:self.artist.find('&')].strip()
     
