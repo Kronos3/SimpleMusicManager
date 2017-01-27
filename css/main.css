@@ -1048,3 +1048,7 @@ th.tbl-alb {
 .control-bar:hover > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
     background-color: #E57373;
 }
+
+#song-time > #sliderContainer > #sliderKnob > #ink {
+    color: #E57373;
+}
