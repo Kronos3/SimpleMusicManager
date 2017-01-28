@@ -471,7 +471,9 @@ function play_song (s) {
     
     /* Set background of the previous play back to default */
     if (window.currentSong.songDiv != undefined) {
-        $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', 'url({0})'.format (window.currentSong.songObj.albumArtRef[0].url));
+        if ($(window.currentSong.songDiv).children('.tbl-num').children('.song-number') == '') {
+            $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', 'url({0})'.format (window.currentSong.songObj.albumArtRef[0].url));
+        }
         $(window.currentSong.songDiv).children('.tbl-num').children('.song-number').css ('color', '#212121');
     }
     
