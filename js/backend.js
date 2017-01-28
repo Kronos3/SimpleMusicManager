@@ -168,14 +168,19 @@ function close_win(){
 }
 
 $( window ).resize(function() {
-    var window = remote.getCurrentWindow ()
-    if (window.isMaximized())
-    {
-        //$("#max").css("background-image", "url(img/unmaximize.png)");
+    try {
+        var window = remote.getCurrentWindow ()
+        if (window.isMaximized())
+        {
+            //$("#max").css("background-image", "url(img/unmaximize.png)");
+        }
+        else
+        {
+            $("#max").css("background-image", "url(img/maximize.png)");
+        }
     }
-    else
-    {
-        $("#max").css("background-image", "url(img/maximize.png)");
+    catch (err) {
+        ;
     }
 });
 
@@ -470,18 +475,19 @@ function play_song (s) {
     }
     
     /* Set background of the previous play back to default */
-    if (window.currentSong.songDiv != undefined) {
-        if ($(window.currentSong.songDiv).children('.tbl-num').children('.song-number') == '') {
-            $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', 'url({0})'.format (window.currentSong.songObj.albumArtRef[0].url));
+    if (window.currentSong.songDivNoClone != undefined) {
+        if ($(window.currentSong.songDivNoClone).children('.tbl-num').children('.song-number').text() == '') {
+            $(window.currentSong.songDivNoClone).children('.tbl-num').children('span').css('background-image', 'url({0})'.format (window.currentSong.songObj.albumArtRef[0].url));
         }
-        $(window.currentSong.songDiv).children('.tbl-num').children('.song-number').css ('color', '#212121');
+        $(window.currentSong.songDivNoClone).children('.tbl-num').children('.song-number').css ('color', '#212121');
     }
-    
+    delete window.currentSong.songDiv
     window.currentSong.songObj = y;
     window.currentSong.songName = y.title;
     window.currentSong.songArtist = y.artist;
     window.currentSong.songAlbum = y.album;
     window.currentSong.songDiv = clone (s);
+    window.currentSong.songDivNoClone = s;
     try {
         window.currentSong.songArt = y.albumArtRef[0].url;
     }
@@ -512,7 +518,12 @@ function next_song () {
         return;
     }
     if (window.n_repeat == 0) {
-        n = $(window.currentSong.songDiv).next ();
+        if (window.n_shuffle == 1) {
+            n = $(window.currentSong.songDiv.parent().children ('.song-row')[Math.floor((Math.random() * window.currentSong.songDiv.parent().children ('.song-row').length) + 0)]);
+        }
+        else {
+            n = $(window.currentSong.songDiv).next ();
+        }
         if (n.height() == null) {
             $('#song-info-template').html('');
             $('#song-time').css('display', 'none');
@@ -524,9 +535,14 @@ function next_song () {
         }
     }
     else if (window.n_repeat == 1) {
-        n = $(window.currentSong.songDiv).next ();
+        if (window.n_shuffle == 1) {
+            n = $(window.currentSong.songDiv.parent().children ('.song-row')[Math.floor((Math.random() * window.currentSong.songDiv.parent().children ('.song-row').length) + 0)]);
+        }
+        else {
+            n = $(window.currentSong.songDiv).next ();
+        }
         if (n.height() == null && window.n_repeat == 1) {
-            n = $(window.currentSong.songDiv).first();
+            n = $(window.currentSong.songDiv).first().next(); // Skip the title row
         }
     }
     else if (window.n_repeat == 2) {
