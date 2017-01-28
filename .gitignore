@@ -33,3 +33,4 @@ server.spec
 data/*
 .cache
 load_lib.py
+/Google*

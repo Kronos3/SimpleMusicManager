@@ -127,6 +127,7 @@ function playf (play) {
                 window.n_play = 1;
                 $("#play > i").text ("pause");
                 window.currentSong.playing.play ();
+                $(window.currentSong.songDiv).children('.tbl-num').children('.song-number').css ('color', 'rgba(255,255,255,0)');
                 $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', "url('img/playing.gif')");
             }
         else
@@ -134,6 +135,7 @@ function playf (play) {
                 window.n_play = 0;
                 $("#play > i").text("play_arrow");
                 window.currentSong.playing.pause ();
+                $(window.currentSong.songDiv).children('.tbl-num').children('.song-number').css ('color', 'rgba(255,255,255,0)');
                 $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', "url('img/paused.png')");
             }
         $('#play').toggleClass("paused");
@@ -142,6 +144,7 @@ function playf (play) {
         window.n_play = 1;
         $("#play > i").text ("pause");
         window.currentSong.playing.play ();
+        $(window.currentSong.songDiv).children('.tbl-num').children('.song-number').css ('color', 'rgba(255,255,255,0)');
         $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', "url('img/playing.gif')");
         $('#play').removeClass("paused");
     }
@@ -149,6 +152,7 @@ function playf (play) {
         window.n_play = 0;
         $("#play > i").text("play_arrow");
         window.currentSong.playing.pause ();
+        $(window.currentSong.songDiv).children('.tbl-num').children('.song-number').css ('color', 'rgba(255,255,255,0)');
         $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', "url('img/paused.png')");
     }
 }
@@ -468,6 +472,7 @@ function play_song (s) {
     /* Set background of the previous play back to default */
     if (window.currentSong.songDiv != undefined) {
         $(window.currentSong.songDiv).children('.tbl-num').children('span').css('background-image', 'url({0})'.format (window.currentSong.songObj.albumArtRef[0].url));
+        $(window.currentSong.songDiv).children('.tbl-num').children('.song-number').css ('color', '#212121');
     }
     
     window.currentSong.songObj = y;

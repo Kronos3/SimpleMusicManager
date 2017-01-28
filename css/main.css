@@ -726,8 +726,8 @@ body {
 }
 
 .tbl-num {
-    padding: 6px 16px 6px 16px;
-    width: 76px;
+    padding: 6px 0px 6px 32px;
+    width: 60px;
     text-align: right;
     position: relative;
     display: inline-block;
@@ -800,8 +800,8 @@ tr.title-row > th.tbl-name, tr.title-row > tr.tbl-num, tr.title-row > tr.tbl-alb
 }
 
 .song-row:hover > .tbl-num > .song-number {
-    color: #eee;
-    background-image: url(http://localhost:8000/css/main.css) !important;
+    color: #eee !important;
+    background-image: url('') !important;
 }
 
 .song-row:hover > .tbl-num > .song-play {
@@ -1177,3 +1177,7 @@ th.tbl-alb {
 .paper-slider-0 .slider-knob-inner.paper-slider::before {
     background-color: #E57373;
 }
+
+.song-list > .tbl-num {
+    padding: 6px 16px 6px 16px;
+    width: 76px;
