@@ -176,7 +176,8 @@ class Library:
         ret = []
         for i, playlist in enumerate(self.playlists):
             b_list = playlist
-            b_list['tracks'] = list(self.songs[y].get_json() for y in [self.get_song(x['trackId']) for x in b_list['tracks'] if not x is None])
+            b_list['songs'] = list(self.songs[y].get_json() for y in [self.get_song(x['trackId']) for x in b_list['tracks'] if not x is None])
+            b_list['index'] = i
             ret.append (b_list)
         res = {}
         res['playlists'] = ret

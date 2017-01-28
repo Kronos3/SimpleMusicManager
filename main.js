@@ -17,15 +17,15 @@ function createWindow () {
     mainWindow = new BrowserWindow({width: 1080, height: 720, frame: false, minWidth: 800, minHeight: 720, transparent: true, icon:'img/icon-small.png'})
     
     // and load the index.html of the app.
-    /*mainWindow.loadURL(url.format({
-      pathname: path.join(__dirname, 'index.html'),
+    mainWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'buffer.html'),
       protocol: 'file:',
       slashes: true
-    }))*/
-    mainWindow.loadURL ("http://localhost:8000");
-    //mainWindow.webContents.session.clearCache(function(){})
+    }))
+    //mainWindow.loadURL ("http://localhost:8000");
+    mainWindow.webContents.session.clearCache(function(){})
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
     mainWindow.on('closed', function() {
         mainWindow = null;
         subpy.kill('SIGINT');
