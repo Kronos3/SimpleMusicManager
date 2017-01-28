@@ -1131,8 +1131,19 @@ th.tbl-alb {
 }
 
 #song-vol {
-    width: 250px;
+    width: 180px;
     display: inline-block;
+}
+
+#song-vol,
+.vol-down {
+    opacity: 0;
+    transition: 0.15s opacity;
+}
+
+.control-bar:hover > div >#song-vol,
+.control-bar:hover > div > .vol-down {
+    opacity: 1;
 }
 
 #song-vol > #sliderContainer > #sliderKnob > .slider-knob-inner {
@@ -1142,7 +1153,7 @@ th.tbl-alb {
     opacity: 0;
 }
 
-.control-bar:hover > div >#song-vol > #sliderContainer > #sliderKnob > .slider-knob-inner {
+#song-vol:hover > #sliderContainer > #sliderKnob > .slider-knob-inner {
     opacity: 1;
 }
 

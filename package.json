@@ -26,7 +26,9 @@
     "electron": "^1.4.15",
     "electron-google-oauth": "^2.0.0",
     "electron-oauth2": "^2.3.1",
+    "electron-prebuilt": "^1.4.13",
     "jQuery": "^1.7.4",
-    "mustache": "^2.3.0"
+    "mustache": "^2.3.0",
+    "request-promise": "^4.1.1"
   }
 }

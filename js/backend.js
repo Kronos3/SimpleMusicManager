@@ -1,5 +1,6 @@
+remote = null;
 try { // So that we can test in the browser
-    const remote = require('electron').remote;
+    window.remote = require('electron').remote;
 }
 catch (err) {
     $(document).ready(function(){

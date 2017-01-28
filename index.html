@@ -36,6 +36,7 @@
 <link rel="import" href="bower_components/paper-slider/paper-slider.html">
 <script src="js/jquery-2.1.1.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
 <script src="js/hammer.min.js" onload="window.Hammer = module.exports;"></script>
+<script src="js/jquery.tablesorter.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/color-thief.min.js"></script>
 <script type="text/javascript" src="js/mustache.min.js"></script>
@@ -147,7 +148,7 @@
             <i class="material-icons">shuffle</i>
         </button>
     </div>
-    <div class="song-vol-wrapper"><i class="material-icons">volume_down</i><paper-slider id="song-vol" value="50" pin></paper-slider><i class="material-icons" style="margin-left: 30px">volume_up</i></div>
+    <div class="song-vol-wrapper"><i class="material-icons vol-down">volume_down</i><paper-slider id="song-vol" value="50" pin></paper-slider><i class="material-icons" style="margin-left: 30px">volume_up</i></div>
 </div>
 </div>
 </body>

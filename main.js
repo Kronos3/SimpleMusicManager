@@ -5,14 +5,14 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
+var rq = require('request-promise')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-
 function createWindow () {
-    
+    var subpy = require('child_process').spawn('python', ['./server.py']);
     // Create the browser window.
     mainWindow = new BrowserWindow({width: 1080, height: 720, frame: false, minWidth: 800, minHeight: 720, transparent: true, icon:'img/icon-small.png'})
     
@@ -23,10 +23,16 @@ function createWindow () {
       slashes: true
     }))*/
     mainWindow.loadURL ("http://localhost:8000");
-    mainWindow.webContents.session.clearCache(function(){})
+    //mainWindow.webContents.session.clearCache(function(){})
     // Open the DevTools.
-    mainWindow.webContents.openDevTools()
+    //mainWindow.webContents.openDevTools()
+    mainWindow.on('closed', function() {
+        mainWindow = null;
+        subpy.kill('SIGINT');
+    });
 }
+
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
