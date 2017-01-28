@@ -1,11 +1,12 @@
 sudo: true
-language: python node_js
+language: python
 
 python:
   - "3.5"
   - "3.6"
 
 install:
+  - npm install
   - pip install -r requirements.txt
 
 script:
