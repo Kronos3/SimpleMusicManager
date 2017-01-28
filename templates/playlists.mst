@@ -2,7 +2,7 @@
     <div class="albums">
         {{#playlists}}
         <paper-card class="hoverable" onclick="parse_songs (window.playlists.playlists[{{index}}])" image="http://localhost:8000/img/noalb.png">
-            <div class="hover-play"><i class="fa fa-play" aria-hidden="true"></i></div>
+            <div class="hover-play" onclick="parse_songs(window.playlists.playlists[{{index}}]); setTimeout(function(){song_click($('#main').children('#al').children('.song-wrapper').children('tbody').children().first().next())}, 60);"><i class="fa fa-play" aria-hidden="true"></i></div>
             <i class="playlist-letter nav-icon material-icons">library_music</i>
             <div class="card-content">
                 <p class="album-name truncate">{{name}}</p>

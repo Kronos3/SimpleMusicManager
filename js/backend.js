@@ -481,7 +481,7 @@ function play_song (s) {
     window.currentSong.songName = y.title;
     window.currentSong.songArtist = y.artist;
     window.currentSong.songAlbum = y.album;
-    window.currentSong.songDiv = s;
+    window.currentSong.songDiv = clone (s);
     try {
         window.currentSong.songArt = y.albumArtRef[0].url;
     }
@@ -496,6 +496,15 @@ function play_song (s) {
     $('#song-time').css('display', 'block');
     end_load ();
     return true;
+}
+
+function clone(obj) {
+    if (null == obj || "object" != typeof obj) return obj;
+    var copy = obj.constructor();
+    for (var attr in obj) {
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+    }
+    return copy;
 }
 
 function next_song () {

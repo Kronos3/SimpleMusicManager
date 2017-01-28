@@ -194,6 +194,7 @@ class Library:
 class PlayList:
     def __init__ (self, _p_play_list):
         self._in = _p_play_list
+        self.description = '-'
         for k in _p_play_list:
             exec ("self.%s = _p_play_list['%s']" % (k, k))
     
