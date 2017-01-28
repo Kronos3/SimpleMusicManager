@@ -19,11 +19,14 @@ $(document).ready(function(){
         window.currentSong.playing.currentTime = document.querySelector('#song-time').value
         window.is_changing = false;
     });
+    document.querySelector('#song-vol').addEventListener('immediate-value-change', function(e) {;
+        window.currentSong.playing.volume = (document.querySelector('#song-vol').value / 100);
+    });
 });
 
 currentSong = new Object();
 currentSong.playing = new Audio;
-
+window.currentSong.playing.volume = .5
 function openNav() {
     "use strict";
     if (navOpened === 0) {

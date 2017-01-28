@@ -1036,12 +1036,16 @@ th.tbl-alb {
     max-width: 22vw;
 }
 
+
 #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
-    border-color: rgba(229, 115, 155, 0);
+    border-color: #E57373;
+    background-color: #E57373;
+    transition: 0.2s all linear;
+    opacity: 0;
 }
 
 .control-bar:hover > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
-    border-color: #E57373;
+    opacity: 1;
 }
 
 #song-time > #sliderContainer > div > #sliderBar > #progressContainer > #secondaryProgress {
@@ -1049,14 +1053,6 @@ th.tbl-alb {
 }
 
 #song-time > #sliderContainer > div > #sliderBar > #progressContainer > #primaryProgress {
-    background-color: #E57373;
-}
-
-#song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
-    background-color: rgba(255,255,255,0);
-}
-
-.control-bar:hover > #song-time > #sliderContainer > #sliderKnob > .slider-knob-inner {
     background-color: #E57373;
 }
 
@@ -1114,4 +1110,59 @@ th.tbl-alb {
 
 #search {
     width: calc(100% - 70px);
+}
+
+.song-vol-wrapper {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+.song-vol-wrapper > * {
+    display: inline-block;
+    position: relative;
+    bottom: 0;
+}
+
+.song-vol-wrapper > i {
+    height: 32px;
+    top: -2px;
+}
+
+#song-vol {
+    width: 250px;
+    display: inline-block;
+}
+
+#song-vol > #sliderContainer > #sliderKnob > .slider-knob-inner {
+    border-color: #E57373;
+    background-color: #E57373;
+    transition: 0.15s all linear;
+    opacity: 0;
+}
+
+.control-bar:hover > div >#song-vol > #sliderContainer > #sliderKnob > .slider-knob-inner {
+    opacity: 1;
+}
+
+#song-vol > #sliderContainer > div > #sliderBar > #progressContainer > #secondaryProgress {
+    background-color: rgba(249, 135, 175, 0.5);
+}
+
+#song-vol > #sliderContainer > div > #sliderBar > #progressContainer > #primaryProgress {
+    background-color: #E57373;
+}
+
+#song-vol > #sliderContainer > #sliderKnob > #ink {
+    color: #E57373;
+}
+
+#song-vol > #sliderContainer > div > #sliderBar > #progressContainer {
+    height: 4px;
+    background: #dcdcdc;
+}
+
+.paper-slider-0 .slider-knob-inner.paper-slider::before {
+    background-color: #E57373;
 }
