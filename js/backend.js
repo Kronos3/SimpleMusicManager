@@ -20,6 +20,9 @@ $(document).ready(function(){
         window.is_changing = false;
     });
     document.querySelector('#song-vol').addEventListener('immediate-value-change', function(e) {;
+        window.currentSong.playing.volume = (document.querySelector('#song-vol').immediateValue / 100);
+    });
+    document.querySelector('#song-vol').addEventListener('change', function(e) {;
         window.currentSong.playing.volume = (document.querySelector('#song-vol').value / 100);
     });
 });
