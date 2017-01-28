@@ -1,4 +1,4 @@
-# SimpleMusicManager
+# Google Music Offline (SimpleMusicManager)
 A python gui built to replace iTunes and run on every OS
 
 # Building and Testing
