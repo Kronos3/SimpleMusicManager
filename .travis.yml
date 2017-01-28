@@ -1,9 +1,6 @@
 sudo: true
 language: python
 
-node_js:
-  - "4"
-
 python:
   - "3.5"
   - "3.6"
