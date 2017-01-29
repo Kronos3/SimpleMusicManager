@@ -526,7 +526,7 @@ function next_song () {
     if ($('#next').hasClass('disabled')) {
         return;
     }
-    if ($(window.currentSong.songDiv.parent().parent().parent().hasClass('artist-album'))) {
+    if ($(window.currentSong.songDiv).parent().parent().parent().hasClass('artist-album')) {
         b = []
         for (var x = 0; x != window.currentSong.songDiv.parent().parent().parent().parent().children('.artist-album').length; x++) {
             b.push($($('#main').children('#al').children('.artist-album')[x]).children('.song-wrapper').children('tbody').children ('.song-row'));
@@ -580,7 +580,7 @@ function next_song () {
             }
         }
         else {
-            n = $(window.currentSong.songDiv).next ();
+            n = $(window.currentSong.songDivNoClone).next ();
         }
         if (n.height() == null) {
             $('#song-info-template').html('');
