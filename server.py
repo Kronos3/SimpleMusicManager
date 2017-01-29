@@ -25,7 +25,7 @@
 
 import time
 start_time = time.time()
-import json, traceback, sys, os
+import json, traceback, sys, os, platform
 from src import handler, gmusic
 from http.server import HTTPServer
 
@@ -50,7 +50,7 @@ class cfg:
 #    s.serve_forever ()
 
 
-def run(server_class=HTTPServer, handler_class=handler.postHandler, serve=True):
+def run(server_class=HTTPServer, handler_class=handler.postHandler, serve=True, gui=False):
     server_address = (cfg.ip, cfg.port)
     httpd = server_class(server_address, handler_class)
     if os.path.isfile('.token'):
@@ -60,15 +60,31 @@ def run(server_class=HTTPServer, handler_class=handler.postHandler, serve=True):
         if ret:
             gmusic.write_data ()
     print ("Started server on %s at port %s" % (cfg.ip, cfg.port))
+    if gui:
+        if sys.platform == "linux" or sys.platform == "linux2":
+            if platform.architecture()[0] == '64bit':
+                os.system ("./linux64-bin/electron . &")
+            if platform.architecture()[0] == '32bit':
+                os.system ("./linux32-bin/electron . &")
+        elif platform == "darwin":
+            os.system ("open ./darwin-bin/Electron.app . &")
+        elif platform == "win32":
+            if platform.architecture()[0] == '64bit':
+                os.spawnl(os.P_DETACH, './win64-bin/electron.exe .')
+            if platform.architecture()[0] == '32bit':
+                os.spawnl(os.P_DETACH, './win32-bin/electron.exe .')
     if serve:
         httpd.serve_forever()
 
 def main (argv):
     os.chdir(cfg.root)
+    s = True
+    g = False
     if '--test' in argv:
-        run (serve=False)
-    else:
-        run ()
+        s = True
+    if '--gui' in argv:
+        g = True
+    run (serve=s, gui=g)
 
 if __name__ == "__main__":
     try:

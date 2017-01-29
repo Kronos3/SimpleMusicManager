@@ -34,3 +34,4 @@ data/*
 .cache
 load_lib.py
 /Google*
+*-bin

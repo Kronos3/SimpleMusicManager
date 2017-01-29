@@ -30,6 +30,7 @@
     "electron-prebuilt": "^1.4.13",
     "jQuery": "^1.7.4",
     "mustache": "^2.3.0",
+    "request": "^2.79.0",
     "request-promise": "^4.1.1"
   }
 }
