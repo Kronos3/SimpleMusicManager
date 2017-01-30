@@ -23,7 +23,7 @@ $(document).ready(function(){
     document.querySelector('#song-vol').addEventListener('immediate-value-change', function(e) {;
         window.currentSong.playing.volume = (document.querySelector('#song-vol').immediateValue / 100);
     });
-    document.querySelector('#song-vol').addEventListener('change', function(e) {;
+    document.querySelector('#song-vol').addEventListener('change', function(e) {
         window.currentSong.playing.volume = (document.querySelector('#song-vol').value / 100);
     });
 });
@@ -72,6 +72,7 @@ function openNav() {
         $('.search-icon').css('color', '#424242');
         $('.search').css('color', '#424242');
       });
+    
 });
 
 var n_repeat = 0;
@@ -264,6 +265,12 @@ function refresh () {
             });
             $.getJSON( "data/playlists.json", function( json ) {
                 window.playlists = json
+                for (var i = 0; i != window.playlists.playlists.length; i++) {
+                    $('#playlist-drop').append ("<li class='playlist-item truncate'><a href='#'>" + window.playlists.playlists[i].name + "</a></li>");
+                }
+                $('.playlist-item').click (function () {
+                    $('#playlist-drop-btn').text ($(this).text());
+                });
             });
         }
     });
@@ -342,6 +349,13 @@ function goto_album (album) {
         var rendered = Mustache.render(template, album);
         $('#main').html(rendered);
         document.getElementById('al').scrollIntoView();
+        $('.song-row').contextmenu(function(event) {
+            $('.song-row-menu').css({
+                top: event.pageY + "px",
+                left: event.pageX + "px",
+                display: "block"
+            });
+        });
     });
     switch_top ("clear", album.artimg);
 }
@@ -351,6 +365,13 @@ function goto_artist (artist) {
         var rendered = Mustache.render(template, artist);
         $('#main').html(rendered);
         document.getElementById('al').scrollIntoView();
+        $('.song-row').contextmenu(function(event) {
+            $('.song-row-menu').css({
+                top: event.pageY + "px",
+                left: event.pageX + "px",
+                display: "block"
+            });
+        });
     });
     switch_top ("clear", artist.artimg);
 }
@@ -391,6 +412,10 @@ function parse_artists (struct) {
     window.in_songs = false;
 }
 
+song_obj_right = null;
+$(document).ready(function(){
+    $('.materialboxed').materialbox();
+});
 function parse_songs (struct) {
     $.get('templates/songs.mst', function(template) {
         var rendered = Mustache.render(template, struct);
@@ -398,6 +423,14 @@ function parse_songs (struct) {
         $("#main").animate({
                 scrollTop: 0
             }, 0);
+        $('.song-row').contextmenu(function(event) {
+            $('.song-row-menu').css({
+                top: event.pageY + "px",
+                left: event.pageX + "px",
+                display: "block"
+            });
+            window.song_obj_right = $(this)
+        });
     });
     switch_top ("red", 'none');
     window.in_songs = true;
@@ -412,6 +445,9 @@ function end_load () {
 }
 
 function song_click (s) {
+    if ($(s).hasClass ('is-dragging')) {
+        return;
+    }
     start_load ();
     $('#play').removeClass ('disabled');
     $('#back').removeClass ('disabled');
@@ -664,3 +700,12 @@ window.currentSong.playing.addEventListener('timeupdate', function() {
 window.currentSong.playing.onended = function() {
     next_song ();
 };
+
+function add_playlist (event) {
+    //event.preventDefault();
+    console.log (event.dataTransfer);
+}
+
+function albumdrag(e, elem) {
+    ;
+}

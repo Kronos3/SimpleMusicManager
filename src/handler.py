@@ -39,6 +39,9 @@ class postHandler (server.SimpleHTTPRequestHandler):
             return None
         return ret
     
+    #def do_PLAY (self): # Song played
+    #    
+    
     def do_STREAM (self):
         i = int(self.path[1:])
         out = str.encode(MainRHandler.gmusic.gm_library.get_stream(i))
