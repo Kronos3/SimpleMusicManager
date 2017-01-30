@@ -190,6 +190,9 @@ class Library:
         res = {}
         res['songs'] = ret
         return res
+    
+    def add_song_to_playlist (self, index, playlist):
+        gmusic.gm_api_mob.add_songs_to_playlist (playlist, index)
 
 class PlayList:
     def __init__ (self, _p_play_list):

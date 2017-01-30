@@ -355,6 +355,7 @@ function goto_album (album) {
                 left: event.pageX + "px",
                 display: "block"
             });
+            window.song_obj_right = $(this)
         });
     });
     switch_top ("clear", album.artimg);
@@ -371,6 +372,7 @@ function goto_artist (artist) {
                 left: event.pageX + "px",
                 display: "block"
             });
+            window.song_obj_right = $(this)
         });
     });
     switch_top ("clear", artist.artimg);
@@ -416,6 +418,7 @@ song_obj_right = null;
 $(document).ready(function(){
     $('.materialboxed').materialbox();
 });
+
 function parse_songs (struct) {
     $.get('templates/songs.mst', function(template) {
         var rendered = Mustache.render(template, struct);
@@ -706,6 +709,27 @@ function add_playlist (event) {
     console.log (event.dataTransfer);
 }
 
-function albumdrag(e, elem) {
-    ;
+function add_to_playlist () {
+    var id = null;
+    for (var i = 0; i != window.playlists.playlists.length; i++) {
+        var pl = window.playlists.playlists[i];
+        if (pl.name == $('#playlist-drop-btn').text()) {
+            id = pl.id;
+        }
+    }
+    $.ajax({
+        type: 'ADDPL',
+        url: '/{0}/{1}'.format ($(window.song_obj_right).data ('id'), id),
+        success: function(){
+            $.getJSON ( "data/playlists.json", function( json ) {
+                window.playlists = json
+                for (var i = 0; i != window.playlists.playlists.length; i++) {
+                    $('#playlist-drop').append ("<li class='playlist-item truncate'><a href='#'>" + window.playlists.playlists[i].name + "</a></li>");
+                }
+                $('.playlist-item').click (function () {
+                    $('#playlist-drop-btn').text ($(this).text());
+                });
+            });
+        },
+    });
 }

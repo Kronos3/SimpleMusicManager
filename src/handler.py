@@ -42,6 +42,16 @@ class postHandler (server.SimpleHTTPRequestHandler):
     #def do_PLAY (self): # Song played
     #    
     
+    def do_ADDPL (self): # Add song to playlist
+        index, playlist = self.path[1:].split ('/')
+        print (index)
+        print (playlist)
+        MainRHandler.gmusic.gm_library.add_song_to_playlist (index, playlist)
+        MainRHandler.gmusic.refresh()
+        MainRHandler.gmusic.write_data ()
+        self.send_response(200)
+        self.end_headers()
+    
     def do_STREAM (self):
         i = int(self.path[1:])
         out = str.encode(MainRHandler.gmusic.gm_library.get_stream(i))
