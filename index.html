@@ -63,7 +63,7 @@
 <iframe class="login" src="http://localhost:8000/oauth/" onLoad="login_load(this.contentWindow.location);"></iframe>
 <div class="disable" onclick="login_close()"></div>
 <div class="disable-nav" onclick="nav_close()"></div>
-<div class="window" onclick=" $('.song-row-menu').css('display', 'none');">
+<div class="window" onclick=" $('.song-row-menu').css('display', 'none');$('.playlist-row-menu').css('display', 'none')">
 <div class="queue-disable" onclick="$('.mini-dialog-wrapper').toggleClass ('mini-dialog-open'); $('.queue-music-btn').toggleClass('queue-music-open'); $('.queue-disable').css('display', 'none');"></div>
 <div class="top-bar red card-panel lighten-2 no-shadow">
     <button id="menu" onclick="openNav()" class="waves-effect  waves-light waves-circle btn-float red lighten-2">
@@ -151,6 +151,13 @@
         <paper-button dialog-confirm autofocus onclick="add_to_playlist()">Add</paper-button>
     </div>
 </paper-dialog>
+<paper-dialog id="removefplaylist" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+    Remove song from playlist?
+    <div class="buttons" style="margin-top: 6px; color: #E57373;">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus onclick="remove_from_playlist()">Remove</paper-button>
+    </div>
+</paper-dialog>
 <div role="listbox" class="song-row-menu card">
     <paper-item class="waves-effect" onclick="song_click(window.song_obj_right)">Play song</paper-item>
     <paper-item class="waves-effect">Get info</paper-item>
@@ -158,6 +165,14 @@
     <paper-item class="waves-effect" >Delete</paper-item>
     <div></div>
     <paper-item class="waves-effect" onclick="playlist.open()">Add to playlist</paper-item>
+</div>
+<div role="listbox" class="playlist-row-menu card">
+    <paper-item class="waves-effect" onclick="song_click(window.song_obj_right)">Play song</paper-item>
+    <paper-item class="waves-effect">Get info</paper-item>
+    <paper-item class="waves-effect" >Download</paper-item>
+    <paper-item class="waves-effect" >Delete</paper-item>
+    <div></div>
+    <paper-item class="waves-effect" onclick="removefplaylist.open()">Remove from playlist</paper-item>
 </div>
 <div class="mini-dialog-wrapper">
     <div class="empty-queue-wrapper">

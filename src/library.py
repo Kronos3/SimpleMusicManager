@@ -177,6 +177,8 @@ class Library:
         for i, playlist in enumerate(self.playlists):
             b_list = playlist
             b_list['songs'] = list(self.songs[y].get_json() for y in [self.get_song(x['trackId']) for x in b_list['tracks'] if not x is None])
+            for k, s in enumerate(b_list['songs']):
+                b_list['songs'][k]['plid'] = b_list['tracks'][k]['id']
             b_list['index'] = i
             ret.append (b_list)
         res = {}
@@ -193,6 +195,9 @@ class Library:
     
     def add_song_to_playlist (self, index, playlist):
         gmusic.gm_api_mob.add_songs_to_playlist (playlist, index)
+        
+    def rm_song_from_playlist (self, plid):
+        gmusic.gm_api_mob.remove_entries_from_playlist (plid)
 
 class PlayList:
     def __init__ (self, _p_play_list):

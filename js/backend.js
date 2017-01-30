@@ -440,6 +440,26 @@ function parse_songs (struct) {
     window.in_songs = true;
 }
 
+function parse_playlist (struct) {
+    $.get('templates/playlist.mst', function(template) {
+        var rendered = Mustache.render(template, struct);
+        $('#main').html(rendered);
+        $("#main").animate({
+                scrollTop: 0
+            }, 0);
+        $('.song-row').contextmenu(function(event) {
+            $('.playlist-row-menu').css({
+                top: event.pageY + "px",
+                left: event.pageX + "px",
+                display: "block"
+            });
+            window.song_obj_right = $(this)
+        });
+    });
+    switch_top ("red", 'none');
+    window.in_playlist = true;
+}
+
 function start_load () {
     $('.loader').css('display', 'block');
 }
@@ -719,7 +739,7 @@ function add_to_playlist () {
         }
     }
     $.ajax({
-        type: 'ADDPL',
+        type: 'ADDTPL',
         url: '/{0}/{1}'.format ($(window.song_obj_right).data ('id'), id),
         success: function(){
             $.getJSON ( "data/playlists.json", function( json ) {
@@ -730,6 +750,27 @@ function add_to_playlist () {
                 $('.playlist-item').click (function () {
                     $('#playlist-drop-btn').text ($(this).text());
                 });
+            });
+        },
+    });
+}
+
+function remove_from_playlist() {
+    start_load ();
+    $.ajax({
+        type: 'RMFPL',
+        url: '/{0}'.format ($(window.song_obj_right).data ('plid')),
+        success: function(){
+            $.getJSON ( "data/playlists.json?nocache=" + (new Date()).getTime(), function( json ) {
+                window.playlists = json
+                for (var i = 0; i != window.playlists.playlists.length; i++) {
+                    $('#playlist-drop').append ("<li class='playlist-item truncate'><a href='#'>" + window.playlists.playlists[i].name + "</a></li>");
+                }
+                $('.playlist-item').click (function () {
+                    $('#playlist-drop-btn').text ($(this).text());
+                });
+                parse_playlist (window.playlists.playlists[$('.playlist-wrapper').data('index')]);
+                end_load();
             });
         },
     });

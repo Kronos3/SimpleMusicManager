@@ -1,0 +1,26 @@
+<div id="al" class="album card songlist playlist-wrapper" data-index={{index}}>
+    <table class="song-wrapper">
+        <tbody>
+            <tr class="title-row">
+                <th class="tbl-num"></th>
+                <th class="tbl-name">name</th> 
+                <th class="tbl-time"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                <th class="tbl-art">artist</th>
+                <th class="tbl-alb">album</th>
+                <th class="tbl-plays"><i class="fa fa-music" aria-hidden="true"></i></th>
+                <th class="tbl-rating"><i class="fa fa-thumbs-up" aria-hidden="true"></i></th>
+            </tr>
+            {{#songs}}
+            <tr class="song-row song-list" data-streamUrl="{{streamUrl}}" ondblclick="song_click(this)" data-index="{{songnum}}" data-plid="{{plid}}" data-id="{{id}}" oncontextmenu="return false;">
+                <td class="tbl-num truncate"><i class="fa fa-play song-play" aria-hidden="true"></i><span class="song-number" style="background-image: url('{{image}}')"></span></td>
+                <td class="tbl-name truncate">{{title}}</td>
+                <td class="tbl-time">{{minutes}}</td>
+                <td class="tbl-art truncate">{{artist}}</td>
+                <td class="tbl-alb truncate">{{album}}</td>
+                <td class="tbl-plays">{{playCount}}</td>
+                <td class="tbl-rating"></td>
+            </tr>
+            {{/songs}}
+        </tbody>
+    </table>
+</div>

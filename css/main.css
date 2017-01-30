@@ -1420,3 +1420,40 @@ th.tbl-alb {
 .playlist-item > a {
     color: #E57373 !important;
 }
+
+.playlist-row-menu {
+    position: fixed;
+    z-index: 22;
+    display: none;
+    padding: 12px 0;
+}
+
+.playlist-row-menu > paper-item {
+    font-size: 14px;
+    line-height: 24px;
+    padding: 0px 24px;
+    font-weight: 500;
+    height: 38px;
+    width: 220px;
+    cursor: pointer;
+    min-height: initial;
+    display: flex;
+    
+}
+
+.playlist-row-menu > div {
+    width: 100%;
+    position: relative;
+    margin: 3px 0;
+    height: 1px;
+    background: #eee;
+}
+
+.playlist-row-menu > paper-item:hover {
+    background-color: #eee;
+}
+
+#removefplaylist {
+    padding: 24px 0 0 24px;
+    width: 300px;
+}

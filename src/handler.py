@@ -42,11 +42,17 @@ class postHandler (server.SimpleHTTPRequestHandler):
     #def do_PLAY (self): # Song played
     #    
     
-    def do_ADDPL (self): # Add song to playlist
+    def do_ADDTPL (self): # Add song to playlist
         index, playlist = self.path[1:].split ('/')
-        print (index)
-        print (playlist)
         MainRHandler.gmusic.gm_library.add_song_to_playlist (index, playlist)
+        MainRHandler.gmusic.refresh()
+        MainRHandler.gmusic.write_data ()
+        self.send_response(200)
+        self.end_headers()
+    
+    def do_RMFPL (self): # Remove plid from playlist
+        plid = self.path[1:]
+        MainRHandler.gmusic.gm_library.rm_song_from_playlist (plid)
         MainRHandler.gmusic.refresh()
         MainRHandler.gmusic.write_data ()
         self.send_response(200)
