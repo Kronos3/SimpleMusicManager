@@ -225,6 +225,7 @@ function login_load (path){
     if (path != "http://localhost:8000/oauth/"){
         login_close ();
         $('#sign-in').css ('display', 'none');
+        refresh();
     }
 }
 
