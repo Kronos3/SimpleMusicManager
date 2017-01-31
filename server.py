@@ -82,7 +82,7 @@ def main (argv):
     s = True
     g = False
     if '--test' in argv:
-        s = True
+        s = False
     if '--gui' in argv:
         g = True
     run (serve=s, gui=g)
