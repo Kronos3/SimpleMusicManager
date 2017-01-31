@@ -32,10 +32,10 @@ _android_url = 'https://android.clients.google.com/upsj/'
 
 OAuthInfo = namedtuple('OAuthInfo', 'client_id client_secret scope redirect')
 oauth = OAuthInfo(
-    '652850857958.apps.googleusercontent.com',
-    'ji1rklciNp2bfsFJnEH_i6al',
-    'https://www.googleapis.com/auth/musicmanager',
-    'urn:ietf:wg:oauth:2.0:oob'
+    '653251527309-tiee4p0qukslagge2g7cahhshh3e908t.apps.googleusercontent.com',
+    'o1585JENWg6pyRaWr1XKeOYB',
+    ['https://www.googleapis.com/auth/musicmanager', 'https://www.googleapis.com/auth/userinfo.profile'],
+    'http://localhost:8000'
 )
 
 

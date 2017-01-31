@@ -1,4 +1,4 @@
-<img src="{{songArt}}" class="song-cover materialboxed">
+<img src="{{songArt}}" class="song-cover">
 <div class="song-info-wrapper">
     <p class="song-name truncate">{{songName}}</p>
     <p class="song-under truncate">{{songArtist}} - {{songAlbum}}</p>

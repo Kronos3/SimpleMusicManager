@@ -36,6 +36,8 @@ def ret (ret, path):
         return 502
 
 class r_handler(object):
+    is_logged_in = False
+    
     def __init__ (self):
         self.gmusic = gmusic
     

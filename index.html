@@ -60,10 +60,10 @@
     <button id="max" onclick="maximize()"></button>
     <button id="min" onclick="minimize()"></button>
 </div>
-<iframe class="login" src="http://localhost:8000/oauth/" onLoad="login_load(this.contentWindow.location);"></iframe>
 <div class="disable" onclick="login_close()"></div>
 <div class="disable-nav" onclick="nav_close()"></div>
 <div class="window" onclick=" $('.song-row-menu').css('display', 'none');$('.playlist-row-menu').css('display', 'none')">
+<iframe class="login" src="http://localhost:8000/oauth/" onLoad="login_load(this.contentWindow.location);"></iframe>
 <div class="queue-disable" onclick="$('.mini-dialog-wrapper').toggleClass ('mini-dialog-open'); $('.queue-music-btn').toggleClass('queue-music-open'); $('.queue-disable').css('display', 'none');"></div>
 <div class="top-bar red card-panel lighten-2 no-shadow">
     <button id="menu" onclick="openNav()" class="waves-effect  waves-light waves-circle btn-float red lighten-2">

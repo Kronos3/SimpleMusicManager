@@ -93,6 +93,9 @@ def write_data ():
         return
     loaded = True
 
+def load_oauth_login ():
+    return gm_api_man.login ()
+
 def load_login (_auth, _master):
     try:
         gm_api_mob.session.is_authenticated = True

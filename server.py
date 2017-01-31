@@ -59,6 +59,7 @@ def run(server_class=HTTPServer, handler_class=handler.postHandler, serve=True, 
             f.close()
         if ret:
             gmusic.write_data ()
+        handler.MainRHandler.is_logged_in = gmusic.load_oauth_login ()
     print ("Started server on %s at port %s" % (cfg.ip, cfg.port))
     if gui:
         if sys.platform == "linux" or sys.platform == "linux2":

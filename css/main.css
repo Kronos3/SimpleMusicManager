@@ -56,9 +56,9 @@ textarea, input, input:focus {
 
 #nav
 {
-    top: 30px;
+    top: 0px;
     left: -280px;
-    position: fixed;
+    position: absolute;
     height: 100%;
     width: 280px;
     z-index: 1;
@@ -753,7 +753,7 @@ tr.title-row > th.tbl-name, tr.title-row > tr.tbl-num, tr.title-row > tr.tbl-alb
     text-align: left;
     position: relative;
     display: inline-block;
-    width: calc(50% - 76px);
+    width: calc(75% - 76px);
 }
 
 .tbl-album {
@@ -1457,3 +1457,24 @@ th.tbl-alb {
     padding: 24px 0 0 24px;
     width: 300px;
 }
+
+/*
+#oauthlogin {
+    display: none;
+    position: fixed;
+    width: 650px;
+    height: 550px;
+    z-index: 101;
+}
+
+.disable-oauth {
+    opacity: 0.4;
+    background: #fff;
+    position: absolute;
+    width: 100%;
+    content: '';
+    height: 100%;
+    z-index: -1;
+    display: none;
+}
+*/

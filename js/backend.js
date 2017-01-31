@@ -775,3 +775,28 @@ function remove_from_playlist() {
         },
     });
 }
+
+function perf_oauth () {
+    $.ajax({
+        type: 'GETOAUTHURL',
+        url: '/',
+        success: function(data){
+            window.location.href = data;
+        },
+    });
+}
+
+function check_oauth () {
+    $.ajax({
+        type: 'CHECKOAUTH',
+        url: '/',
+        success: function(){
+            ;
+        },
+        error: function () {
+            perf_oauth ();
+        }
+    });
+}
+
+check_oauth ();

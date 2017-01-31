@@ -39,8 +39,35 @@ class postHandler (server.SimpleHTTPRequestHandler):
             return None
         return ret
     
+    def do_GET(self):
+        
+        if self.path[0:7] == "/?code=":
+            try:
+                self.__OAUTHLOGIN (self.path[7:])
+            except:
+                pass
+            self.send_response(301)
+            self.send_header('Location','http://localhost:8000')
+            self.end_headers()
+            return
+        
+        f = self.send_head()
+        if f:
+            try:
+                self.copyfile(f, self.wfile)
+            finally:
+                f.close()
+
+    
     #def do_PLAY (self): # Song played
     #    
+    
+    def do_CHECKOAUTH (self):
+        if MainRHandler.is_logged_in:
+            self.send_response(200)
+        else:
+            self.send_response(401)
+        self.end_headers()
     
     def do_ADDTPL (self): # Add song to playlist
         index, playlist = self.path[1:].split ('/')
@@ -64,6 +91,16 @@ class postHandler (server.SimpleHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
         self.wfile.write (out)
+    
+    def do_GETOAUTHURL (self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write (MainRHandler.gmusic.gm_api_man.get_login_url().encode ())
+    
+    def __OAUTHLOGIN (self, code):
+        s = MainRHandler.gmusic.gm_api_man.get_auth_token(code)
+        status = MainRHandler.gmusic.gm_api_man.login(s)
+        MainRHandler.is_logged_in = status
     
     def do_POST (self):
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
