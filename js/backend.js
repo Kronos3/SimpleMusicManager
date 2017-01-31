@@ -165,7 +165,14 @@ function minimize(){
 
 function close_win(){
     var window = remote.getCurrentWindow();
-    window.close();  
+    $.ajax({
+        type: 'SHUTDOWN',
+        url: '/',
+        success: function(){
+            ;
+        },
+    });
+    window.close();
 }
 
 $( window ).resize(function() {

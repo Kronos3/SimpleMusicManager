@@ -109,3 +109,8 @@ class postHandler (server.SimpleHTTPRequestHandler):
         res = MainRHandler.r_get (self.path, data)
         self.send_response(res)
         self.end_headers()
+    
+    def do_SHUTDOWN (self):
+        self.send_response(200)
+        self.end_headers()
+        exit(0)
