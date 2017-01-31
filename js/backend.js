@@ -351,11 +351,23 @@ function goto_album (album) {
         $('#main').html(rendered);
         document.getElementById('al').scrollIntoView();
         $('.song-row').contextmenu(function(event) {
-            $('.song-row-menu').css({
-                top: event.pageY + "px",
-                left: event.pageX + "px",
-                display: "block"
-            });
+            max_top = $(window).height() - 90 - 230;
+            if (event.pageY > max_top) {
+                $('.song-row-menu').css({
+                    bottom: ($(window).height() - event.pageY - 15) + "px",
+                    top: 'initial',
+                    left: event.pageX + "px",
+                    display: "block"
+                });
+            }
+            else {
+                $('.song-row-menu').css({
+                    top: event.pageY + "px",
+                    left: event.pageX + "px",
+                    bottom: 'initial',
+                    display: "block"
+                });
+            }
             window.song_obj_right = $(this)
         });
     });
@@ -368,11 +380,23 @@ function goto_artist (artist) {
         $('#main').html(rendered);
         document.getElementById('al').scrollIntoView();
         $('.song-row').contextmenu(function(event) {
-            $('.song-row-menu').css({
-                top: event.pageY + "px",
-                left: event.pageX + "px",
-                display: "block"
-            });
+            max_top = $(window).height() - 90 - 230;
+            if (event.pageY > max_top) {
+                $('.song-row-menu').css({
+                    bottom: ($(window).height() - event.pageY - 15) + "px",
+                    top: 'initial',
+                    left: event.pageX + "px",
+                    display: "block"
+                });
+            }
+            else {
+                $('.song-row-menu').css({
+                    top: event.pageY + "px",
+                    left: event.pageX + "px",
+                    bottom: 'initial',
+                    display: "block"
+                });
+            }
             window.song_obj_right = $(this)
         });
     });
@@ -428,11 +452,23 @@ function parse_songs (struct) {
                 scrollTop: 0
             }, 0);
         $('.song-row').contextmenu(function(event) {
-            $('.song-row-menu').css({
-                top: event.pageY + "px",
-                left: event.pageX + "px",
-                display: "block"
-            });
+            max_top = $(window).height() - 90 - 230;
+            if (event.pageY > max_top) {
+                $('.song-row-menu').css({
+                    bottom: ($(window).height() - event.pageY - 15) + "px",
+                    top: 'initial',
+                    left: event.pageX + "px",
+                    display: "block"
+                });
+            }
+            else {
+                $('.song-row-menu').css({
+                    top: event.pageY + "px",
+                    left: event.pageX + "px",
+                    bottom: 'initial',
+                    display: "block"
+                });
+            }
             window.song_obj_right = $(this)
         });
     });
@@ -448,11 +484,23 @@ function parse_playlist (struct) {
                 scrollTop: 0
             }, 0);
         $('.song-row').contextmenu(function(event) {
-            $('.playlist-row-menu').css({
-                top: event.pageY + "px",
-                left: event.pageX + "px",
-                display: "block"
-            });
+            max_top = $(window).height() - 90 - 230;
+            if (event.pageY > max_top) {
+                $('.song-row-menu').css({
+                    bottom: ($(window).height() - event.pageY - 15) + "px",
+                    top: 'initial',
+                    left: event.pageX + "px",
+                    display: "block"
+                });
+            }
+            else {
+                $('.song-row-menu').css({
+                    top: event.pageY + "px",
+                    left: event.pageX + "px",
+                    bottom: 'initial',
+                    display: "block"
+                });
+            }
             window.song_obj_right = $(this)
         });
     });
