@@ -522,6 +522,35 @@ function end_load () {
     $('.loader').css('display', 'none');
 }
 
+function inc_song_play () {
+    $.ajax({
+        type: 'INC',
+        url: '/{0}'.format ($(window.currentSong.songDiv).data ('id')),
+        success: function(){
+            $.getJSON( "data/library.json?nocache=" + (new Date()).getTime(), function( json ) {
+                window.songs = json;
+            });
+            $.getJSON( "data/albums.json?nocache=" + (new Date()).getTime(), function( json ) {
+                window.albums = json
+            });
+            $.getJSON( "data/artists.json?nocache=" + (new Date()).getTime(), function( json ) {
+                window.artists = json
+            });
+            $.getJSON( "data/playlists.json?nocache=" + (new Date()).getTime(), function( json ) {
+                window.playlists = json
+                for (var i = 0; i != window.playlists.playlists.length; i++) {
+                    $('#playlist-drop').append ("<li class='playlist-item truncate'><a href='#'>" + window.playlists.playlists[i].name + "</a></li>");
+                }
+                $('.playlist-item').click (function () {
+                    $('#playlist-drop-btn').text ($(this).text());
+                });
+            });
+            $(window.currentSong.songDiv).children('.tbl-plays').text (parseInt($(window.currentSong.songDiv).children('.tbl-plays').text()) + 1);
+        },
+    });
+    
+}
+
 function song_click (s) {
     if ($(s).hasClass ('is-dragging')) {
         return;
@@ -602,6 +631,7 @@ function play_song (s) {
     window.currentSong.songAlbum = y.album;
     window.currentSong.songDiv = clone (s);
     window.currentSong.songDivNoClone = s;
+    inc_song_play ();
     try {
         window.currentSong.songArt = y.albumArtRef[0].url;
     }
