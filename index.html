@@ -158,19 +158,26 @@
         <paper-button dialog-confirm autofocus onclick="remove_from_playlist()">Remove</paper-button>
     </div>
 </paper-dialog>
+<paper-dialog id="removedia" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+    Remove song from library?
+    <div class="buttons" style="margin-top: 6px; color: #E57373;">
+        <paper-button dialog-dismiss>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus onclick="remove ()">Remove</paper-button>
+    </div>
+</paper-dialog>
 <div role="listbox" class="song-row-menu card">
     <paper-item class="waves-effect" onclick="song_click(window.song_obj_right)">Play song</paper-item>
     <paper-item class="waves-effect">Get info</paper-item>
     <paper-item class="waves-effect" >Download</paper-item>
-    <paper-item class="waves-effect" >Delete</paper-item>
+    <paper-item class="waves-effect" onclick="removedia.open()">Delete</paper-item>
     <div></div>
     <paper-item class="waves-effect" onclick="playlist.open()">Add to playlist</paper-item>
 </div>
 <div role="listbox" class="playlist-row-menu card">
     <paper-item class="waves-effect" onclick="song_click(window.song_obj_right)">Play song</paper-item>
     <paper-item class="waves-effect">Get info</paper-item>
-    <paper-item class="waves-effect" >Download</paper-item>
-    <paper-item class="waves-effect" >Delete</paper-item>
+    <paper-item class="waves-effect">Download</paper-item>
+    <paper-item class="waves-effect" onclick="removedia.open()" >Delete</paper-item>
     <div></div>
     <paper-item class="waves-effect" onclick="removefplaylist.open()">Remove from playlist</paper-item>
 </div>

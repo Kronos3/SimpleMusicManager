@@ -198,6 +198,9 @@ class Library:
         
     def rm_song_from_playlist (self, plid):
         gmusic.gm_api_mob.remove_entries_from_playlist (plid)
+    
+    def rm_song (self, _id):
+        gmusic.gm_api_mob.delete_songs(_id)
 
 class PlayList:
     def __init__ (self, _p_play_list):

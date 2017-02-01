@@ -69,6 +69,14 @@ class postHandler (server.SimpleHTTPRequestHandler):
             self.send_response(401)
         self.end_headers()
     
+    def do_DELETE (self):
+        _id = self.path[1:]
+        MainRHandler.gmusic.gm_library.rm_song (_id)
+        MainRHandler.gmusic.refresh()
+        MainRHandler.gmusic.write_data ()
+        self.send_response(200)
+        self.end_headers()
+    
     def do_ADDTPL (self): # Add song to playlist
         index, playlist = self.path[1:].split ('/')
         MainRHandler.gmusic.gm_library.add_song_to_playlist (index, playlist)

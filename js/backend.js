@@ -215,7 +215,6 @@ function nav_close() {
     $('.disable-nav').css('display', 'none');
 }
 
-
 function open_login () {
     $('.login').css('display', 'block');
     $('.disable').css('display', 'block');
@@ -827,6 +826,36 @@ function remove_from_playlist() {
                 parse_playlist (window.playlists.playlists[$('.playlist-wrapper').data('index')]);
                 end_load();
             });
+        },
+    });
+}
+
+function remove () {
+    start_load ();
+    $.ajax({
+        type: 'DELETE',
+        url: '/{0}'.format ($(window.song_obj_right).data ('id')),
+        success: function(){
+            $.getJSON( "data/library.json?nocache=" + (new Date()).getTime(), function( json ) {
+                parse_songs(json);
+                window.songs = json;
+            });
+            $.getJSON( "data/albums.json?nocache=" + (new Date()).getTime(), function( json ) {
+                window.albums = json
+            });
+            $.getJSON( "data/artists.json?nocache=" + (new Date()).getTime(), function( json ) {
+                window.artists = json
+            });
+            $.getJSON( "data/playlists.json?nocache=" + (new Date()).getTime(), function( json ) {
+                window.playlists = json
+                for (var i = 0; i != window.playlists.playlists.length; i++) {
+                    $('#playlist-drop').append ("<li class='playlist-item truncate'><a href='#'>" + window.playlists.playlists[i].name + "</a></li>");
+                }
+                $('.playlist-item').click (function () {
+                    $('#playlist-drop-btn').text ($(this).text());
+                });
+            });
+            end_load();
         },
     });
 }
