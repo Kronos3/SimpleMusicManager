@@ -26,6 +26,8 @@
 from http import server
 import json
 from .r_handler import MainRHandler
+from .yt import YTSearchParser
+import urllib.request
 
 class postHandler (server.SimpleHTTPRequestHandler):
     def parse_post (self, _str):
@@ -122,6 +124,15 @@ class postHandler (server.SimpleHTTPRequestHandler):
         res = MainRHandler.r_get (self.path, data)
         self.send_response(res)
         self.end_headers()
+    
+    def do_SEARCHYT (self):
+        buf = YTSearchParser ()
+        buf.feed (urllib.request.urlopen ("https://www.youtube.com/results?search_query=" + self.path).read().decode("utf-8"))
+        buf = buf.search_finds
+        self.send_response(200)
+        self.end_headers()
+        for u in buf:
+            self.wfile.write ((u + '\n').encode())
     
     def do_SHUTDOWN (self):
         self.send_response(200)
