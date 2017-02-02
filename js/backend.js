@@ -355,7 +355,8 @@ function goto_album (album) {
     $.get('templates/album.mst', function(template) {
         var rendered = Mustache.render(template, album);
         $('#main').html(rendered);
-        document.getElementById('al').scrollIntoView();
+        /*document.getElementById('al').scrollIntoView();*/
+        $("#main").scrollTop($("#al").position().top);
         $('.song-row').contextmenu(function(event) {
             max_top = $(window).height() - 90 - 230;
             if (event.pageY > max_top) {
@@ -384,7 +385,7 @@ function goto_artist (artist) {
     $.get('templates/artist.mst', function(template) {
         var rendered = Mustache.render(template, artist);
         $('#main').html(rendered);
-        document.getElementById('al').scrollIntoView();
+        $("#main").scrollTop($("#al").position().top);
         $('.song-row').contextmenu(function(event) {
             max_top = $(window).height() - 90 - 230;
             if (event.pageY > max_top) {

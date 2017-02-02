@@ -25,14 +25,12 @@ function createWindow () {
     mainWindow.loadURL ("http://localhost:8000");
     mainWindow.webContents.session.clearCache(function(){})
     // Open the DevTools.
-    //mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
     mainWindow.on('closed', function() {
         mainWindow = null;
         //subpy.kill('SIGINT');
     });
 }
-
-var request = require('ajax-request');
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

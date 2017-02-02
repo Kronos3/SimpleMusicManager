@@ -3,7 +3,7 @@
     {{#albums}}
     <div class="artist-album">
         <table class="song-wrapper">
-            <img src="{{img}}" class="album-art"></img>
+            <img src="{{img}}" class="album-art">
             <div class="album-wrapper artist">
                 <p class="album-title">{{name}}</p>
                 <div class="album-stats"><span>{{year}}</span><span>•</span><span>{{snum}}</span><span>•</span><span>{{totaltime}}</span><span>•</span><span>{{genre}}</span></div>
