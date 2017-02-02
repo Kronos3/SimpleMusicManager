@@ -1484,3 +1484,7 @@ th.tbl-alb {
     padding: 24px 0 0 24px;
     width: 300px;
 }
+
+.queue-music-btn > i {
+    font-size: 24px !important;
+}
