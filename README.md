@@ -1,3 +1,4 @@
+# Build Status [![Build Status](https://travis-ci.org/Kronos3/SimpleMusicManager.svg?branch=master)](https://travis-ci.org/Kronos3/SimpleMusicManager)
 # Google Music Offline (SimpleMusicManager)
 A python gui built to replace iTunes and run on every OS
 
