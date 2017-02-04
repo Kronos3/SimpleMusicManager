@@ -180,11 +180,19 @@
     <paper-item class="waves-effect" onclick="removefplaylist.open()">Remove from playlist</paper-item>
 </div>
 <div class="mini-dialog-wrapper">
+    <div class="ytplayer-top">
+        <a id="ytback" class="btn waves-effect waves-light"><i class="material-icons">keyboard_backspace</i></a>
+        <div class="top-search-wrapper">
+            <div id="search-color" class="top-search-inner  lighten-3 red">
+                <i class="search-icon material-icons">search</i>
+                <input id="search" class="search" type="text" placeholder="Search">
+            </div>
+        </div>
+        <a id="ytdl" class="btn waves-effect waves-light"><i class="material-icons">cloud_download</i></a>
+    </div>
     <div class="empty-queue-wrapper">
         <div class="queue">
-            <div class="queue-icon"><i class="material-icons">queue_music</i></div>
-            <p class="empty-message">Your queue is empty</p>
-            <p class="empty-submessage">Start a song, album, artist, or playlist to add songs to your queue</p>
+            <iframe id="ytplayer" width="420" height="236.25" src="https://www.youtube.com/embed/34Na4j8AVgA" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
 </div>

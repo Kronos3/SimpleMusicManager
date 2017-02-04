@@ -30,4 +30,11 @@ class YTSearchParser(HTMLParser):
     def handle_starttag(self, tag, attrs):
         for attr in attrs:
             if (attr[0] == 'class' and attr[1].find('yt-uix-tile-link') != -1):
-                self.search_finds.append(attrs[list(zip(*attrs))[0].index('href')][1])
+                buf = attrs[list(zip(*attrs))[0].index('href')][1]
+                if buf[1] == 'w': # Videos only
+                    if buf.find('&') != -1:
+                        a = buf[9:buf.find('&')]
+                    else:
+                        a = buf[9:]
+                    if a not in self.search_finds:
+                        self.search_finds.append(a)

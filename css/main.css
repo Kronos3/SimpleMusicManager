@@ -113,6 +113,7 @@ textarea, input, input:focus {
     max-width: 800px;
     width: 66%;
     height: 100%;
+    max-height: 64px;
     top: 0;
     left: 50%;
     transform: translateX(-50%) !important;
@@ -1253,17 +1254,20 @@ th.tbl-alb {
 }
 
 .mini-dialog-open {
-    height: 260px;
-    width: 732px;
+    height: 375px;
+    width: 620px;
     opacity: 1;
 }
 
-.mini-dialog-wrapper > .empty-queue-wrapper {
+.mini-dialog-wrapper > .empty-queue-wrapper,
+.mini-dialog-open > ytplayer-top {
     opacity: 0;
-    transition-delay: 0.1s;
+    transition: ease 0.2s all;
+    transition-delay: 0.3s;
 }
 
-.mini-dialog-open > .empty-queue-wrapper {
+.mini-dialog-open > .empty-queue-wrapper,
+.mini-dialog-open > .ytplayer-top {
     opacity: 1;
 }
 
@@ -1272,12 +1276,12 @@ th.tbl-alb {
 }
 
 .empty-queue-wrapper {
-    width: 300px;
-    height: 156px;
+    width: 460px;
+    /*min-height: 276.25px;
+    height: 90%;*/
+    padding: 20px;
     margin: 0 auto;
-    top: 50%;
     position: relative;
-    transform: translateY(-50%);
 }
 
 .queue {
@@ -1487,4 +1491,59 @@ th.tbl-alb {
 
 .queue-music-btn > i {
     font-size: 24px !important;
+}
+
+#ytdl-action {
+    padding: 12px;
+}
+
+#addtlib {
+    background-color: #E57373;
+    width: 100%;
+    margin-top: 15px;
+    left: 50%;
+    position: relative;
+    transform: translateX(-50%);
+}
+
+.ytplayer-top {
+    position:relative;
+    margin-bottom: 16px;
+    height: 64px;
+    width: 100%;
+    background-color: #E57373;
+    
+}
+
+#ytsearch {
+    position: absolute;
+}
+
+.ytsearch-wrapper {
+    margin: 6px 44px;
+    position: relative;
+}
+
+#ytback {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #E57373;
+    padding: 0;
+    top: 50%;
+    left: 22px;
+    position: absolute;
+    transform: translateY(-50%);
+}
+
+#ytdl {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #E57373;
+    padding: 0;
+    top: 50%;
+    right: 36px;
+    position: absolute;
+    transform: translateY(-50%);
 }
