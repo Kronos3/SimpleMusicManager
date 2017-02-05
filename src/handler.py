@@ -72,7 +72,8 @@ class postHandler (server.SimpleHTTPRequestHandler):
         self.end_headers()
     
     def do_INC (self): # Increment song playcount
-        MainRHandler.gmusic.gm_api_mob.increment_song_playcount (self.path[1:])
+        MainRHandler.gmusic.gm_library.increment_song (self.path[1:])
+        MainRHandler.gmusic.write_data ()
         self.send_response(200)
         self.end_headers()
     
@@ -123,6 +124,11 @@ class postHandler (server.SimpleHTTPRequestHandler):
         data = self.parse_post(self.data_string.decode("utf-8"))
         res = MainRHandler.r_get (self.path, data)
         self.send_response(res)
+        self.end_headers()
+    
+    def do_RELOAD (self):
+        MainRHandler.gmusic.write_data ()
+        self.send_response(200)
         self.end_headers()
     
     def do_UPLOAD (self):

@@ -970,3 +970,15 @@ function start_yt_load () {
 function end_yt_load () {
     $('#yt-load').css('display', 'none');
 }
+
+function hard_reload () {
+    start_load ();
+    $.ajax({
+        type: 'RELOAD',
+        url: '/',
+        success: function(data){
+            refresh();
+            end_load();
+        }
+    });
+}

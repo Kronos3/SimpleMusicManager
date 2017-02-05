@@ -63,7 +63,6 @@ def run(server_class=HTTPServer, handler_class=handler.postHandler, serve=True, 
     if (not os.path.exists ('data')):
         os.mkdir ('data')
     if gui:
-        print (sys.platform, platform.architecture()[0])
         if sys.platform == "linux" or sys.platform == "linux2":
             if platform.architecture()[0] == '64bit':
                 os.system ("./linux64-bin/electron . &")
@@ -74,7 +73,6 @@ def run(server_class=HTTPServer, handler_class=handler.postHandler, serve=True, 
             os.system ("open ./bin-mac64/Electron.app . &")
         elif sys.platform == "win32":
             if platform.architecture()[0] == '64bit':
-                print('64bit Windows system detected')
                 os.system ("START /B .\\bin-win64\\electron.exe .")
             elif platform.architecture()[0] == '32bit':
                 raise OSError('32-bit operating systems are not supported yet')
@@ -91,7 +89,6 @@ def main (argv):
         s = False
     if '--gui' in argv:
         g = True
-    print(g)
     run (serve=s, gui=g)
 
 if __name__ == "__main__":
