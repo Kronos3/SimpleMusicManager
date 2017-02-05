@@ -62,32 +62,36 @@ def run(server_class=HTTPServer, handler_class=handler.postHandler, serve=True, 
         handler.MainRHandler.is_logged_in = gmusic.load_oauth_login ()
     if (not os.path.exists ('data')):
         os.mkdir ('data')
-    print ("Started server on %s at port %s" % (cfg.ip, cfg.port))
     if gui:
+        print (sys.platform, platform.architecture()[0])
         if sys.platform == "linux" or sys.platform == "linux2":
             if platform.architecture()[0] == '64bit':
                 os.system ("./linux64-bin/electron . &")
-            if platform.architecture()[0] == '32bit':
+            elif platform.architecture()[0] == '32bit':
                 #os.system ("./linux32-bin/electron . &")
                 raise OSError('32-bit operating systems are not supported yet')
-        elif platform == "darwin":
+        elif sys.platform == "darwin":
             os.system ("open ./bin-mac64/Electron.app . &")
-        elif platform == "win32":
+        elif sys.platform == "win32":
             if platform.architecture()[0] == '64bit':
+                print('64bit Windows system detected')
                 os.system ("START /B .\\bin-win64\\electron.exe .")
-            if platform.architecture()[0] == '32bit':
+            elif platform.architecture()[0] == '32bit':
                 raise OSError('32-bit operating systems are not supported yet')
     if serve:
+        print ("Started server on %s at port %s" % (cfg.ip, cfg.port))
         httpd.serve_forever()
 
 def main (argv):
     os.chdir(cfg.root)
+    print (argv)
     s = True
     g = False
     if '--test' in argv:
         s = False
     if '--gui' in argv:
         g = True
+    print(g)
     run (serve=s, gui=g)
 
 if __name__ == "__main__":
