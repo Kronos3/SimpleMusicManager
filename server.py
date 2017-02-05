@@ -25,7 +25,7 @@
 
 import time
 start_time = time.time()
-import json, traceback, sys, os, platform
+import json, traceback, sys, os, platform, socketserver, socket
 from src import handler, gmusic
 from http.server import HTTPServer
 
@@ -49,8 +49,24 @@ class cfg:
 #    s.configure (cfg)
 #    s.serve_forever ()
 
+if sys.platform == "win32":
+    class HTTPMain (socketserver.ThreadingTCPServer):
+        allow_reuse_address = 1
+        def server_bind(self):
+            socketserver.TCPServer.server_bind(self)
+            host, port = self.server_address[:2]
+            self.server_name = socket.getfqdn(host)
+            self.server_port = port
+else:
+    class HTTPMain (socketserver.ForkingTCPServer):
+        allow_reuse_address = 1
+        def server_bind(self):
+            socketserver.TCPServer.server_bind(self)
+            host, port = self.server_address[:2]
+            self.server_name = socket.getfqdn(host)
+            self.server_port = port
 
-def run(server_class=HTTPServer, handler_class=handler.postHandler, serve=True, gui=False):
+def run(server_class=HTTPMain, handler_class=handler.postHandler, serve=True, gui=False):
     server_address = (cfg.ip, cfg.port)
     httpd = server_class(server_address, handler_class)
     if os.path.isfile('.token'):
