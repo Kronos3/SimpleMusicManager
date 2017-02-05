@@ -60,20 +60,23 @@ def run(server_class=HTTPServer, handler_class=handler.postHandler, serve=True, 
         if ret:
             gmusic.write_data ()
         handler.MainRHandler.is_logged_in = gmusic.load_oauth_login ()
+    if (not os.path.exists ('data')):
+        os.mkdir ('data')
     print ("Started server on %s at port %s" % (cfg.ip, cfg.port))
     if gui:
         if sys.platform == "linux" or sys.platform == "linux2":
             if platform.architecture()[0] == '64bit':
                 os.system ("./linux64-bin/electron . &")
             if platform.architecture()[0] == '32bit':
-                os.system ("./linux32-bin/electron . &")
+                #os.system ("./linux32-bin/electron . &")
+                raise OSError('32-bit operating systems are not supported yet')
         elif platform == "darwin":
-            os.system ("open ./darwin-bin/Electron.app . &")
+            os.system ("open ./bin-mac64/Electron.app . &")
         elif platform == "win32":
             if platform.architecture()[0] == '64bit':
-                os.spawnl(os.P_DETACH, './win64-bin/electron.exe .')
+                os.system ("START /B .\\bin-win64\\electron.exe .")
             if platform.architecture()[0] == '32bit':
-                os.spawnl(os.P_DETACH, './win32-bin/electron.exe .')
+                raise OSError('32-bit operating systems are not supported yet')
     if serve:
         httpd.serve_forever()
 

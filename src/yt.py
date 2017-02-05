@@ -59,4 +59,4 @@ class YTSearchParser(HTMLParser):
         for x in self.search_finds:
             buf = {}
             b = get_jsonparsed_data ('https://www.googleapis.com/youtube/v3/videos?id=' + x + '&key=AIzaSyAofmivOMlh5VmMl0_AoTeDgOm8FOwCBOc&fields=items(id,snippet(title,channelTitle,thumbnails(default)))&part=snippet')
-            buf['img'] = 
+            #buf['img'] = 
