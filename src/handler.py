@@ -125,6 +125,15 @@ class postHandler (server.SimpleHTTPRequestHandler):
         self.send_response(res)
         self.end_headers()
     
+    def do_UPLOAD (self):
+        stat = MainRHandler.gmusic.gm_api_man.upload (self.path)
+        MainRHandler.gmusic.write_data ()
+        if stat:
+            self.send_response (200)
+        else:
+            self.send_response (504)
+        self.end_headers
+    
     def do_SEARCHYT (self):
         buf = YTSearchParser ()
         if self.path[0] == '/':
