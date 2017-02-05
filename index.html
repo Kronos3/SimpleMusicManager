@@ -42,6 +42,7 @@
 <link rel="import" href="bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link href="bower_components/iron-icons/iron-icons.html" rel="import">
 <script src="js/jquery-2.1.1.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
@@ -181,19 +182,17 @@
 </div>
 <div class="mini-dialog-wrapper">
     <div class="ytplayer-top">
-        <a id="ytback" class="btn waves-effect waves-light"><i class="material-icons">keyboard_backspace</i></a>
+        <a id="ytback" onclick="ytback" class="btn waves-effect waves-light"><i class="material-icons">keyboard_backspace</i></a>
         <div class="top-search-wrapper">
             <div id="search-color" class="top-search-inner  lighten-3 red">
                 <i class="search-icon material-icons">search</i>
-                <input id="search" class="search" type="text" placeholder="Search">
+                <input id="ytsearch" class="search" type="text" placeholder="Search">
             </div>
         </div>
         <a id="ytdl" class="btn waves-effect waves-light"><i class="material-icons">cloud_download</i></a>
     </div>
-    <div class="empty-queue-wrapper">
-        <div class="queue">
-            <iframe id="ytplayer" width="420" height="236.25" src="https://www.youtube.com/embed/34Na4j8AVgA" frameborder="0" allowfullscreen></iframe>
-        </div>
+    <paper-spinner class="multi" id="yt-load" active></paper-spinner>
+    <div id="ytpl-wrapper">
     </div>
 </div>
 <div class="main-content" id="main" onscroll="scrolled()" onclick="$('.mini-dialog-wrapper').removeClass ('mini-dialog-open'); $(this).removeClass('queue-music-open');"></div>

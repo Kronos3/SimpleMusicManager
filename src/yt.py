@@ -25,8 +25,24 @@
 
 from html.parser import HTMLParser
 
+try:
+    # For Python 3+
+    from urllib.request import urlopen
+except ImportError:
+    # For Python 2
+    from urllib2 import urlopen
+
+import json
+
+def get_jsonparsed_data(url):
+    response = urlopen(url)
+    data = str(response.read())
+    return json.loads(data)
+
+
 class YTSearchParser(HTMLParser):
     search_finds = []
+    json_dumped = []
     def handle_starttag(self, tag, attrs):
         for attr in attrs:
             if (attr[0] == 'class' and attr[1].find('yt-uix-tile-link') != -1):
@@ -38,3 +54,9 @@ class YTSearchParser(HTMLParser):
                         a = buf[9:]
                     if a not in self.search_finds:
                         self.search_finds.append(a)
+
+    def parse_searches (self):
+        for x in self.search_finds:
+            buf = {}
+            b = get_jsonparsed_data ('https://www.googleapis.com/youtube/v3/videos?id=' + x + '&key=AIzaSyAofmivOMlh5VmMl0_AoTeDgOm8FOwCBOc&fields=items(id,snippet(title,channelTitle,thumbnails(default)))&part=snippet')
+            buf['img'] = 

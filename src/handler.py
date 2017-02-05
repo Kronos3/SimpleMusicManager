@@ -127,11 +127,15 @@ class postHandler (server.SimpleHTTPRequestHandler):
     
     def do_SEARCHYT (self):
         buf = YTSearchParser ()
+        if self.path[0] == '/':
+            self.path = self.path[1:]
         buf.feed (urllib.request.urlopen ("https://www.youtube.com/results?search_query=" + self.path).read().decode("utf-8"))
-        buf = buf.search_finds
+        bufs = buf.search_finds
+        buf.search_finds = []
         self.send_response(200)
         self.end_headers()
-        for u in buf:
+        print(len(bufs))
+        for u in bufs:
             self.wfile.write ((u + '\n').encode())
     
     def do_SHUTDOWN (self):

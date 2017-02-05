@@ -30,6 +30,11 @@ $(document).ready(function(){
     document.querySelector('#song-vol').addEventListener('change', function(e) {
         window.currentSong.playing.volume = (document.querySelector('#song-vol').value / 100);
     });
+    $('#ytsearch').keypress(function (e) {
+        if (e.which == 13) {
+            searchYT ($(this).val());
+        }
+    });
 });
 
 currentSong = new Object();
@@ -919,3 +924,49 @@ function check_oauth () {
 }
 
 check_oauth ();
+
+var ytsearchres = null;
+
+function searchYT (search) {
+    start_yt_load ();
+    $.ajax({
+        type: 'SEARCHYT',
+        url: encodeURI(search),
+        success: function(data){
+            s = data.split ('\n');
+            window.ytsearchres = {}
+            window.ytsearchres.videos = []
+            for (var i=0; i != 5; i++) {
+                if (i == 5) {
+                    
+                }
+                $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + s[i] + '&key=AIzaSyAofmivOMlh5VmMl0_AoTeDgOm8FOwCBOc&fields=items(id,snippet(title,channelTitle,thumbnails(default)))&part=snippet',function(p,status,xhr){
+                    var buf = {};
+                    if (p.items[0] != undefined) {
+                        buf.img = p.items[0].snippet.thumbnails.default.url
+                        buf.url = p.items[0].id;
+                        buf.title = p.items[0].snippet.title;
+                        buf.author = p.items[0].snippet.channelTitle;
+                        window.ytsearchres.videos.push (buf);
+                        buf = {};
+                    }
+                });
+            }
+        }
+    });
+}
+
+function ytback () {
+    /*ytpl-wrapper*/
+}
+
+var yt_load_b = null;
+
+function start_yt_load () {
+    $('#yt-load').css('display', 'block');
+    $('#ytpl-wrapper').html ('');
+}
+
+function end_yt_load () {
+    $('#yt-load').css('display', 'none');
+}
