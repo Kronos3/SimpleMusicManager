@@ -4,4 +4,4 @@ gmusicapi/* linguist-vendored
 css/* linguist-vendored
 css/main.css linguist-vendored=False
 bower_components/* linguist-vendored
-bin-* linguist-vendored
+bin-lin64 linguist-vendored
