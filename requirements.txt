@@ -1,4 +1,3 @@
 gmusicapi
 colorthief
 future
-pyinstaller

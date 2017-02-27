@@ -50,6 +50,11 @@
 <script type="text/javascript" src="js/materialize.min.js"></script>
 <script type="text/javascript" src="js/color-thief.min.js"></script>
 <script type="text/javascript" src="js/mustache.min.js"></script>
+<!--script type="text/javascript" src="js/top.js"></script>
+<script type="text/javascript" src="js/nav.js"></script>
+<script type="text/javascript" src="js/play.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/backend2.0.js"></script-->
 <script type="text/javascript" src="js/backend.js"></script>
 <link rel="stylesheet" href="css/main.css">
 </head>
@@ -88,11 +93,11 @@
     <input id="sign-in" class="sign-in-small" onclick="open_login()" type="submit" value="Sign In"> 
 </div>
 <div class="home-wrapper">
-    <paper-tabs class="home-tabs" selected="3" noink>
-        <paper-tab onclick="parse_albums(window.albums)">Albums</paper-tab>
-        <paper-tab onclick="parse_artists (window.artists)">Artists</paper-tab>
-        <paper-tab onclick="parse_playlists (window.playlists)">Playlists</paper-tab>
-        <paper-tab onclick="parse_songs (window.songs)">Songs</paper-tab>
+    <paper-tabs class="home-tabs" selected="0" noink>
+        <paper-tab onclick="dis_0()">Albums</paper-tab>
+        <paper-tab onclick="dis_1()">Artists</paper-tab>
+        <paper-tab onclick="dis_2()">Playlists</paper-tab>
+        <paper-tab onclick="dis_3()">Songs</paper-tab>
     </paper-tabs>
 </div>
 <div class="loader">
@@ -195,7 +200,14 @@
     <div id="ytpl-wrapper">
     </div>
 </div>
-<div class="main-content" id="main" onscroll="scrolled()" onclick="$('.mini-dialog-wrapper').removeClass ('mini-dialog-open'); $(this).removeClass('queue-music-open');"></div>
+
+<div class="main-content" id="main">
+    <div id="albums"></div>
+    <div id="artists"></div>
+    <div id="playlists"></div>
+    <div id="songs"></div>
+</div>
+
 <div class="card-panel control-bar">
     <paper-slider id="song-time" style="display:none" value="0" secondary-progress="0"></paper-slider>
     <div id="song-info-template"></div>

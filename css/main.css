@@ -421,8 +421,21 @@ body {
     position: relative;
     height: calc(100% - 202px);
     margin: 0;
-    overflow: auto;
+    width: 400vw;
+    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
     background-repeat: no-repeat;
+    transform: translateX(0);
+    transition: transform ease-in-out 0.3s;
+}
+
+.main-content > * {
+    position: relative;
+    display: inline-block;
+    width: 100vw;
+    overflow-y: auto;
+    height: 100%;
 }
 
 #content-wrapper {

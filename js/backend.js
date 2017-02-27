@@ -270,14 +270,16 @@ function refresh () {
         dataType: "text",
         success: function(resultData) { 
             $.getJSON( "data/library.json", function( json ) {
-                parse_songs(json);
                 window.songs = json;
+                parse_songs(window.songs);
             });
             $.getJSON( "data/albums.json", function( json ) {
                 window.albums = json
+                parse_albums(window.albums);
             });
             $.getJSON( "data/artists.json", function( json ) {
                 window.artists = json
+                parse_artists(window.artists);
             });
             $.getJSON( "data/playlists.json", function( json ) {
                 window.playlists = json
@@ -287,6 +289,7 @@ function refresh () {
                 $('.playlist-item').click (function () {
                     $('#playlist-drop-btn').text ($(this).text());
                 });
+                parse_playlists(window.playlists);
             });
         }
     });
@@ -419,11 +422,12 @@ function goto_artist (artist) {
     switch_top ("clear", artist.artimg);
 }
 
+
 function parse_albums (struct) {
     $.get('templates/albums.mst', function(template) {
         var rendered = Mustache.render(template, struct);
-        $('#main').html(rendered);
-        $("#main").animate({
+        $('#albums').html(rendered);
+        $("#albums").animate({
                 scrollTop: 0
             }, 0);
     });
@@ -434,8 +438,8 @@ function parse_albums (struct) {
 function parse_playlists (struct) {
     $.get('templates/playlists.mst', function(template) {
         var rendered = Mustache.render(template, struct);
-        $('#main').html(rendered);
-        $("#main").animate({
+        $('#playlists').html(rendered);
+        $("#playlists").animate({
                 scrollTop: 0
             }, 0);
     });
@@ -446,8 +450,8 @@ function parse_playlists (struct) {
 function parse_artists (struct) {
     $.get('templates/artists.mst', function(template) {
         var rendered = Mustache.render(template, struct);
-        $('#main').html(rendered);
-        $("#main").animate({
+        $('#artists').html(rendered);
+        $("#artists").animate({
                 scrollTop: 0
             }, 0);
     });
@@ -463,8 +467,8 @@ $(document).ready(function(){
 function parse_songs (struct) {
     $.get('templates/songs.mst', function(template) {
         var rendered = Mustache.render(template, struct);
-        $('#main').html(rendered);
-        $("#main").animate({
+        $('#songs').html(rendered);
+        $("#songs").animate({
                 scrollTop: 0
             }, 0);
         $('.song-row').contextmenu(function(event) {
@@ -981,4 +985,20 @@ function hard_reload () {
             end_load();
         }
     });
+}
+
+function dis_0 () {
+    $('.main-content').css ('transform', 'translateX(-0)');
+}
+
+function dis_1 () {
+    $('.main-content').css ('transform', 'translateX(-100vw)');
+}
+
+function dis_2 () {
+    $('.main-content').css ('transform', 'translateX(-200vw)');
+}
+
+function dis_3 () {
+    $('.main-content').css ('transform', 'translateX(-300vw)');
 }

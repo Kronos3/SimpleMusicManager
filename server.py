@@ -81,7 +81,7 @@ def run(server_class=HTTPMain, handler_class=handler.postHandler, serve=True, gu
     if gui:
         if sys.platform == "linux" or sys.platform == "linux2":
             if platform.architecture()[0] == '64bit':
-                os.system ("./linux64-bin/electron . &")
+                os.system ("./bin-lin64/electron . &")
             elif platform.architecture()[0] == '32bit':
                 #os.system ("./linux32-bin/electron . &")
                 raise OSError('32-bit operating systems are not supported yet')
@@ -98,7 +98,6 @@ def run(server_class=HTTPMain, handler_class=handler.postHandler, serve=True, gu
 
 def main (argv):
     os.chdir(cfg.root)
-    print (argv)
     s = True
     g = False
     if '--test' in argv:
