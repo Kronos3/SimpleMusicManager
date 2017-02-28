@@ -346,13 +346,13 @@ function switch_top (t, artist_img) {
 in_songs = false
 
 function scrolled () {
-    if ($(".album").position() == undefined || window.in_songs) {
+    if ($(".other-buff > .album").position() == undefined || window.in_songs) {
         return;
     }
-    var elmnt = document.getElementById("main");
+    var elmnt = document.querySelector(".other-buff");
     var x = elmnt.scrollLeft;
     var y = elmnt.scrollTop;
-    if (y >= ($(".album").position().top)*2) {
+    if (y >= ($(".other-buff > .album").position().top)) {
         switch_top('red', '');
     }
     else if (y == (elmnt.scrollHeight - elmnt.offsetHeight)) {
@@ -366,9 +366,11 @@ function scrolled () {
 function goto_album (album) {
     $.get('templates/album.mst', function(template) {
         var rendered = Mustache.render(template, album);
-        $('#main').html(rendered);
+        $('.other-buff').html(rendered);
+        $('.other-buff').css ('display', 'block');
+        $('.topcontent-wrapper').css ('display', 'none');
         /*document.getElementById('al').scrollIntoView();*/
-        $("#main").scrollTop($("#al").position().top);
+        $(".other-buff").scrollTop($("#al").position().top);
         $('.song-row').contextmenu(function(event) {
             max_top = $(window).height() - 90 - 230;
             if (event.pageY > max_top) {
@@ -396,8 +398,10 @@ function goto_album (album) {
 function goto_artist (artist) {
     $.get('templates/artist.mst', function(template) {
         var rendered = Mustache.render(template, artist);
-        $('#main').html(rendered);
-        $("#main").scrollTop($("#al").position().top);
+        $('.other-buff').html(rendered);
+        $('.other-buff').css ('display', 'block');
+        $('.topcontent-wrapper').css ('display', 'none');
+        $(".other-buff").scrollTop($("#al").position().top);
         $('.song-row').contextmenu(function(event) {
             max_top = $(window).height() - 90 - 230;
             if (event.pageY > max_top) {
@@ -499,8 +503,8 @@ function parse_songs (struct) {
 function parse_playlist (struct) {
     $.get('templates/playlist.mst', function(template) {
         var rendered = Mustache.render(template, struct);
-        $('#main').html(rendered);
-        $("#main").animate({
+        $('#playlists').html(rendered);
+        $("#playlists").animate({
                 scrollTop: 0
             }, 0);
         $('.song-row').contextmenu(function(event) {
@@ -687,7 +691,7 @@ function next_song () {
     if ($(window.currentSong.songDiv).parent().parent().parent().hasClass('artist-album')) {
         b = []
         for (var x = 0; x != window.currentSong.songDiv.parent().parent().parent().parent().children('.artist-album').length; x++) {
-            b.push($($('#main').children('#al').children('.artist-album')[x]).children('.song-wrapper').children('tbody').children ('.song-row'));
+            b.push($($('#artists').children('#al').children('.artist-album')[x]).children('.song-wrapper').children('tbody').children ('.song-row'));
         }
         t = ar_find(window.currentSong.songDiv, b);
         if (window.n_repeat == 0) {
@@ -988,17 +992,29 @@ function hard_reload () {
 }
 
 function dis_0 () {
-    $('.main-content').css ('transform', 'translateX(-0)');
+    $('.topcontent-wrapper').css ('transform', 'translateX(-0)');
+    $('.other-buff').css ('display', 'none');
+    $('.topcontent-wrapper').css ('display', 'flex');
+    switch_top ('red', 'none');
 }
 
 function dis_1 () {
-    $('.main-content').css ('transform', 'translateX(-100vw)');
+    $('.topcontent-wrapper').css ('transform', 'translateX(-100vw)');
+    $('.other-buff').css ('display', 'none');
+    $('.topcontent-wrapper').css ('display', 'flex');
+    switch_top ('red', 'none');
 }
 
 function dis_2 () {
-    $('.main-content').css ('transform', 'translateX(-200vw)');
+    $('.topcontent-wrapper').css ('transform', 'translateX(-200vw)');
+    $('.other-buff').css ('display', 'none');
+    $('.topcontent-wrapper').css ('display', 'flex');
+    switch_top ('red', 'none');
 }
 
 function dis_3 () {
-    $('.main-content').css ('transform', 'translateX(-300vw)');
+    $('.topcontent-wrapper').css ('transform', 'translateX(-300vw)');
+    $('.other-buff').css ('display', 'none');
+    $('.topcontent-wrapper').css ('display', 'flex');
+    switch_top ('red', 'none');
 }

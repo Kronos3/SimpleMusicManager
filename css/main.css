@@ -421,21 +421,32 @@ body {
     position: relative;
     height: calc(100% - 202px);
     margin: 0;
-    width: 400vw;
-    display: flex;
-    overflow-y: auto;
-    overflow-x: hidden;
+    width: 100%;
     background-repeat: no-repeat;
+}
+
+.topcontent-wrapper {
+    width: 400vw;
     transform: translateX(0);
+    display: flex;
+    overflow-x: hidden;
+    height: 100%;
     transition: transform ease-in-out 0.3s;
 }
 
-.main-content > * {
+.other-buff {
+    width: 100vw;
+    overflow-x: hidden;
+    height: 100%;
+    overflow-y: auto;
+    display: none;
+}
+
+.inline-content {
     position: relative;
     display: inline-block;
     width: 100vw;
     overflow-y: auto;
-    height: 100%;
 }
 
 #content-wrapper {
