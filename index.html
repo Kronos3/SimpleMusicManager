@@ -187,17 +187,23 @@
 </div>
 <div class="mini-dialog-wrapper">
     <div class="ytplayer-top">
-        <a id="ytback" onclick="ytback" class="btn waves-effect waves-light"><i class="material-icons">keyboard_backspace</i></a>
+        <a id="ytback" onclick="ytback()" class="btn waves-effect waves-light"><i class="material-icons">keyboard_backspace</i></a>
         <div class="top-search-wrapper">
             <div id="search-color" class="top-search-inner  lighten-3 red">
                 <i class="search-icon material-icons">search</i>
                 <input id="ytsearch" class="search" type="text" placeholder="Search">
             </div>
         </div>
-        <a id="ytdl" class="btn waves-effect waves-light"><i class="material-icons">cloud_download</i></a>
+        <a id="ytdl" onclick="ytdl()" class="btn waves-effect waves-light"><i class="material-icons">cloud_download</i></a>
     </div>
     <paper-spinner class="multi" id="yt-load" active></paper-spinner>
     <div id="ytpl-wrapper">
+        <div id="ytpl-inner">
+            <div id="ytpl-list"></div>
+            <div id="ytpl-video">
+                <iframe width="620" height="350" src="" id="yt-vid"></iframe>
+            </div>
+        </div>
     </div>
 </div>
 

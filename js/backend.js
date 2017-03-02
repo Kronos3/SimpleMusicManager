@@ -503,8 +503,11 @@ function parse_songs (struct) {
 function parse_playlist (struct) {
     $.get('templates/playlist.mst', function(template) {
         var rendered = Mustache.render(template, struct);
-        $('#playlists').html(rendered);
-        $("#playlists").animate({
+        $('.other-buff').html(rendered);
+        $('.other-buff').css ('display', 'block');
+        $('.topcontent-wrapper').css ('display', 'none');
+        $(".other-buff").scrollTop($("#al").position().top);
+        $(".other-buff").animate({
                 scrollTop: 0
             }, 0);
         $('.song-row').contextmenu(function(event) {
@@ -944,12 +947,10 @@ function searchYT (search) {
             s = data.split ('\n');
             window.ytsearchres = {}
             window.ytsearchres.videos = []
-            for (var i=0; i != 5; i++) {
-                if (i == 5) {
-                    
-                }
+            for (var i=0; i != s.length; i++) {
                 $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + s[i] + '&key=AIzaSyAofmivOMlh5VmMl0_AoTeDgOm8FOwCBOc&fields=items(id,snippet(title,channelTitle,thumbnails(default)))&part=snippet',function(p,status,xhr){
                     var buf = {};
+                    console.log ('https://www.googleapis.com/youtube/v3/videos?id=' + s[i] + '&key=AIzaSyAofmivOMlh5VmMl0_AoTeDgOm8FOwCBOc&fields=items(id,snippet(title,channelTitle,thumbnails(default)))&part=snippet');
                     if (p.items[0] != undefined) {
                         buf.img = p.items[0].snippet.thumbnails.default.url
                         buf.url = p.items[0].id;
@@ -957,22 +958,42 @@ function searchYT (search) {
                         buf.author = p.items[0].snippet.channelTitle;
                         window.ytsearchres.videos.push (buf);
                         buf = {};
+                        ytsearch_parse (window.ytsearchres);
                     }
                 });
             }
+            end_yt_load ();
         }
     });
 }
 
+function ytsearch_parse (struct) {
+    $.get('templates/ytsearch.mst', function(template) {
+        var rendered = Mustache.render(template, struct);
+        $('#ytpl-list').html(rendered);
+        $("#ytpl-list").animate({
+                scrollTop: 0
+            }, 0);
+    });
+}
+
+function load_yt (url) {
+    document.getElementById ('yt-vid').src = "https://www.youtube.com/embed/" + url;
+    $('#ytpl-inner').css('transform', 'translateX(-620px)');
+}
+
+function ytdl () {
+    document.getElementById ('yt-vid').src
+}
+
 function ytback () {
-    /*ytpl-wrapper*/
+    $('#ytpl-inner').css('transform', 'translateX(0)');
 }
 
 var yt_load_b = null;
 
 function start_yt_load () {
     $('#yt-load').css('display', 'block');
-    $('#ytpl-wrapper').html ('');
 }
 
 function end_yt_load () {

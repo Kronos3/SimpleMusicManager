@@ -1553,6 +1553,27 @@ th.tbl-alb {
     position: relative;
     width: 100%;
     height: calc(100% - 64px);
+    overflow: hidden;
+    display: block;
+}
+
+#ytpl-inner {
+    display: flex;
+    transform: translateX(0);
+    width: 200%;
+    height: 100%;
+}
+
+#ytpl-list, 
+#ytpl-video {
+    position: relative;
+    display: inline-block;
+    width: 620px;
+    height: 100%;
+}
+
+#yt-vid {
+    border: none;
 }
 
 #ytback {
