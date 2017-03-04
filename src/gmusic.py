@@ -149,22 +149,36 @@ def safe_open_w(path):
     return open(path, 'wb')
 
 def img_gen_cache_https (url):
-    if os.path.getsize ('.cache/' + url) == 0:
-        os.remove ('.cache/' + url)
-    if not os.path.isfile('.cache/'+url):
-        with safe_open_w('.cache/'+url) as f:
-            url_buff = urllib.request.urlopen('https://'+url)
-            f.write(url_buff.read())
-            f.close()
+    try:
+        if os.path.getsize ('.cache/' + url) == 0:
+            os.remove ('.cache/' + url)
+        if not os.path.isfile('.cache/'+url):
+            with safe_open_w('.cache/'+url) as f:
+                url_buff = urllib.request.urlopen('https://'+url)
+                f.write(url_buff.read())
+                f.close()
+    except FileNotFoundError:
+        if not os.path.isfile('.cache/'+url):
+            with safe_open_w('.cache/'+url) as f:
+                url_buff = urllib.request.urlopen('https://'+url)
+                f.write(url_buff.read())
+                f.close()
 
 def img_gen_cache_http (url):
-    if os.path.getsize ('.cache/' + url) == 0:
-        os.remove ('.cache/' + url)
-    if not os.path.isfile('.cache/'+url):
-        with safe_open_w('.cache/'+url) as f:
-            url_buff = urllib.request.urlopen('http://'+url)
-            f.write(url_buff.read())
-            f.close()
+    try:
+        if os.path.getsize ('.cache/' + url) == 0:
+            os.remove ('.cache/' + url)
+        if not os.path.isfile('.cache/'+url):
+            with safe_open_w('.cache/'+url) as f:
+                url_buff = urllib.request.urlopen('http://'+url)
+                f.write(url_buff.read())
+                f.close()
+    except FileNotFoundError:
+        if not os.path.isfile('.cache/'+url):
+            with safe_open_w('.cache/'+url) as f:
+                url_buff = urllib.request.urlopen('http://'+url)
+                f.write(url_buff.read())
+                f.close()
 
 def write_img_cache (_in):
     for x in list(find_all(_in, "https://")):

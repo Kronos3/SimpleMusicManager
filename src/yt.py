@@ -22,8 +22,9 @@
 #  
 #  
 
-
+from __future__ import unicode_literals
 from html.parser import HTMLParser
+from youtube_dl import YoutubeDL
 
 try:
     # For Python 3+
@@ -60,3 +61,6 @@ class YTSearchParser(HTMLParser):
             buf = {}
             b = get_jsonparsed_data ('https://www.googleapis.com/youtube/v3/videos?id=' + x + '&key=AIzaSyAofmivOMlh5VmMl0_AoTeDgOm8FOwCBOc&fields=items(id,snippet(title,channelTitle,thumbnails(default)))&part=snippet')
             #buf['img'] = 
+
+class YTDL (YoutubeDL):
+    

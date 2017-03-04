@@ -25,6 +25,7 @@
 import json
 import datetime
 from . import gmusic
+import os.path
 
 false = False
 true = True
@@ -201,7 +202,6 @@ class Library:
     
     def increment_song (self, _id):
         gmusic.gm_api_mob.increment_song_playcount (_id)
-        
     
     def rm_song (self, _id):
         gmusic.gm_api_mob.delete_songs(_id)
@@ -262,3 +262,39 @@ class Song:
             r += "\"%s\": %s," % (x, eval("self.%s" % x))
         r += '}'
         return eval(r)
+
+class SongLib:
+    def __init__ (self, metasong):
+        self.metasong = metasong
+        self.artist = self.metasong.albumArtist
+        self.id = self.metasong.id
+        self.is_cached = False
+    
+    def create_cache (self):
+        raw_audio = gmusic.download_song(self.id)[1]
+        with open ('../library/' + self.id, 'wb') as f:
+            f.write (raw_audio)
+    
+    def get_cached (self):
+        if (os.path.isfile('../library/' + self.id)):
+            return True
+        else:
+            return False
+
+class Lib:
+    def __init__ (self, metalib):
+        self.metalib = metalib
+        self.songs = []
+        self.ids = {}
+        for i, song in enumerate(self.metalib.songs):
+            self.songs.append (SongLib(song))
+            self.ids[self.metalib.songs[i].id] = i
+    
+    def dl_lib (self, index, isId=False): # If isId is false then the song index will be cached
+        _id = None
+        if (not isId):
+            _id = self.metalib.songs[index].id
+        else:
+            _id = index
+        if (not self.ids[_id].get_cached()):
+            self.ids[_id].create_cache()
