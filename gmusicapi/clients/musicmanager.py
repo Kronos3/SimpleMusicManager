@@ -48,7 +48,6 @@ class Musicmanager(_Base):
     """
 
     _session_class = session.Musicmanager
-
     def get_login_url (self):
         self.__flow = OAuth2WebServerFlow(*musicmanager.oauth)
         return self.__flow.step1_get_authorize_url()
@@ -63,7 +62,7 @@ class Musicmanager(_Base):
             storage.put(credentials)
 
         return credentials
-    
+
     @staticmethod
     def perform_oauth(storage_filepath=OAUTH_FILEPATH, open_browser=False):
         """Provides a series of prompts for a user to follow to authenticate.

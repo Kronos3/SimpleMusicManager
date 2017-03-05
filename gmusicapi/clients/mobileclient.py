@@ -11,7 +11,7 @@ from uuid import getnode as getmac
 
 from gmusicapi import session
 from gmusicapi.clients.shared import _Base
-from gmusicapi.exceptions import CallFailure, NotSubscribed
+from gmusicapi.exceptions import CallFailure, NotSubscribed, InvalidDeviceId
 from gmusicapi.protocol import mobileclient
 from gmusicapi.utils import utils
 
@@ -42,6 +42,20 @@ class Mobileclient(_Base):
             device_id = str(int(device_id, 16))
 
         return device_id
+
+    def _validate_device_id(self, device_id, is_mac=False):
+        """Ensure that a given device_id belongs to the user supplying it."""
+        if is_mac:  # Always allow logins with MAC address.
+            return device_id
+        devices = [
+            d['id'][2:] if d['id'].startswith('0x') else d['id'].replace(':', '')
+            for d in self.get_registered_devices()
+        ]
+        if device_id in devices:
+            return device_id
+        else:
+            self.logout()
+            raise InvalidDeviceId('Invalid device_id %s.' % device_id, devices)
 
     @property
     def locale(self):
@@ -109,21 +123,24 @@ class Mobileclient(_Base):
         if android_id is None:
             raise ValueError("android_id cannot be None.")
 
-        if android_id is self.FROM_MAC_ADDRESS:
+        is_mac = android_id is self.FROM_MAC_ADDRESS
+        if is_mac:
             mac_int = getmac()
             if (mac_int >> 40) % 2:
                 raise OSError("a valid MAC could not be determined."
                               " Provide an android_id (and be"
                               " sure to provide the same one on future runs).")
 
-            android_id = utils.create_mac_string(mac_int)
-            android_id = android_id.replace(':', '')
+            device_id = utils.create_mac_string(mac_int)
+            device_id = device_id.replace(':', '')
+        else:
+            device_id = android_id
 
-        if not self.session.login(email, password, android_id):
+        if not self.session.login(email, password, device_id):
             self.logger.info("failed to authenticate")
             return False
 
-        self.android_id = android_id
+        self.android_id = self._validate_device_id(device_id, is_mac=is_mac)
         self.logger.info("authenticated")
 
         self.locale = locale
@@ -135,7 +152,7 @@ class Mobileclient(_Base):
 
     # TODO expose max/page-results, updated_after, etc for list operations
 
-    def get_all_songs(self, incremental=False, include_deleted=False):
+    def get_all_songs(self, incremental=False, include_deleted=None):
         """Returns a list of dictionaries that each represent a song.
 
         :param incremental: if True, return a generator that yields lists
@@ -143,8 +160,7 @@ class Mobileclient(_Base):
           as they are retrieved from the server. This can be useful for
           presenting a loading bar to a user.
 
-        :param include_deleted: if True, include tracks that have been deleted
-          in the past.
+        :param include_deleted: ignored. Will be removed in a future release.
 
         Here is an example song dictionary::
 
@@ -193,7 +209,7 @@ class Mobileclient(_Base):
 
         """
 
-        tracks = self._get_all_items(mobileclient.ListTracks, incremental, include_deleted)
+        tracks = self._get_all_items(mobileclient.ListTracks, incremental)
 
         return tracks
 
@@ -371,15 +387,14 @@ class Mobileclient(_Base):
 
         return self._make_call(mobileclient.GetStreamUrl, song_id, device_id, quality)
 
-    def get_all_playlists(self, incremental=False, include_deleted=False):
+    def get_all_playlists(self, incremental=False, include_deleted=None):
         """Returns a list of dictionaries that each represent a playlist.
 
         :param incremental: if True, return a generator that yields lists
           of at most 1000 playlists
           as they are retrieved from the server. This can be useful for
           presenting a loading bar to a user.
-        :param include_deleted: if True, include playlists that have been deleted
-          in the past.
+        :param include_deleted: ignored. Will be removed in a future release.
 
         Here is an example playlist dictionary::
 
@@ -401,7 +416,7 @@ class Mobileclient(_Base):
             }
         """
 
-        playlists = self._get_all_items(mobileclient.ListPlaylists, incremental, include_deleted)
+        playlists = self._get_all_items(mobileclient.ListPlaylists, incremental)
 
         return playlists
 
@@ -483,7 +498,7 @@ class Mobileclient(_Base):
         with the addition of a ``'tracks'`` key in each dict
         set to a list of properly-ordered playlist entry dicts.
 
-        Here is an example playlist entry::
+        Here is an example playlist entry for an individual track::
 
           {
               'kind': 'sj#playlistEntry',
@@ -492,10 +507,29 @@ class Mobileclient(_Base):
               'lastModifiedTimestamp': '1325285553655027',
               'playlistId': '3d72c9b5-baad-4ff7-815d-cdef717e5d61',
               'absolutePosition': '01729382256910287871',  # denotes playlist ordering
-              'source': '1',  # ??
+              'source': '1',  # '2' if hosted on Google Music, '1' otherwise (see below)
               'creationTimestamp': '1325285553655027',
-              'id': 'c9f1aff5-f93d-4b98-b13a-429cc7972fea'
+              'id': 'c9f1aff5-f93d-4b98-b13a-429cc7972fea' ## see below
           }
+
+        If a user uploads local music to Google Music using the Music Manager,
+        Google will attempt to match each uploaded track to a track already
+        hosted on its servers. If a match is found for a track, the playlist
+        entry key ``'source'`` has the value ``'2'``, and the entry will have a
+        key ``'track'`` with a value that is a dict of track metadata (title,
+        artist, etc).
+
+        If a track is not hosted on Google Music, then the playlist entry key
+        ``'source'`` has the value ``'1'``, and may not have a ``'track'``
+        key (e.g., for an MP3 without ID3 tags). In this case, the key ``'trackId'``
+        corresponds to the column ``ServerId`` in the table ``XFILES`` in Music
+        Manager's local SQLite database (stored, e.g., at
+        ~/Library/Application\ Support/Google/MusicManager/ServerDatabase.db
+        on OS X). Among other things, the SQLite database exposes the track's
+        local file path, and Music Manager's imputed metadata.
+
+        (Note that the above behavior is documented for the Music Manager set to
+        sync from local Folders, and may differ if it instead syncs from iTunes.)
         """
 
         user_playlists = [p for p in self.get_all_playlists()
@@ -504,7 +538,7 @@ class Mobileclient(_Base):
                               'type' not in p)]
 
         all_entries = self._get_all_items(mobileclient.ListPlaylistEntries,
-                                          incremental=False, include_deleted=False,
+                                          incremental=False,
                                           updated_after=None)
 
         for playlist in user_playlists:
@@ -789,7 +823,7 @@ class Mobileclient(_Base):
         """
 
         return self._get_all_items(mobileclient.ListPromotedTracks,
-                                   incremental=False, include_deleted=False,
+                                   incremental=False,
                                    updated_after=None)
 
     def get_listen_now_items(self):
@@ -1082,7 +1116,7 @@ class Mobileclient(_Base):
         return res.get('series', [])
 
     def get_all_podcast_series(self, device_id=None, incremental=False,
-                               include_deleted=False, updated_after=None):
+                               include_deleted=None, updated_after=None):
         """Retrieve list of user-subscribed podcast series.
 
         :param device_id: (optional) defaults to ``android_id`` from login.
@@ -1108,8 +1142,7 @@ class Mobileclient(_Base):
           as they are retrieved from the server. This can be useful for
           presenting a loading bar to a user.
 
-        :param include_deleted: if True, include podcast series that have been deleted
-          in the past.
+        :param include_deleted: ignored. Will be removed in a future release.
 
         :param updated_after: a datetime.datetime; defaults to unix epoch
 
@@ -1153,11 +1186,11 @@ class Mobileclient(_Base):
         device_id = self._ensure_device_id(device_id)
 
         return self._get_all_items(mobileclient.ListPodcastSeries, incremental=incremental,
-                                   include_deleted=include_deleted, updated_after=updated_after,
+                                   updated_after=updated_after,
                                    device_id=device_id)
 
     def get_all_podcast_episodes(self, device_id=None, incremental=False,
-                                 include_deleted=False, updated_after=None):
+                                 include_deleted=None, updated_after=None):
         """Retrieve list of episodes from user-subscribed podcast series.
 
         :param device_id: (optional) defaults to ``android_id`` from login.
@@ -1183,8 +1216,7 @@ class Mobileclient(_Base):
           as they are retrieved from the server. This can be useful for
           presenting a loading bar to a user.
 
-        :param include_deleted: if True, include podcast episodes that have been deleted
-          in the past.
+        :param include_deleted: ignored. Will be removed in a future release.
 
         :param updated_after: a datetime.datetime; defaults to unix epoch
 
@@ -1220,7 +1252,7 @@ class Mobileclient(_Base):
         device_id = self._ensure_device_id(device_id)
 
         return self._get_all_items(mobileclient.ListPodcastEpisodes, incremental=incremental,
-                                   include_deleted=include_deleted, updated_after=updated_after,
+                                   updated_after=updated_after,
                                    device_id=device_id)
 
     # TODO: Support multiple.
@@ -1525,7 +1557,7 @@ class Mobileclient(_Base):
 
         return [s['id'] for s in res['mutate_response']]
 
-    def get_all_stations(self, incremental=False, include_deleted=False, updated_after=None):
+    def get_all_stations(self, incremental=False, include_deleted=None, updated_after=None):
         """Retrieve all library stations.
 
         Returns a list of dictionaries that each represent a radio station.
@@ -1534,8 +1566,7 @@ class Mobileclient(_Base):
           of at most 1000 stations
           as they are retrieved from the server. This can be useful for
           presenting a loading bar to a user.
-        :param include_deleted: if True, include stations that have been deleted
-          in the past.
+        :param include_deleted: ignored. Will be removed in a future release.
         :param updated_after: a datetime.datetime; defaults to unix epoch
 
         Here is an example station dictionary::
@@ -1558,7 +1589,7 @@ class Mobileclient(_Base):
                 'id': '69f1bfce-308a-313e-9ed2-e50abe33a25d'
             },
         """
-        return self._get_all_items(mobileclient.ListStations, incremental, include_deleted,
+        return self._get_all_items(mobileclient.ListStations, incremental,
                                    updated_after=updated_after)
 
     def get_station_tracks(self, station_id, num_tracks=25, recently_played_ids=None):
@@ -1894,11 +1925,10 @@ class Mobileclient(_Base):
                               artist_id, include_albums, max_top_tracks, max_rel_artist)
         return res
 
-    def _get_all_items(self, call, incremental, include_deleted, **kwargs):
+    def _get_all_items(self, call, incremental, **kwargs):
         """
         :param call: protocol.McCall
         :param incremental: bool
-        :param include_deleted: bool
 
         kwargs are passed to the call.
         """
@@ -1906,13 +1936,13 @@ class Mobileclient(_Base):
             # slight optimization: get more items in a page
             kwargs.setdefault('max_results', 20000)
 
-        generator = self._get_all_items_incremental(call, include_deleted, **kwargs)
+        generator = self._get_all_items_incremental(call, **kwargs)
         if incremental:
             return generator
 
         return [s for chunk in generator for s in chunk]
 
-    def _get_all_items_incremental(self, call, include_deleted, **kwargs):
+    def _get_all_items_incremental(self, call, **kwargs):
         """Return a generator of lists of tracks.
 
         kwargs are passed to the call."""
@@ -1926,17 +1956,14 @@ class Mobileclient(_Base):
                                         start_token=next_page_token,
                                         **kwargs)
 
-            if not include_deleted:
-                items = []
+            items = []
 
-                for item in lib_chunk['data']['items']:
-                    if 'userPreferences' in item:
-                        if item['userPreferences'].get('subscribed', False):
-                            items.append(item)
-                    elif not item.get('deleted', False):
+            for item in lib_chunk['data']['items']:
+                if 'userPreferences' in item:
+                    if item['userPreferences'].get('subscribed', False):
                         items.append(item)
-            else:
-                items = lib_chunk['data']['items']
+                elif not item.get('deleted', False):
+                    items.append(item)
 
             # Conditional prevents generator from yielding empty
             # list for last page of podcast list calls.

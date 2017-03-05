@@ -41,12 +41,12 @@ TEST_STORE_GENRE_ID = 'METAL'
 
 # that dumb little intro track on Conspiracy of One,
 # picked since it's only a few seconds long
-TEST_STORE_SONG_ID = 'Tqqufr34tuqojlvkolsrwdwx7pe'
+TEST_STORE_SONG_ID = 'Tf3pxtcrp2tw7i6kdxzueoz7uia'
 
 # used for testing streaming.
 # differences between clients are presumably from stream quality.
 TEST_STORE_SONG_WC_HASH = 'c3302fe6bd54ce9b310f92da1904f3b9'
-TEST_STORE_SONG_MC_HASH = '815c49d3e49eea675d198a2e00aa4c40'
+TEST_STORE_SONG_MC_HASH = '2c05e96d8dd86caa62c2eb3f728a78a8'
 
 # The Nerdist.
 TEST_PODCAST_SERIES_ID = 'Iliyrhelw74vdqrro77kq2vrdhy'
@@ -237,22 +237,6 @@ class ClientTests(object):
         assert_equal([e for chunk in lib_chunk_gen for e in chunk],
                      method(incremental=False, **kwargs))
 
-    @staticmethod
-    @retry
-    def assert_listing_contains_deleted_items(method):
-        """
-        Assert that some listing method includes deleted tracks.
-
-        :param method: eg self.mc.get_all_songs
-        """
-        lib = method(incremental=False, include_deleted=True)
-
-        # how long do deleted tracks get returned for?
-        # will this return tracks I've deleted since...ever?
-
-        num_deleted = len([t for t in lib if t['deleted']])
-        assert_true(num_deleted > 0)
-
     @test
     def song_create(self):
         # This can create more than one song: one through uploading, one through
@@ -350,7 +334,6 @@ class ClientTests(object):
             assert_equal(len(found), 0)
 
         assert_plentries_removed(self.playlist_ids[0], self.plentry_ids)
-        # self.assert_listing_contains_deleted_items(self.mc_get_playlist_songs)
 
     @test(groups=['playlist'], depends_on=[playlist_create],
           runs_after=[plentry_delete],
@@ -366,14 +349,13 @@ class ClientTests(object):
 
         @retry
         def assert_playlist_does_not_exist(plid):
-            found = [p for p in self.mc.get_all_playlists(include_deleted=False)
+            found = [p for p in self.mc.get_all_playlists()
                      if p['id'] == plid]
 
             assert_equal(len(found), 0)
 
         for plid in self.playlist_ids:
             assert_playlist_does_not_exist(plid)
-            self.assert_listing_contains_deleted_items(self.mc.get_all_playlists)
 
     @test
     @subscription
@@ -426,7 +408,6 @@ class ClientTests(object):
 
         for station_id in self.station_ids:
             assert_station_deleted(station_id)
-        self.assert_listing_contains_deleted_items(self.mc.get_all_stations)
 
     @test(groups=['song'], depends_on=[song_create],
           runs_after=[plentry_delete, station_delete],
@@ -446,7 +427,6 @@ class ClientTests(object):
                 check.equal(res, [testsong.sid])
 
         self.assert_songs_state(self.mc.get_all_songs, sids(self.all_songs), present=False)
-        self.assert_listing_contains_deleted_items(self.mc.get_all_songs)
 
     @test
     def podcast_create(self):
@@ -486,7 +466,7 @@ class ClientTests(object):
 
         @retry
         def assert_podcast_does_not_exist(pcid):
-            found = [pc for pc in self.mc.get_all_podcast_series(include_deleted=False)
+            found = [pc for pc in self.mc.get_all_podcast_series()
                      if pc['seriesId'] == pcid]
 
             assert_equal(len(found), 0)
@@ -642,20 +622,17 @@ class ClientTests(object):
         self.assert_list_inc_equivalence(self.mc.get_all_stations)
 
     @test
-    def mc_list_stations_inc_equal_with_deleted(self):
-        self.assert_list_inc_equivalence(self.mc.get_all_stations, include_deleted=True)
-
-    @test
     def mc_list_shared_playlist_entries(self):
         entries = self.mc.get_shared_playlist_contents(TEST_PLAYLIST_SHARETOKEN)
         assert_true(len(entries) > 0)
 
     @test
     def mc_stream_podcast_episode(self):
+        raise SkipTest('podcast ids keep changing')
         # uses frozen device_id
-        url = self.mc.get_podcast_episode_stream_url(TEST_PODCAST_EPISODE_ID)
-        audio = self.mc.session._rsession.get(url).content
-        assert_equal(md5(audio).hexdigest(), TEST_PODCAST_EPISODE_HASH)
+        # url = self.mc.get_podcast_episode_stream_url(TEST_PODCAST_EPISODE_ID)
+        # audio = self.mc.session._rsession.get(url).content
+        # assert_equal(md5(audio).hexdigest(), TEST_PODCAST_EPISODE_HASH)
 
     @test
     @subscription
@@ -784,25 +761,13 @@ class ClientTests(object):
     def mc_list_songs_inc_equal(self):
         self.assert_list_inc_equivalence(self.mc.get_all_songs)
 
-    @song_test
-    def mc_list_songs_inc_equal_with_deleted(self):
-        self.assert_list_inc_equivalence(self.mc.get_all_songs, include_deleted=True)
-
     @podcast_test
     def mc_list_podcast_series_inc_equal(self):
         self.assert_list_inc_equivalence(self.mc.get_all_podcast_series)
 
-    @podcast_test
-    def mc_list_podcast_series_inc_equal_with_deleted(self):
-        self.assert_list_inc_equivalence(self.mc.get_all_podcast_series, include_deleted=True)
-
     @playlist_test
     def mc_list_playlists_inc_equal(self):
         self.assert_list_inc_equivalence(self.mc.get_all_playlists)
-
-    @playlist_test
-    def mc_list_playlists_inc_equal_with_deleted(self):
-        self.assert_list_inc_equivalence(self.mc.get_all_playlists, include_deleted=True)
 
     @playlist_test
     def mc_edit_playlist_name(self):
@@ -969,7 +934,6 @@ class ClientTests(object):
                      1)
 
     @test(groups=['search'])
-    @subscription
     def mc_search_store_no_playlists(self):
         res = self.mc.search('morning', max_results=100)
 
@@ -978,7 +942,12 @@ class ClientTests(object):
 
         with Check() as check:
             for type_, hits in res.items():
-                check.true(len(hits) > 0, "%s had %s hits, expected > 0" % (type_, len(hits)))
+                if ((not test_subscription_features() and
+                     type_ in ('artist_hits', 'song_hits', 'album_hits'))):
+                    # These results aren't returned for non-sub accounts.
+                    check.true(len(hits) == 0, "%s had %s hits, expected 0" % (type_, len(hits)))
+                else:
+                    check.true(len(hits) > 0, "%s had %s hits, expected > 0" % (type_, len(hits)))
 
     @test
     def mc_artist_info(self):

@@ -79,6 +79,7 @@ sj_video = {
         'id': {'type': 'string'},
         'title': {'type': 'string', 'required': False},
         'thumbnails': {'type': 'array',
+                       'required': False,
                        'items': {'type': 'object', 'properties': {
                            'url': {'type': 'string'},
                            'width': {'type': 'integer'},
@@ -673,7 +674,7 @@ class McListCall(McCall):
         """
 
         if updated_after is None:
-            microseconds = 0
+            microseconds = -1
         else:
             microseconds = utils.datetime_to_microseconds(updated_after)
 
@@ -1299,7 +1300,7 @@ class ListPodcastSeries(McListCall):
         params = {}
 
         if updated_after is None:
-            microseconds = 0
+            microseconds = -1
         else:
             microseconds = utils.datetime_to_microseconds(updated_after)
 
@@ -1337,7 +1338,7 @@ class ListPodcastEpisodes(McListCall):
         params = {}
 
         if updated_after is None:
-            microseconds = 0
+            microseconds = -1
         else:
             microseconds = utils.datetime_to_microseconds(updated_after)
 
