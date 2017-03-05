@@ -849,6 +849,7 @@ function add_to_playlist () {
         success: function(){
             $.getJSON ( "data/playlists.json", function( json ) {
                 window.playlists = json
+                $('#playlist-drop').html ('<li class="playlist-item truncate"><a href="#">New Playlist</a></li>');
                 for (var i = 0; i != window.playlists.playlists.length; i++) {
                     $('#playlist-drop').append ("<li class='playlist-item truncate'><a href='#'>" + window.playlists.playlists[i].name + "</a></li>");
                 }
