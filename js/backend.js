@@ -544,6 +544,7 @@ function end_load () {
 }
 
 function inc_song_play () {
+    /*
     $.ajax({
         type: 'INC',
         url: '/{0}'.format ($(window.currentSong.songDiv).data ('id')),
@@ -569,7 +570,7 @@ function inc_song_play () {
             $(window.currentSong.songDiv).children('.tbl-plays').text (parseInt($(window.currentSong.songDiv).children('.tbl-plays').text()) + 1);
         },
     });
-    
+    */
 }
 
 function song_click (s) {
@@ -581,28 +582,27 @@ function song_click (s) {
     $('#back').removeClass ('disabled');
     $('#skip').removeClass ('disabled');
     
-    s = $(s);
-    if (s.data ('streamurl') == '') {
+    if ($(s).data ('streamurl') == '') {
         var saveData = $.ajax({
             type: 'STREAM',
-            url: "/" + s.data ('index'),
+            url: "/" + $(s).data ('index'),
             dataType: "text",
             success: function(resultData) { 
-                s.data ('streamurl', resultData);
+                $(s).data ('streamurl', resultData);
                 play_song (s);
             }
         });
         saveData.error(function() {});
     }
     else {
-        urlExists(s.data('streamurl'), function (status){
+        urlExists($(s).data('streamurl'), function (status){
             if (!status) {
                 var saveData = $.ajax({
                     type: 'STREAM',
-                    url: "/" + s.data ('index'),
+                    url: "/" + $(s).data ('index'),
                     dataType: "text",
                     success: function(resultData) { 
-                        s.data ('streamurl', resultData);
+                        $(s).data ('streamurl', resultData);
                         play_song (s);
                     }
                 });
@@ -631,10 +631,11 @@ function play_song (s) {
     playf(false);
     y = window.songs.songs[$(s).data('index')]
     try {
-        window.currentSong.playing.src = s.data('streamurl');
+        window.currentSong.playing.src = $(s).data('streamurl');
     }
     catch (err) {
         end_load ();
+        console.log (err);
         return false;
     }
     
@@ -650,7 +651,7 @@ function play_song (s) {
     window.currentSong.songName = y.title;
     window.currentSong.songArtist = y.artist;
     window.currentSong.songAlbum = y.album;
-    window.currentSong.songDiv = clone (s);
+    window.currentSong.songDiv = clone ($(s));
     window.currentSong.songDivNoClone = s;
     inc_song_play ();
     try {
