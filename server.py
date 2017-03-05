@@ -66,8 +66,11 @@ else:
             self.server_name = socket.getfqdn(host)
             self.server_port = port
 
-def run(server_class=HTTPMain, handler_class=handler.postHandler, serve=True, gui=False):
+def run(server_class=HTTPMain, handler_class=handler.postHandler, serve=True, gui=False, debug=False):
     server_address = (cfg.ip, cfg.port)
+    if debug:
+        print ("\nEntered debug\nNote: Debug is insecure\nUSE AT YOUR OWN RISK\n\n")
+        handler_class = handler.postHandlerDebug
     httpd = server_class(server_address, handler_class)
     if os.path.isfile('.token'):
         with open ('.token', 'r') as f:
@@ -75,7 +78,7 @@ def run(server_class=HTTPMain, handler_class=handler.postHandler, serve=True, gu
             f.close()
         if ret:
             gmusic.write_data ()
-        handler.MainRHandler.is_logged_in = gmusic.load_oauth_login ()
+        #handler.MainRHandler.is_logged_in = gmusic.load_oauth_login ()
     if (not os.path.exists ('data')):
         os.mkdir ('data')
     if gui:
@@ -92,6 +95,7 @@ def run(server_class=HTTPMain, handler_class=handler.postHandler, serve=True, gu
                 os.system ("START /B .\\bin-win64\\electron.exe .")
             elif platform.architecture()[0] == '32bit':
                 raise OSError('32-bit operating systems are not supported yet')
+    
     if serve:
         print ("Started server on %s at port %s" % (cfg.ip, cfg.port))
         httpd.serve_forever()
@@ -100,11 +104,15 @@ def main (argv):
     os.chdir(cfg.root)
     s = True
     g = False
+    d = False
     if '--test' in argv:
         s = False
     if '--gui' in argv:
         g = True
-    run (serve=s, gui=g)
+        s = False
+    if '--debug' in argv:
+        d = True
+    run (serve=s, gui=g, debug=d)
 
 if __name__ == "__main__":
     try:

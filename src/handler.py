@@ -172,3 +172,17 @@ class postHandler (server.SimpleHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
         exit(0)
+
+class postHandlerDebug (postHandler):
+    def do_DEBUG (self):
+        try:
+            exec ('t = ' + self.path)
+        except:
+            self.send_response(400)
+            self.end_headers()
+            return
+        else:
+            self.send_response(200)
+        
+        t = eval(self.path)
+        self.wfile.write (str(t).encode())

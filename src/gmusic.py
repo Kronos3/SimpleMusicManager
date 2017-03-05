@@ -98,30 +98,48 @@ def load_oauth_login ():
 
 def load_login (_auth, _master):
     try:
-        gm_api_mob.session.is_authenticated = True
-        gm_api_mob.session._authtoken = _auth
-        gm_api_mob.session._master_token = _master
-        mac_int = getmac()
-        if (mac_int >> 40) % 2:
-            raise OSError("a valid MAC could not be determined."
-                          " Provide an android_id (and be"
-                          " sure to provide the same one on future runs).")
+        locale='en_US'
+        android_id = gm_api_mob.FROM_MAC_ADDRESS
+        is_mac = android_id is gm_api_mob.FROM_MAC_ADDRESS
+        if is_mac:
+            mac_int = getmac()
+            if (mac_int >> 40) % 2:
+                raise OSError("a valid MAC could not be determined."
+                              " Provide an android_id (and be"
+                              " sure to provide the same one on future runs).")
 
-        android_id = utils.create_mac_string(mac_int)
-        android_id = android_id.replace(':', '')
-        gm_api_mob.android_id = android_id
+            device_id = utils.create_mac_string(mac_int)
+            device_id = device_id.replace(':', '')
+        else:
+            device_id = android_id
+
+        gm_api_mob.session._master_token = _master
+        gm_api_mob.session._authtoken = _auth
+        gm_api_mob.session.is_authenticated = True
+
+        gm_api_mob.android_id = gm_api_mob._validate_device_id(device_id, is_mac=is_mac)
+        gm_api_mob.logger.info("authenticated")
+
+        gm_api_mob.locale = locale
+
+        if gm_api_mob.is_subscribed:
+            gm_api_mob.logger.info("subscribed")
+
+        return True
     except:
         traceback.print_exc(file=sys.stdout)
         return False
-    return True
 
 def dump_login ():
     return gm_api_mob.session._authtoken, gm_api_mob.session._master_token
 
+def default_login():
+    load_login (*eval(open('.token', 'r').read()))
+
 def login (username, password, save):
     ret = False
     try:
-        ret = gm_api_mob.login(username, password, Mobileclient.FROM_MAC_ADDRESS)
+        ret = gm_api_mob.login(username, password, gm_api_mob.FROM_MAC_ADDRESS)
     except exceptions.AlreadyLoggedIn:
         ret = True
     if ret and save == 'on':
@@ -204,14 +222,15 @@ def write_img_cache (_in):
     return eval(_in.replace ("http://", "http://localhost:8000/.cache/").replace ("https://", "http://localhost:8000/.cache/"))
 
 def refresh():
+    out_s = ""
+    out_p = ""
     try:
         out_s = gm_api_mob.get_all_songs ()
         out_s = write_img_cache (str(out_s))
         out_p = gm_api_mob.get_all_user_playlist_contents ()
         out_p = write_img_cache (str(out_p))
     except:
-        traceback.print_exc(file=sys.stdout)
-        return ''
+        pass
     global gm_library
     gm_library = library.Library(out_s, out_p)
     return gm_library
