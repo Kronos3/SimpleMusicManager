@@ -979,8 +979,13 @@ function ytsearch_parse (struct) {
     });
 }
 
+window.yt_url = null;
+
 function load_yt (url) {
-    document.getElementById ('yt-vid').src = "https://www.youtube.com/embed/" + url;
+    if (url != window.yt_url) {
+        window.yt_url = url
+        document.getElementById ('yt-vid').src = "https://www.youtube.com/embed/" + window.yt_url;
+    }
     $('#ytpl-inner').css('transform', 'translateX(-620px)');
 }
 

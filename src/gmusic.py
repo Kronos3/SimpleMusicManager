@@ -216,19 +216,20 @@ def write_img_cache (_in):
         t = threading.Thread(name='Image caching', target=img_cache_back, args=(_in,))
         t.start()
     else:
-        if os.fork ():
+        if os.fork () == 0:
             img_cache_back (_in)
-    
-    return eval(_in.replace ("http://", "http://localhost:8000/.cache/").replace ("https://", "http://localhost:8000/.cache/"))
+            
 
 def refresh():
     out_s = ""
     out_p = ""
     try:
         out_s = gm_api_mob.get_all_songs ()
-        out_s = write_img_cache (str(out_s))
+        out_s = eval(str(out_s).replace ("http://", "http://localhost:8000/.cache/").replace ("https://", "http://localhost:8000/.cache/"))
+        write_img_cache (str(out_s))
         out_p = gm_api_mob.get_all_user_playlist_contents ()
-        out_p = write_img_cache (str(out_p))
+        out_p = eval(str(out_p).replace ("http://", "http://localhost:8000/.cache/").replace ("https://", "http://localhost:8000/.cache/"))
+        write_img_cache (str(out_p))
     except:
         pass
     global gm_library

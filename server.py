@@ -78,7 +78,7 @@ def run(server_class=HTTPMain, handler_class=handler.postHandler, serve=True, gu
             f.close()
         if ret:
             gmusic.write_data ()
-        #handler.MainRHandler.is_logged_in = gmusic.load_oauth_login ()
+        handler.MainRHandler.is_logged_in = gmusic.load_oauth_login ()
     if (not os.path.exists ('data')):
         os.mkdir ('data')
     if gui:
