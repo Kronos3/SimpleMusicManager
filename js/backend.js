@@ -349,6 +349,11 @@ function scrolled () {
     if ($(".other-buff > .album").position() == undefined || window.in_songs) {
         return;
     }
+    
+    if ($('.other-buff > .album').hasClass ('playlist-wrapper')) {
+        return;
+    }
+    
     var elmnt = document.querySelector(".other-buff");
     var x = elmnt.scrollLeft;
     var y = elmnt.scrollTop;
