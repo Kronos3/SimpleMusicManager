@@ -24,7 +24,7 @@
 
 from __future__ import unicode_literals
 from html.parser import HTMLParser
-from youtube_dl import YoutubeDL
+from .youtube_dl import YoutubeDL
 
 try:
     # For Python 3+

@@ -24,7 +24,7 @@
 
 
 from http import server
-import json
+import json, os
 from .r_handler import MainRHandler
 from .yt import YTSearchParser
 import urllib.request
@@ -42,7 +42,13 @@ class postHandler (server.SimpleHTTPRequestHandler):
         return ret
     
     def do_GET(self):
-        
+        if self.path.find('.cache/') != -1:
+            if (not os.path.isfile(self.path)):
+                self.send_response(301)
+                self.send_header('Location','http://' + self.path[self.path.find('.cache/') + len('.cache/'):])
+                self.end_headers()
+                return
+            
         if self.path[0:7] == "/?code=":
             try:
                 self.__OAUTHLOGIN (self.path[7:])

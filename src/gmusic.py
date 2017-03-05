@@ -180,7 +180,7 @@ def img_gen_cache_http (url):
                 f.write(url_buff.read())
                 f.close()
 
-def write_img_cache (_in):
+def img_cache_back (_in):
     for x in list(find_all(_in, "https://")):
         cache_buff = _in[x+len("https://"):_in.find ("\"", x)]
         while (cache_buff.find ("\'")) != -1:
@@ -191,6 +191,16 @@ def write_img_cache (_in):
         while (cache_buff.find ("\'")) != -1:
             cache_buff = cache_buff[0:cache_buff.find ("\'")]
         img_gen_cache_http (cache_buff)
+
+def write_img_cache (_in):
+    
+    if str(sys.platform).find ('win') != -1:
+        t = threading.Thread(name='Image caching', target=img_cache_back, args=(_in,))
+        t.start()
+    else:
+        if os.fork ():
+            img_cache_back (_in)
+    
     return eval(_in.replace ("http://", "http://localhost:8000/.cache/").replace ("https://", "http://localhost:8000/.cache/"))
 
 def refresh():
