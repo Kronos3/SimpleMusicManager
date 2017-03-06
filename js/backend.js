@@ -549,33 +549,13 @@ function end_load () {
 }
 
 function inc_song_play () {
-    /*
     $.ajax({
         type: 'INC',
         url: '/{0}'.format ($(window.currentSong.songDiv).data ('id')),
         success: function(){
-            $.getJSON( "data/library.json?nocache=" + (new Date()).getTime(), function( json ) {
-                window.songs = json;
-            });
-            $.getJSON( "data/albums.json?nocache=" + (new Date()).getTime(), function( json ) {
-                window.albums = json
-            });
-            $.getJSON( "data/artists.json?nocache=" + (new Date()).getTime(), function( json ) {
-                window.artists = json
-            });
-            $.getJSON( "data/playlists.json?nocache=" + (new Date()).getTime(), function( json ) {
-                window.playlists = json
-                for (var i = 0; i != window.playlists.playlists.length; i++) {
-                    $('#playlist-drop').append ("<li class='playlist-item truncate'><a href='#'>" + window.playlists.playlists[i].name + "</a></li>");
-                }
-                $('.playlist-item').click (function () {
-                    $('#playlist-drop-btn').text ($(this).text());
-                });
-            });
             $(window.currentSong.songDiv).children('.tbl-plays').text (parseInt($(window.currentSong.songDiv).children('.tbl-plays').text()) + 1);
         },
     });
-    */
 }
 
 function song_click (s) {
@@ -677,9 +657,6 @@ function play_song (s) {
         window.queue = buff_queue; // Already iterating through queue, no need to reset it
     }
     window.queue_point = ar_find(s, window.queue);
-    
-    
-    
     
     inc_song_play ();
     try {
@@ -970,7 +947,7 @@ function load_yt (url) {
 }
 
 function ytdl () {
-    document.getElementById ('yt-vid').src
+    window.yt_url
 }
 
 function ytback () {

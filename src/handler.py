@@ -74,7 +74,7 @@ class postHandler (server.SimpleHTTPRequestHandler):
         if MainRHandler.is_logged_in:
             self.send_response(200)
         else:
-            self.send_response(200)
+            self.send_response(403)
         self.end_headers()
     
     def do_INC (self): # Increment song playcount
@@ -120,18 +120,10 @@ class postHandler (server.SimpleHTTPRequestHandler):
         self.wfile.write (MainRHandler.gmusic.gm_api_man.get_login_url().encode ())
     
     def __OAUTHLOGIN (self, code):
-        print ('__oauth_login_start')
         sys.stdout.flush()
-        MainRHandler.gmusic.gm_api_man = gmusic.Musicmanager()
         s = MainRHandler.gmusic.gm_api_man.get_auth_token(code)
-        print ('__oauth_login_end1')
-        sys.stdout.flush()
         status = MainRHandler.gmusic.gm_api_man.login(oauth_credentials=s)
-        print ('__oauth_login_end2')
-        sys.stdout.flush()
         MainRHandler.is_logged_in = status
-        print ('__oauth_login_end')
-        sys.stdout.flush()
     
     def do_POST (self):
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
@@ -164,9 +156,12 @@ class postHandler (server.SimpleHTTPRequestHandler):
         buf.search_finds = []
         self.send_response(200)
         self.end_headers()
-        print(len(bufs))
         for u in bufs:
             self.wfile.write ((u + '\n').encode())
+    
+    def do_YTDL (self):
+        self.send_response (MainRHandler._ytdl (self.path))
+        self.end_headers()
     
     def do_SHUTDOWN (self):
         self.send_response(200)

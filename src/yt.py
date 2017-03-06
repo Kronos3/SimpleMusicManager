@@ -63,4 +63,14 @@ class YTSearchParser(HTMLParser):
             #buf['img'] = 
 
 class YTDL (YoutubeDL):
-    pass
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'outtmpl': 'tempSong',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '320',
+        }],
+    }
+    def __init__ (self):
+        super (YTDL, self).__init__(self.ydl_opts)

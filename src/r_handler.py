@@ -22,7 +22,7 @@
 #  
 #  
 
-from . import gmusic, auth
+from . import gmusic, auth, yt
 import json, os
 
 def ret (ret, path):
@@ -40,6 +40,7 @@ class r_handler(object):
     
     def __init__ (self):
         self.gmusic = gmusic
+        self.ytdl = yt.YTDL ()
     
     def r_get (self, path, data):
         if data == None:
@@ -58,6 +59,10 @@ class r_handler(object):
             ret = gmusic.load_login (*eval(f.read()))
             f.close()
         return ret
+    
+    def _ytdl (self, url):
+        self.ytdl.download ([url])
+        return 200
     
     def library(self):
         if not gmusic.loaded:

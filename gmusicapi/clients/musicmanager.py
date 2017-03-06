@@ -54,7 +54,6 @@ class Musicmanager(_Base):
     
     def get_auth_token (self, code, storage_filepath=OAUTH_FILEPATH):
         credentials = self.__flow.step2_exchange(code)
-
         if storage_filepath is not None:
             if storage_filepath == OAUTH_FILEPATH:
                 utils.make_sure_path_exists(os.path.dirname(OAUTH_FILEPATH), 0o700)
