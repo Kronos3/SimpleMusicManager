@@ -25,6 +25,7 @@
 from __future__ import unicode_literals
 from html.parser import HTMLParser
 from .youtube_dl import YoutubeDL
+import os
 
 try:
     # For Python 3+
@@ -65,12 +66,18 @@ class YTSearchParser(HTMLParser):
 class YTDL (YoutubeDL):
     ydl_opts = {
         'format': 'bestaudio/best',
-        'outtmpl': 'tempSong',
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
-            'preferredquality': '320',
         }],
     }
     def __init__ (self):
         super (YTDL, self).__init__(self.ydl_opts)
+    
+    def download (self, urls):
+        b = os.getcwd()
+        if (not os.path.isdir ('.temp')):
+            os.makedirs('.temp')
+        os.chdir ('.temp')
+        super (YTDL, self).download (urls)
+        os.chdir (b)

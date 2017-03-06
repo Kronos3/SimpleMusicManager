@@ -25,6 +25,7 @@
 
 from http import server
 import json, os
+from shutil import rmtree
 from .r_handler import MainRHandler
 from .yt import YTSearchParser
 import urllib.request
@@ -109,8 +110,14 @@ class postHandler (server.SimpleHTTPRequestHandler):
     
     def do_STREAM (self):
         i = int(self.path[1:])
-        out = str.encode(MainRHandler.gmusic.gm_library.get_stream(i))
-        self.send_response(200)
+        try:
+            out = str.encode(MainRHandler.gmusic.gm_library.get_stream(i))
+        except:
+            send_response (502)
+            self.end_headers()
+            return
+        else:
+            self.send_response(200)
         self.end_headers()
         self.wfile.write (out)
     
@@ -139,7 +146,7 @@ class postHandler (server.SimpleHTTPRequestHandler):
         self.end_headers()
     
     def do_UPLOAD (self):
-        stat = MainRHandler.gmusic.gm_api_man.upload (self.path)
+        stat = MainRHandler.gmusic.gm_api_man.upload (self.path, enable_matching=True)
         MainRHandler.gmusic.write_data ()
         if stat:
             self.send_response (200)
@@ -159,14 +166,27 @@ class postHandler (server.SimpleHTTPRequestHandler):
         for u in bufs:
             self.wfile.write ((u + '\n').encode())
     
+    def do_UPLOADALL (self): #Uploads all songs in .temp then deletes them
+        stat = MainRHandler.gmusic.gm_api_man.upload (prepend_to_items(os.listdir('.temp'), '.temp/'), enable_matching=True)
+        rmtree ('.temp')
+        MainRHandler.gmusic.write_data ()
+        self.send_response (200)
+        self.end_headers()
+    
     def do_YTDL (self):
-        self.send_response (MainRHandler._ytdl (self.path))
+        self.send_response (MainRHandler._ytdl ('http://www.youtube.com/watch?v=' + self.path[1:]))
         self.end_headers()
     
     def do_SHUTDOWN (self):
         self.send_response(200)
         self.end_headers()
         exit(0)
+
+def prepend_to_items (arr, prepend):
+    ret = []
+    for i in arr:
+        ret.append (prepend + i)
+    return ret
 
 class postHandlerDebug (postHandler):
     def do_DEBUG (self):

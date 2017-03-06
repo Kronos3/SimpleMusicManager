@@ -944,14 +944,34 @@ function load_yt (url) {
         document.getElementById ('yt-vid').src = "https://www.youtube.com/embed/" + window.yt_url;
     }
     $('#ytpl-inner').css('transform', 'translateX(-620px)');
+    $('#ytdl').css('display', 'block', 'important');
+}
+
+function upload_all () {
+    start_load ();
+    $.ajax({
+        type: 'UPLOADALL',
+        url: '',
+        success: function(data){
+            hard_reload ();
+        }
+    });
 }
 
 function ytdl () {
-    window.yt_url
+    start_load ();
+    $.ajax({
+        type: 'YTDL',
+        url: window.yt_url,
+        success: function(data){
+            upload_all();
+        }
+    });
 }
 
 function ytback () {
     $('#ytpl-inner').css('transform', 'translateX(0)');
+    $('#ytdl').css('display', 'none');
 }
 
 var yt_load_b = null;

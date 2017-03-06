@@ -1483,7 +1483,7 @@ th.tbl-alb {
     background-color: #eee;
 }
 
-#removefplaylist {
+#removefplaylist, #ytdlconf {
     padding: 24px 0 0 24px;
     width: 300px;
 }
@@ -1598,6 +1598,7 @@ th.tbl-alb {
     right: 36px;
     position: absolute;
     transform: translateY(-50%);
+    display: none;
 }
 
 .ytlistbox {
