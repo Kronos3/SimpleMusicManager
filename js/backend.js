@@ -643,7 +643,6 @@ function play_song (s, new_queue) {
     if (typeof (new_queue) === 'undefined') {
         var buff_queue = window.queue;
         window.queue = [];
-        console.log ('passed first');
         try {
             if ($(s).parent().parent().parent().hasClass('artist-album')) {
                 window.in_artist = true;
@@ -661,11 +660,8 @@ function play_song (s, new_queue) {
         catch (err) {
             window.queue = buff_queue; // Already iterating through queue, no need to reset it
         }
-        console.log ('passed queue');
         window.queue_point = ar_find(s, window.queue);
-        console.log ('passed queue point');
         inc_song_play ();
-        console.log ('passed inc');
     }
     try {
         window.currentSong.songArt = y.albumArtRef[0].url;
