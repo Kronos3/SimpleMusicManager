@@ -109,7 +109,6 @@ def main (argv):
         s = False
     if '--gui' in argv:
         g = True
-        s = False
     if '--debug' in argv:
         d = True
     run (serve=s, gui=g, debug=d)

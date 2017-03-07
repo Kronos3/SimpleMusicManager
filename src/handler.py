@@ -109,7 +109,7 @@ class postHandler (server.SimpleHTTPRequestHandler):
         self.end_headers()
     
     def do_STREAM (self):
-        i = int(self.path[1:])
+        i = self.path[1:]
         try:
             out = str.encode(MainRHandler.gmusic.gm_library.get_stream(i))
         except:

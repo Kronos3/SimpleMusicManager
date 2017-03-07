@@ -67,7 +67,10 @@ class Library:
                 self.playlists.append(PlayList(_list).get_json())
     
     def get_stream (self, i):
-        return self.songs[i].get_stream ()
+        for x in self.songs:
+            if x.id == i:
+                return x.get_stream ()
+        raise IndexError ()
     
     def get_albums (self):
         ret = []

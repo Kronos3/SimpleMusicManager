@@ -558,7 +558,7 @@ function inc_song_play () {
     });
 }
 
-function song_click (s) {
+function song_click (s, new_queue) {
     if ($(s).hasClass ('is-dragging')) {
         return;
     }
@@ -570,11 +570,11 @@ function song_click (s) {
     if ($(s).data ('streamurl') == '') {
         var saveData = $.ajax({
             type: 'STREAM',
-            url: "/" + $(s).data ('index'),
+            url: "/" + $(s).data ('id'),
             dataType: "text",
             success: function(resultData) { 
                 $(s).data ('streamurl', resultData);
-                play_song (s);
+                play_song (s, new_queue);
             }
         });
         saveData.error(function() {});
@@ -584,16 +584,16 @@ function song_click (s) {
             if (!status) {
                 var saveData = $.ajax({
                     type: 'STREAM',
-                    url: "/" + $(s).data ('index'),
+                    url: "/" + $(s).data ('id'),
                     dataType: "text",
                     success: function(resultData) { 
                         $(s).data ('streamurl', resultData);
-                        play_song (s);
+                        play_song (s, new_queue);
                     }
                 });
             }
             else {
-                play_song (s);
+                play_song (s, new_queue);
             }
         });
     }
@@ -612,7 +612,7 @@ function urlExists(url, callback){
     });
 }
 
-function play_song (s) {
+function play_song (s, new_queue) {
     playf(false);
     y = window.songs.songs[$(s).data('index')]
     try {
@@ -640,25 +640,33 @@ function play_song (s) {
     window.currentSong.songDivNoClone = s;
     window.in_artist = false;
     
-    var buff_queue = window.queue;
-    window.queue = [];
-    try {
-        if ($(s).parent().parent().parent().hasClass('artist-album')) {
-            window.in_artist = true;
-            for (var x = 0; x != $(s).parent().parent().parent().parent().children('.artist-album').length; x++) {
-                window.queue.push($($('.other-buff').children('#al').children('.artist-album')[x]).children('.song-wrapper').children('tbody').children ('.song-row').get(0).cloneNode(true));
+    if (typeof (new_queue) === 'undefined') {
+        var buff_queue = window.queue;
+        window.queue = [];
+        console.log ('passed first');
+        try {
+            if ($(s).parent().parent().parent().hasClass('artist-album')) {
+                window.in_artist = true;
+                for (var x = 0; x != $(s).parent().parent().parent().parent().children('.artist-album').length; x++) {
+                    window.queue.push($($('.other-buff').children('#al').children('.artist-album')[x]).children('.song-wrapper').children('tbody').children ('.song-row').get(0).cloneNode(true));
+                    console.log (x);
+                }
+            }
+            else {
+                for (var x=0; x != $(s).parent().children ('.song-row').length; x++) {
+                    window.queue.push ($($(s).parent().children ('.song-row')[x]).get(0).cloneNode(true));
+                }
             }
         }
-        else {
-            window.queue = $(s).parent().children ('.song-row').get(0).cloneNode(true);
+        catch (err) {
+            window.queue = buff_queue; // Already iterating through queue, no need to reset it
         }
+        console.log ('passed queue');
+        window.queue_point = ar_find(s, window.queue);
+        console.log ('passed queue point');
+        inc_song_play ();
+        console.log ('passed inc');
     }
-    catch (err) {
-        window.queue = buff_queue; // Already iterating through queue, no need to reset it
-    }
-    window.queue_point = ar_find(s, window.queue);
-    
-    inc_song_play ();
     try {
         window.currentSong.songArt = y.albumArtRef[0].url;
     }
@@ -733,7 +741,7 @@ function next_song () {
         n = $(window.queue[window.queue_point]);
     }
     
-    song_click (n);
+    song_click (n, 'yes');
 }
 
 function prev_song () {
