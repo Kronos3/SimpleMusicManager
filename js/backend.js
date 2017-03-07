@@ -660,9 +660,9 @@ function play_song (s, new_queue) {
         catch (err) {
             window.queue = buff_queue; // Already iterating through queue, no need to reset it
         }
-        window.queue_point = ar_find(s, window.queue);
         inc_song_play ();
     }
+    window.queue_point = ar_find(s, window.queue);
     try {
         window.currentSong.songArt = y.albumArtRef[0].url;
     }
@@ -730,7 +730,7 @@ function next_song () {
             n = $(window.queue[window.queue_point + 1]);
         }
         if (n.height() == null && window.n_repeat == 1) {
-            n = window.queue[1]; // Skip the title row
+            n = window.queue[0];
         }
     }
     else if (window.n_repeat == 2) {
