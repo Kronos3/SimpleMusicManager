@@ -245,6 +245,11 @@ class Song:
         self.image = self.albumArtRef[0]['url']
         self.songnum = None
         
+        try:
+            self.trackNumber
+        except:
+            self.trackNumber = 0
+        
         if self.trackNumber == 0:
             self.trackNumber = ''
         
