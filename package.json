@@ -1,5 +1,5 @@
 {
-  "name": "SMM",
+  "name": "Google Music Offline",
   "version": "1.0.0",
   "description": "A music manager that integrates with Google Music",
   "main": "main.js",
