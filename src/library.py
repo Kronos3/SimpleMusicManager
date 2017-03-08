@@ -250,6 +250,11 @@ class Song:
         except:
             self.trackNumber = 0
         
+        try:
+            self.playCount
+        except:
+            self.playCount = 0
+        
         if self.trackNumber == 0:
             self.trackNumber = ''
         
