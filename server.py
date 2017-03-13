@@ -26,6 +26,10 @@
 import time
 start_time = time.time()
 import json, traceback, sys, os, platform, socketserver, socket
+sys.path.append("./deps")
+sys.path.append(".")
+if sys.platform == 'win32':
+    os.environ["PATH"] += os.pathsep + 'deps/ffmpeg'
 from src import handler, gmusic
 from http.server import HTTPServer
 
@@ -116,8 +120,8 @@ def main (argv):
 if __name__ == "__main__":
     try:
         main(sys.argv)
-        exit(0)
+        sys.exit(0)
     except SystemExit:
-        exit(0)
+        sys.exit(0)
     except:
         traceback.print_exc(file=sys.stdout)

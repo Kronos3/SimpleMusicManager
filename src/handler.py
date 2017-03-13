@@ -113,7 +113,7 @@ class postHandler (server.SimpleHTTPRequestHandler):
         try:
             out = str.encode(MainRHandler.gmusic.gm_library.get_stream(i))
         except:
-            send_response (502)
+            self.send_response (502)
             self.end_headers()
             return
         else:

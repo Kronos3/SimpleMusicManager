@@ -252,6 +252,7 @@ function check_login () {
         success: function(resultData) { 
             login_close ();
             $('#sign-in').css ('display', 'none');
+            check_oauth ();
             refresh();
         }
     });
@@ -879,7 +880,8 @@ function perf_oauth () {
         type: 'GETOAUTHURL',
         url: '/',
         success: function(data){
-            window.location.href = data;
+            console.log (data);
+            window.open(data);
         },
     });
 }
@@ -896,8 +898,6 @@ function check_oauth () {
         }
     });
 }
-
-check_oauth ();
 
 var ytsearchres = null;
 

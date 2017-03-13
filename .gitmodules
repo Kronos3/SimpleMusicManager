@@ -1,3 +1,6 @@
 [submodule "pyexec"]
 	path = pyexec
 	url = ./pyexec
+[submodule "deps"]
+	path = deps
+	url = git@github.com:Kronos3/smm_deps.git
