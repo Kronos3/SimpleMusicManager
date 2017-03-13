@@ -38,6 +38,7 @@ class Library:
     p_albums = []
     playlists = []
     _in = None
+    inited = False
     
     def __init__(self, _p_dict, _play_lists=None):
         self._in = _p_dict
@@ -97,6 +98,7 @@ class Library:
             b_album['snum'] = len(self.albums[album])
             b_album['songs'] = []
             b_album['index'] = i
+            b_album['id'] = "{:08x}".format(i)
             for song in self.albums[album]:
                 b_album['songs'].append(self.songs[song].get_json())
             ret.append (b_album)
@@ -136,6 +138,7 @@ class Library:
             b_album['snum'] = len(self.albums[album])
             b_album['songs'] = []
             b_album['index'] = i
+            b_album['id'] = "{:08x}".format(i)
             for song in alb[album]:
                 b_album['songs'].append(song.get_json())
             ret.append (b_album)
@@ -166,6 +169,7 @@ class Library:
                 b_artist['letter'] = b_artist['name'][0]
             b_artist['albums'] = self.get_salbums (self.get_ssongs(self.artists[artist]))['albums']
             b_artist['index'] = i
+            b_artist['id'] = "{:08x}".format(i)
             ret.append (b_artist)
         res = {}
         res['artists'] = ret
@@ -184,6 +188,7 @@ class Library:
             for k, s in enumerate(b_list['songs']):
                 b_list['songs'][k]['plid'] = b_list['tracks'][k]['id']
             b_list['index'] = i
+            b_list['id'] = "{:08x}".format(i)
             ret.append (b_list)
         res = {}
         res['playlists'] = ret
