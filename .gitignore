@@ -38,3 +38,4 @@ load_lib.py
 *-bin
 testing
 bin-*
+.temp
