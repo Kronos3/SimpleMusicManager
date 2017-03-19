@@ -44,7 +44,7 @@ class postHandler (server.SimpleHTTPRequestHandler):
     
     def do_GET(self):
         if self.path.find('.cache/') != -1:
-            if (not os.path.isfile(self.path)):
+            if (not os.path.isfile(self.path[1:])):
                 self.send_response(301)
                 self.send_header('Location','http://' + self.path[self.path.find('.cache/') + len('.cache/'):])
                 self.end_headers()
