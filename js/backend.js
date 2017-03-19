@@ -372,6 +372,9 @@ function scrolled () {
 function goto_album (album) {
     $.get('templates/album.mst', function(template) {
         var rendered = Mustache.render(template, album);
+        album.songs.sort (function (a, b) {
+            return a.trackNumber - b.trackNumber;
+        });
         $('.other-buff').html(rendered);
         $('.other-buff').css ('display', 'block');
         $('.topcontent-wrapper').css ('display', 'none');
@@ -403,6 +406,11 @@ function goto_album (album) {
 
 function goto_artist (artist) {
     $.get('templates/artist.mst', function(template) {
+        for (var i=0; i != artist.albums.length; i++) {
+            artist.albums[i].songs.sort (function (a, b) {
+                return a.trackNumber - b.trackNumber;
+            });
+        }
         var rendered = Mustache.render(template, artist);
         $('.other-buff').html(rendered);
         $('.other-buff').css ('display', 'block');
@@ -476,6 +484,19 @@ $(document).ready(function(){
 
 function parse_songs (struct) {
     $.get('templates/songs.mst', function(template) {
+        struct.songs.sort(function(a, b) {
+            var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+            var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+            if (nameA < nameB) {
+            return -1;
+            }
+            if (nameA > nameB) {
+            return 1;
+            }
+            
+            // names must be equal
+            return 0;
+        });
         var rendered = Mustache.render(template, struct);
         $('#songs').html(rendered);
         $("#songs").animate({
@@ -613,9 +634,19 @@ function urlExists(url, callback){
     });
 }
 
+function find_song_id (id) {
+    for(var i = 0; i != window.songs.length; i++)
+    {
+        if(window.songs.songs[i].id == id)
+        {
+            return i;
+        }
+    }
+}
+
 function play_song (s, new_queue) {
     playf(false);
-    y = window.songs.songs[$(s).data('index')]
+    y = window.songs.songs[find_song_id($(s).data('id'))]
     try {
         window.currentSong.playing.src = $(s).data('streamurl');
     }
