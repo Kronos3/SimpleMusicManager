@@ -371,10 +371,10 @@ function scrolled () {
 
 function goto_album (album) {
     $.get('templates/album.mst', function(template) {
-        var rendered = Mustache.render(template, album);
         album.songs.sort (function (a, b) {
             return a.trackNumber - b.trackNumber;
         });
+        var rendered = Mustache.render(template, album);
         $('.other-buff').html(rendered);
         $('.other-buff').css ('display', 'block');
         $('.topcontent-wrapper').css ('display', 'none');
