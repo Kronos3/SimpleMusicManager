@@ -24,7 +24,7 @@
 
 from __future__ import unicode_literals
 from html.parser import HTMLParser
-from .youtube_dl import YoutubeDL
+#from .youtube_dl import YoutubeDL
 import os
 
 try:
@@ -63,7 +63,8 @@ class YTSearchParser(HTMLParser):
             b = get_jsonparsed_data ('https://www.googleapis.com/youtube/v3/videos?id=' + x + '&key=AIzaSyAofmivOMlh5VmMl0_AoTeDgOm8FOwCBOc&fields=items(id,snippet(title,channelTitle,thumbnails(default)))&part=snippet')
             #buf['img'] = 
 
-class YTDL (YoutubeDL):
+class YTDL ():
+    pass
     ydl_opts = {
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -72,12 +73,16 @@ class YTDL (YoutubeDL):
         }],
     }
     def __init__ (self):
-        super (YTDL, self).__init__(self.ydl_opts)
+        #super (YTDL, self).__init__(self.ydl_opts)
+        pass
     
     def download (self, urls):
+        """
         b = os.getcwd()
         if (not os.path.isdir ('.temp')):
             os.makedirs('.temp')
         os.chdir ('.temp')
         super (YTDL, self).download (urls)
         os.chdir (b)
+        """
+        pass
