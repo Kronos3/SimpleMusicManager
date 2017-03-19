@@ -24,6 +24,7 @@ function createWindow () {
     mainWindow.loadURL ("http://localhost:8000");
     mainWindow.webContents.session.clearCache(function(){})
     // Open the DevTools.
+    mainWindow.toggleDevTools();
     mainWindow.on('closed', function() {
         mainWindow = null;
         //subpy.kill('SIGINT');

@@ -679,8 +679,9 @@ function play_song (s, new_queue) {
             if ($(s).parent().parent().parent().hasClass('artist-album')) {
                 window.in_artist = true;
                 for (var x = 0; x != $(s).parent().parent().parent().parent().children('.artist-album').length; x++) {
-                    window.queue.push($($('.other-buff').children('#al').children('.artist-album')[x]).children('.song-wrapper').children('tbody').children ('.song-row').get(0).cloneNode(true));
-                    console.log (x);
+                    for (var i=0; i != $($('.other-buff').children('#al').children('.artist-album')[x]).children('.song-wrapper').children('tbody').children ('.song-row').length; i++) {
+                        window.queue.push($($($('.other-buff').children('#al').children('.artist-album')[x]).children('.song-wrapper').children('tbody').children ('.song-row')[i]).get(0).cloneNode(true));
+                    }
                 }
             }
             else {
