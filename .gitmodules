@@ -3,4 +3,4 @@
 	url = https://github.com/Kronos3/pyexec.git
 [submodule "binaries"]
 	path = binaries
-	url = ./binaries/
+	url = https://github.com/Kronos3/SMM_Bins.git
