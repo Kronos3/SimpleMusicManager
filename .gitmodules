@@ -1,3 +1,6 @@
 [submodule "pyexec"]
 	path = pyexec
 	url = https://github.com/Kronos3/pyexec.git
+[submodule "binaries"]
+	path = binaries
+	url = ./binaries/

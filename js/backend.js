@@ -800,9 +800,21 @@ window.currentSong.playing.addEventListener('progress', function() {
         bufferedEnd = document.querySelector('#song-time').secondaryProgress;
     }
     var duration =  window.currentSong.playing.duration;
-    if (duration > 0) {
-      document.querySelector('#song-time').secondaryProgress = bufferedEnd;
-    }
+    document.querySelector('#song-time').secondaryProgress = bufferedEnd;
+});
+
+window.currentSong.playing.addEventListener('error', function() {
+    var saveData = $.ajax({
+        type: 'STREAM',
+        url: "/" + $(window.currentSong.songDiv).data ('id'),
+        dataType: "text",
+        success: function(resultData) {
+            window.currentSong.playing.src = resultData
+            window.currentSong.playing.currentTime = document.querySelector('#song-time').value;
+            playf(true);
+        }
+    });
+    saveData.error(function() {});
 });
 
 window.currentSong.playing.addEventListener('timeupdate', function() {

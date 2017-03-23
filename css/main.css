@@ -1666,3 +1666,7 @@ th.tbl-alb {
     left: 50%;
     transform: translateX(-50%);
 }
+
+.paper-tab {
+    color: #fff;
+}

@@ -177,10 +177,16 @@ def img_gen_cache_https (url):
                 f.close()
     except FileNotFoundError:
         if not os.path.isfile('.cache/'+url):
-            with safe_open_w('.cache/'+url) as f:
-                url_buff = urllib.request.urlopen('https://'+url)
-                f.write(url_buff.read())
-                f.close()
+            try:
+                with safe_open_w('.cache/'+url) as f:
+                    url_buff = urllib.request.urlopen('https://'+url)
+                    f.write(url_buff.read())
+                    f.close()
+            except OSError: # Who know why this happens (fuckin Windows is shit)
+                # Network unreachable for some reason
+                # 301 still works
+                # Just leave it to redirect
+                os.remove ('.cache/' + url)
 
 def img_gen_cache_http (url):
     try:
@@ -193,10 +199,16 @@ def img_gen_cache_http (url):
                 f.close()
     except FileNotFoundError:
         if not os.path.isfile('.cache/'+url):
-            with safe_open_w('.cache/'+url) as f:
-                url_buff = urllib.request.urlopen('http://'+url)
-                f.write(url_buff.read())
-                f.close()
+            try:
+                with safe_open_w('.cache/'+url) as f:
+                    url_buff = urllib.request.urlopen('http://'+url)
+                    f.write(url_buff.read())
+                    f.close()
+            except OSError: # Who know why this happens (fuckin Windows is shit)
+                # Network unreachable for some reason
+                # 301 still works
+                # Just leave it to redirect
+                os.remove ('.cache/' + url)
 
 def img_cache_back (_in):
     for x in list(find_all(_in, "https://")):
