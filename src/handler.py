@@ -31,6 +31,9 @@ from .yt import YTSearchParser
 import urllib.request
 import traceback, sys
 
+global oauth_logged_in
+oauth_logged_in = False
+
 class postHandler (server.SimpleHTTPRequestHandler):
     def parse_post (self, _str):
         try:
@@ -73,7 +76,7 @@ class postHandler (server.SimpleHTTPRequestHandler):
     #    
     
     def do_CHECKOAUTH (self):
-        if MainRHandler.is_logged_in:
+        if MainRHandler.gmusic.gm_api_man.is_authenticated:
             self.send_response(200)
         else:
             self.send_response(403)
@@ -131,8 +134,6 @@ class postHandler (server.SimpleHTTPRequestHandler):
         sys.stdout.flush()
         s = MainRHandler.gmusic.gm_api_man.get_auth_token(code)
         status = MainRHandler.gmusic.gm_api_man.login(oauth_credentials=s)
-        print (status)
-        MainRHandler.is_logged_in = status
     
     def do_POST (self):
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))

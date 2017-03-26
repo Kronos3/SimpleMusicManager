@@ -39,6 +39,7 @@ class MainRHandler:
     is_logged_in = False
     
     ytdl = yt.YTDL ()
+    gmusic = gmusic
     
     @staticmethod
     def r_get (path, data):
