@@ -29,6 +29,7 @@ from shutil import rmtree
 from .r_handler import MainRHandler
 from .yt import YTSearchParser
 import urllib.request
+import traceback, sys
 
 class postHandler (server.SimpleHTTPRequestHandler):
     def parse_post (self, _str):
@@ -54,7 +55,7 @@ class postHandler (server.SimpleHTTPRequestHandler):
             try:
                 self.__OAUTHLOGIN (self.path[7:])
             except:
-                pass
+                traceback.print_exc(file=sys.stdout)
             self.send_response(301)
             self.send_header('Location','http://localhost:8000')
             self.end_headers()
@@ -130,6 +131,7 @@ class postHandler (server.SimpleHTTPRequestHandler):
         sys.stdout.flush()
         s = MainRHandler.gmusic.gm_api_man.get_auth_token(code)
         status = MainRHandler.gmusic.gm_api_man.login(oauth_credentials=s)
+        print (status)
         MainRHandler.is_logged_in = status
     
     def do_POST (self):

@@ -48,8 +48,8 @@ class Musicmanager(_Base):
     """
 
     _session_class = session.Musicmanager
+    __flow = OAuth2WebServerFlow(*musicmanager.oauth)
     def get_login_url (self):
-        self.__flow = OAuth2WebServerFlow(*musicmanager.oauth)
         return self.__flow.step1_get_authorize_url()
     
     def get_auth_token (self, code, storage_filepath=OAUTH_FILEPATH):

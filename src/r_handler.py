@@ -35,22 +35,23 @@ def ret (ret, path):
     if path in ["/library", "/now"]:
         return 502
 
-class r_handler(object):
+class MainRHandler:
     is_logged_in = False
     
-    def __init__ (self):
-        self.gmusic = gmusic
-        self.ytdl = yt.YTDL ()
+    ytdl = yt.YTDL ()
     
-    def r_get (self, path, data):
+    @staticmethod
+    def r_get (path, data):
         if data == None:
-            return ret(eval('self.%s()' % path[1:]), path)
-        return ret(eval('self.%s(%s)' % (path[1:], data)), path)
+            return ret(eval('MainRHandler.%s()' % path[1:]), path)
+        return ret(eval('MainRHandler.%s(%s)' % (path[1:], data)), path)
     
-    def login(self, creds):
+    @staticmethod
+    def login(creds):
         return gmusic.login (creds['login'], creds['passwd'], creds['save'])
     
-    def check_login (self):
+    @staticmethod
+    def check_login ():
         if not os.path.isfile('.token'):
             return False
         if gmusic.gm_api_mob.is_authenticated:
@@ -60,13 +61,13 @@ class r_handler(object):
             f.close()
         return ret
     
-    def _ytdl (self, url):
-        self.ytdl.download ([url])
+    @staticmethod
+    def _ytdl (url):
+        ytdl.download ([url])
         return 200
     
-    def library(self):
+    @staticmethod
+    def library():
         if not gmusic.loaded:
             gmusic.write_data ()
         return gmusic.loaded
-
-MainRHandler = r_handler ()
