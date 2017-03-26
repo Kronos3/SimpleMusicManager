@@ -129,7 +129,7 @@ class postHandler (server.SimpleHTTPRequestHandler):
     def __OAUTHLOGIN (self, code):
         sys.stdout.flush()
         s = MainRHandler.gmusic.gm_api_man.get_auth_token(code)
-        status = MainRHandler.gmusic.gm_api_man.login(s)
+        status = MainRHandler.gmusic.gm_api_man.login(oauth_credentials=s)
         MainRHandler.is_logged_in = status
     
     def do_POST (self):
