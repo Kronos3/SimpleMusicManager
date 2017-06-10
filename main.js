@@ -21,7 +21,7 @@ function createWindow () {
       protocol: 'file:',
       slashes: true
     }))*/
-    mainWindow.loadURL ("http://localhost:8000");
+    mainWindow.loadURL ("http://localhost:8001");
     mainWindow.webContents.session.clearCache(function(){})
     // Open the DevTools.
     mainWindow.toggleDevTools();

@@ -41,7 +41,7 @@ class cfg:
     log = "srv.log"
     root = "."
     subdomains = {}
-    port = 8000
+    port = 8001
     #ssl = {'cert':'cert.pem', 'key':'key.pem'}
     ssl = False
     redirect = 'False'

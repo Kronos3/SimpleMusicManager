@@ -1667,6 +1667,6 @@ th.tbl-alb {
     transform: translateX(-50%);
 }
 
-.paper-tab {
-    color: #fff;
+#selectionBar {
+    border-color: #fff !important;
 }
