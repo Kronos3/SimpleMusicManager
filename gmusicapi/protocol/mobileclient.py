@@ -363,7 +363,16 @@ sj_station = {
                          'required': False,
                          'items': {'type': 'string'}
                          },
-        'byline': {'type': 'string', 'required': False}
+        'byline': {'type': 'string', 'required': False},
+        'adTargeting': {
+            'type': 'object',
+            'properties': {
+                'keyword': {'type': 'array',
+                            'items': {'type': 'string'}
+                            },
+            },
+            'required': False,
+        },
     }
 }
 
@@ -1399,6 +1408,16 @@ class ListStationTracks(McCall):
         # but then that might introduce paging?
         # I'll leave it for someone else
 
+        if station_id == 'IFL':
+            return json.dumps({'contentFilter': 1,
+                               'stations': [
+                                   {
+                                       'numEntries': num_entries,
+                                       'recentlyPlayed': recently_played,
+                                       'seed': {'seedType': 6}
+                                   }
+                               ]})
+
         return json.dumps({'contentFilter': 1,
                            'stations': [
                                {
@@ -1604,7 +1623,9 @@ class GetAlbum(McCall):
 
     @staticmethod
     def dynamic_params(album_id, tracks):
-        return {'nid': album_id, 'include-tracks': tracks}
+        include_tracks = bool(tracks) if tracks else None
+
+        return {'nid': album_id, 'include-tracks': include_tracks}
 
 
 class IncrementPlayCount(McCall):
