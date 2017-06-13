@@ -1,5 +1,5 @@
 Python36/ linguist-vendored
-gmusicapi/ linguist-vendored
+gmusicapi/* linguist-vendored
 *.css linguist-vendored
 css/main.css linguist-vendored=false
 bower_components/* linguist-vendored
