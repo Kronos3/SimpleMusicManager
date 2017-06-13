@@ -12,3 +12,7 @@ export class App {
     }
     
 }
+
+$(document).ready(function(){
+    (<any>window).APP = new App ();
+});

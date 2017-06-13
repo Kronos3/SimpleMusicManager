@@ -1,5 +1,6 @@
 declare function require(name:string);
 import {App} from './main'
+import * as UTIL from './util'
 var $ = require("jquery");
 
 export class IPC {
@@ -23,7 +24,7 @@ export class IPC {
         });
     } 
 
-    urlExists = (url, callback) => {
+    urlExists = (url: string, callback: (boolean) => void) => {
         $.ajax({
             type: 'HEAD',
             url: url,
@@ -32,6 +33,32 @@ export class IPC {
             },
             error: function() {
                 callback(false);
+            }
+        });
+    }
+
+    check_oauth = (callback: (boolean) => void) => {
+        $.ajax({
+            type: "CHECKOAUTH",
+            url: "/",
+            success: () => {
+                callback(true);
+            },
+            error: () => {
+                callback(false);
+            }
+        });
+    }
+
+    increment_song = (id:string, callback = ()=> {return}) => {
+        $.ajax({
+            type: "INC",
+            url: "/{0}".format (id),
+            success: () => {
+                callback();
+            },
+            error: () => {
+                callback();
             }
         });
     }

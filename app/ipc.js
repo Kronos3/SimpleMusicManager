@@ -30,6 +30,31 @@ var IPC = (function () {
                 }
             });
         };
+        this.check_oauth = function (callback) {
+            $.ajax({
+                type: "CHECKOAUTH",
+                url: "/",
+                success: function () {
+                    callback(true);
+                },
+                error: function () {
+                    callback(false);
+                }
+            });
+        };
+        this.increment_song = function (id, callback) {
+            if (callback === void 0) { callback = function () { return; }; }
+            $.ajax({
+                type: "INC",
+                url: "/{0}".format(id),
+                success: function () {
+                    callback();
+                },
+                error: function () {
+                    callback();
+                }
+            });
+        };
         this.app = app;
     }
     return IPC;

@@ -1,7 +1,10 @@
 declare function require(name:string);
 import {App} from './main'
 import {IPC} from './ipc'
+import * as UTIL from './util'
+import {controls} from './controls'
 var $ = require("jquery");
+
 interface artRef {
     kind?: string;
     url?: string;
@@ -45,27 +48,6 @@ interface metaSong {
     songnum: number
 }
 
-export class Song {
-    object: Element;
-    name: string;
-    artist: string;
-    album: string;
-    metaObj: metaSong;
-    controller: SongController;
-    constructor (controller: SongController, e: Element) {
-        this.object = e;
-        this.controller = controller;
-        this.metaObj = this.controller.findSongFromEl (this.object);
-        this.name = this.metaObj.title;
-        this.artist = this.metaObj.artist;
-        this.album = this.metaObj.album;
-    }
-
-    play = () => {
-
-    }
-}
-
 export interface controllerConfig {
     cacheStream: boolean; // Cache all songs that are stream
     cacheMeta: boolean; // Cache meta data such as artist images
@@ -82,14 +64,14 @@ function initConfig (): controllerConfig {
     }
 }
 
-class controls { // Handles UI portion of song playing
-    
-
-}
-
 export class SongController {
     currentSong: metaSong;
+    currentSongIndex: number;
+    currentSongDiv: Element;
     metaSongs: metaSong[] // Generated from list recieved from Python
+    queue: metaSong[];
+    queueEl: Element[];
+    queueIndex: number;
     audio: HTMLAudioElement;
     app: App;
     songTimeChanging: boolean;
@@ -97,12 +79,14 @@ export class SongController {
     /* Settings */
     config: controllerConfig;
     ipc: IPC;
+    controls: controls;
 
     constructor (app: App, ipc: IPC) {
         this.audio = new Audio;
         this.app = app;
         this.ipc = ipc;
         this.config = initConfig ();
+        this.controls = new controls (this);
         $('.tooltipped').tooltip({delay: 2000});
         document.querySelector('#song-time').addEventListener('immediate-value-change', (e) => {
             this.songTimeChanging = true;
@@ -117,6 +101,50 @@ export class SongController {
         document.querySelector('#song-vol').addEventListener('change', function(e) {
             this.audio.volume = ((<any>document.querySelector('#song-vol')).value / 100);
         });
+
+        this.initAudioEvents();
+    }
+
+    initAudioEvents = () => {
+        this.audio.addEventListener('progress', function() {
+            // this = this.audio
+            try {
+                var bufferedEnd = this.buffered.end(this.buffered.length - 1);
+            }
+            catch (err) {
+                bufferedEnd = (<any>document.querySelector('#song-time')).secondaryProgress;
+            }
+            var duration =  this.duration;
+            (<any>document.querySelector('#song-time')).secondaryProgress = bufferedEnd;
+        });
+
+        this.audio.addEventListener('error', () => {
+            this.ipc.requestSong (this.currentSong.id, (url) => {
+                this.setSong (url);
+                this.audio.currentTime = (<any>document.querySelector('#song-time')).value;
+                this.controls.play (true);
+            });
+        });
+
+        this.audio.addEventListener('timeupdate', () => {
+            var duration = this.audio.duration;
+            try {
+                (<any>document.querySelector('#song-time')).max = duration;
+            }
+            catch (err) 
+            {
+                ;
+            }
+            if (duration > 0) {
+                if (!this.songTimeChanging) {
+                    (<any>document.querySelector('#song-time')).value = this.audio.currentTime;
+                }
+            }
+        });
+
+        this.audio.onended = () => {
+            this.nextSong ();
+        };
     }
 
     findSongIndexFromEl = (el: Element) => {
@@ -140,17 +168,83 @@ export class SongController {
     }
 
     generateQueue (e: Element) {
-        
+        $(e).parent ().children ('.song-list').forEach(element => {
+            this.queue.push(this.findSongFromEl(element.get(0)));
+            this.queueEl.push (element);
+        });
     }
 
     setSong = (url: string) => {
         this.audio.src = url;
     }
 
-    playSong = (el) => {
-        this.currentSong = this.findSongFromEl (el);
+    songClick = (el: Element) => {
+        this.generateQueue (el);
+        this.playSong (this.findSongFromEl (el));
+    }
+
+    findSonginEl = (id: string, ar: Element[]): Element => {
+        ar.forEach(element => {
+            if ($(element).data('id') == id) {
+                return element;
+            }
+        });
+        return null;
+    }
+
+    playSong = (song: metaSong) => {
+        this.currentSongIndex = UTIL.find (song, this.metaSongs);
+        this.currentSong = this.metaSongs[this.currentSongIndex];
+        this.currentSongDiv = this.findSonginEl (this.currentSong.id, this.queueEl);
         this.ipc.requestSong (this.currentSong.id, (url) => {
             this.setSong (url);
+            this.queueIndex = UTIL.find (this.currentSongDiv, this.queue);
+            this.increment_song ();
         });
+    }
+
+    nextSong = () => {
+        if ($('#next').hasClass ('disabled')) {
+            return;
+        }
+
+        var n:number; // Buffer for queue index pointing to next song
+        if (!this.controls.n_repeat) {
+            if (this.controls.n_shuffle) {
+                n = Math.floor((Math.random() * this.queue.length) + 0);
+            }
+            else {
+                n = this.queueIndex + 1;
+            }
+            if ($(this.queueEl[n]).height() == null) {
+                $('#song-info-template').html('');
+                $('#song-time').css('display', 'none');
+                this.controls.play(false);
+                $('#play').addClass ('disabled');
+                $('#skip').addClass ('disabled');
+                $('#back').addClass('disabled')
+                return;
+            }
+        }
+        else if (this.controls.n_repeat == 1) {
+            if (this.controls.n_shuffle == 1) {
+                n = Math.floor((Math.random() * this.queue.length) + 0);
+            }
+            else {
+                n = this.queueIndex + 1;
+            }
+            if ($(this.queueEl[n]).height() == null) {
+                n = 0;
+            }
+        }
+        else if (this.controls.n_repeat == 2) {
+            n = this.queueIndex;
+        }
+
+        this.playSong (this.queue[n]);
+    }
+
+    increment_song = () => {
+         this.ipc.increment_song(this.currentSong.id);
     }
 }
