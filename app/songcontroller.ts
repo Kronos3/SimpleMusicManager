@@ -192,11 +192,11 @@ export class SongController {
     }
 
     findSonginEl = (id: string, ar: Element[]): Element => {
-        ar.forEach(element => {
-            if ($(element).data('id') == id) {
-                return element;
+        for (var i = 0; i != ar.length; i++) {
+            if ($(ar[i]).data('id') == id) {
+                return ar[i];
             }
-        });
+        }
         return null;
     }
 
@@ -213,6 +213,8 @@ export class SongController {
         $('#play').removeClass ('disabled');
         $('#back').removeClass ('disabled');
         $('#skip').removeClass ('disabled');
+        if (this.currentSongDiv != undefined)
+        $(this.currentSongDiv).children('.tbl-num').children('span').css('background-image', 'url({0})'.format (this.currentSong.albumArtRef[0].url));
         this.currentSongIndex = UTIL.find (song, this.metaSongs);
         this.currentSong = this.metaSongs[this.currentSongIndex];
         this.currentSongDiv = this.findSonginEl (this.currentSong.id, this.queueEl);
@@ -292,5 +294,6 @@ export class SongController {
 
     increment_song = () => {
          this.ipc.increment_song(this.currentSong.id);
+         $(this.currentSongDiv).children('.tbl-plays').text (parseInt($(this.currentSongDiv).children('.tbl-plays').text()) + 1);
     }
 }

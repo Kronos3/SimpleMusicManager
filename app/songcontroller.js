@@ -78,11 +78,11 @@ var SongController = (function () {
             _this.playSong(_this.findSongFromEl(el));
         };
         this.findSonginEl = function (id, ar) {
-            ar.forEach(function (element) {
-                if ($(element).data('id') == id) {
-                    return element;
+            for (var i = 0; i != ar.length; i++) {
+                if ($(ar[i]).data('id') == id) {
+                    return ar[i];
                 }
-            });
+            }
             return null;
         };
         this.findSongIndexinEl = function (id, ar) {
@@ -97,6 +97,8 @@ var SongController = (function () {
             $('#play').removeClass('disabled');
             $('#back').removeClass('disabled');
             $('#skip').removeClass('disabled');
+            if (_this.currentSongDiv != undefined)
+                $(_this.currentSongDiv).children('.tbl-num').children('span').css('background-image', 'url({0})'.format(_this.currentSong.albumArtRef[0].url));
             _this.currentSongIndex = UTIL.find(song, _this.metaSongs);
             _this.currentSong = _this.metaSongs[_this.currentSongIndex];
             _this.currentSongDiv = _this.findSonginEl(_this.currentSong.id, _this.queueEl);
@@ -171,6 +173,7 @@ var SongController = (function () {
         };
         this.increment_song = function () {
             _this.ipc.increment_song(_this.currentSong.id);
+            $(_this.currentSongDiv).children('.tbl-plays').text(parseInt($(_this.currentSongDiv).children('.tbl-plays').text()) + 1);
         };
         this.audio = new Audio;
         this.audio.volume = 0.5;
