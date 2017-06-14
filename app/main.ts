@@ -22,4 +22,9 @@ export class App {
 
 $(document).ready(() => {
     (<any>window).APP = new App ();
+    document.onkeyup=function(e){
+        if(e.which == 32) {
+            (<any>window).APP.songcontroller.controls.play();
+        }
+    }
 })

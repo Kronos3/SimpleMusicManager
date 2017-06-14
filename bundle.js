@@ -256,6 +256,11 @@ exports.App = App;
 window.APP = null;
 $(document).ready(function () {
     window.APP = new App();
+    document.onkeyup = function (e) {
+        if (e.which == 32) {
+            window.APP.songcontroller.controls.play();
+        }
+    };
 });
 
 },{"./ipc":2,"./login":3,"./songcontroller":5,"./ui":7}],5:[function(require,module,exports){
