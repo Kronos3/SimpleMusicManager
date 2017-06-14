@@ -366,6 +366,7 @@ var SongController = (function () {
             if (_this.currentSongDiv != undefined)
                 $(_this.currentSongDiv).children('.tbl-num').children('span').css('background-image', 'url({0})'.format(_this.currentSong.albumArtRef[0].url));
             _this.currentSongIndex = UTIL.find(song, _this.metaSongs);
+            _this.audio.currentTime = 0;
             _this.currentSong = _this.metaSongs[_this.currentSongIndex];
             _this.currentSongDiv = _this.findSonginEl(_this.currentSong.id, _this.queueEl);
             _this.queueIndex = _this.findSongIndexinEl(_this.currentSong.id, _this.queueEl);
