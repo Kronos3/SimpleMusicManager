@@ -25,8 +25,6 @@
 
 <head>
 <meta charset="utf-8" />
-<script>
-</script>
 <link href="css/roboto.css" "stylesheet">
 <link rel="stylesheet" href="css/materialize.min.css">
 <link href="css/material-icons.css" rel="stylesheet">
@@ -47,11 +45,6 @@
 <script type="text/javascript" src="js/jquery-3.2.1.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
 <script type="text/javascript" src="js/hammer.min.js" onload="window.Hammer = module.exports;"></script>
 <script type="text/javascript" src="js/color-thief.min.js"></script>
-<!--script type="text/javascript" src="js/top.js"></script>
-<script type="text/javascript" src="js/nav.js"></script>
-<script type="text/javascript" src="js/play.js"></script>
-<script type="text/javascript" src="js/login.js"></script>
-<script type="text/javascript" src="js/backend2.0.js"></script-->
 <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -63,18 +56,18 @@
     <button id="min" onclick="minimize()"></button>
 </div>
 <div class="disable" onclick="window.APP.login.gps.close()"></div>
-<div class="disable-nav" onclick="nav_close()"></div>
+<div class="disable-nav" onclick="window.APP.ui.openNav ();"></div>
 <div class="window" onclick=" $('.song-row-menu').css('display', 'none');$('.playlist-row-menu').css('display', 'none')">
 <iframe class="login" src="/oauth/" onLoad="window.APP.login.gps.loginRedirect(this.contentWindow.location);"></iframe>
 <div class="queue-disable" onclick="$('.mini-dialog-wrapper').toggleClass ('mini-dialog-open'); $('.queue-music-btn').toggleClass('queue-music-open'); $('.queue-disable').css('display', 'none');"></div>
 <div class="top-bar red card-panel lighten-2 no-shadow">
-    <button id="menu" onclick="openNav()" class="waves-effect  waves-light waves-circle btn-float red lighten-2">
+    <button id="menu" onclick="window.APP.ui.openNav ();" class="waves-effect  waves-light waves-circle btn-float red lighten-2">
         <i class="material-icons">menu</i>
     </button>
     <div id="nav" class="card-panel">
-        <div class="nav-panel"><a href="#" class="waves-effect" onclick="window.APP.ui.tabs.dis_0(); openNav ();"><i class="nav-icon material-icons">home</i><p>Home</p></a></div>
-        <div class="nav-panel"><a href="#" class="waves-effect" onclick="window.APP.ui.tabs.dis_3()"><i class="nav-icon material-icons">library_music</i><p>Library</p></a></div>
-        <div class="nav-panel"><a href="#" class="waves-effect" onclick="window.APP.ui.tabs.dis_2()"><i class="nav-icon material-icons">queue_music</i><p>Playlists</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="window.APP.ui.tabs.dis_0(); window.APP.ui.openNav ();"><i class="nav-icon material-icons">home</i><p>Home</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="window.APP.ui.tabs.dis_3(); window.APP.ui.openNav ();"><i class="nav-icon material-icons">library_music</i><p>Library</p></a></div>
+        <div class="nav-panel"><a href="#" class="waves-effect" onclick="window.APP.ui.tabs.dis_2(); window.APP.ui.openNav ();"><i class="nav-icon material-icons">queue_music</i><p>Playlists</p></a></div>
         <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('4')"><i class="nav-icon material-icons">file_upload</i><p>Upload Music</p></a></div>
         <div class="nav-divider"></div>
         <div class="nav-panel"><a href="#" class="waves-effect" onclick="moveTo('8')"><i class="nav-icon"><iron-icon class="x-scope iron-icon-0"><svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; fill: #424242; width: 24px; height: 24px;"><g class="style-scope iron-icon"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z" class="style-scope iron-icon"></path></g></svg></iron-icon></i><p>Settings</p></a></div>
@@ -90,7 +83,7 @@
     <input id="sign-in" class="sign-in-small" onclick="window.APP.login.gps.login()" type="submit" value="Sign In"> 
 </div>
 <div class="home-wrapper">
-    <paper-tabs class="home-tabs" selected="0" noink>
+    <paper-tabs class="home-tabs" selected="0">
         <paper-tab onclick="window.APP.ui.tabs.dis_0()">Albums</paper-tab>
         <paper-tab onclick="window.APP.ui.tabs.dis_1()">Artists</paper-tab>
         <paper-tab onclick="window.APP.ui.tabs.dis_2()">Playlists</paper-tab>
@@ -174,7 +167,7 @@
     </div>
 </paper-dialog>
 <div role="listbox" class="song-row-menu card">
-    <paper-item class="waves-effect" onclick="song_click(window.song_obj_right)">Play song</paper-item>
+    <paper-item class="waves-effect" onclick="window.APP.songcontroller.songClick(window.APP.ui.contextObj)">Play song</paper-item>
     <paper-item class="waves-effect">Get info</paper-item>
     <paper-item class="waves-effect" >Download</paper-item>
     <paper-item class="waves-effect" onclick="removedia.open()">Delete</paper-item>
@@ -182,7 +175,7 @@
     <paper-item class="waves-effect" onclick="playlist.open()">Add to playlist</paper-item>
 </div>
 <div role="listbox" class="playlist-row-menu card">
-    <paper-item class="waves-effect" onclick="song_click(window.song_obj_right)">Play song</paper-item>
+    <paper-item class="waves-effect" onclick="window.APP.songcontroller.songClick(window.APP.ui.contextObj)">Play song</paper-item>
     <paper-item class="waves-effect">Get info</paper-item>
     <paper-item class="waves-effect">Download</paper-item>
     <paper-item class="waves-effect" onclick="removedia.open()" >Delete</paper-item>

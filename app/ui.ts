@@ -9,6 +9,7 @@ export class UI {
     in_songs: boolean;
     in_playlist: boolean;
     tabs: Tabs;
+    navOpened: boolean;
     
     constructor (app: App) {
         this.app = app;
@@ -29,6 +30,7 @@ export class UI {
             $(this).prev('.search-icon').css('color', '#424242');
             $(this).css('color', '#424242');
         });
+        this.navOpened = false;
     }
 
     get = (s: string) => {
@@ -96,7 +98,7 @@ export class UI {
         }
     }
 
-    
+    contextObj: Element;
     goto_album = (album) => {
         $.get('templates/album.mst', function(template) {
             album.songs.sort (function (a, b) {
@@ -109,7 +111,8 @@ export class UI {
             $('.topcontent-wrapper').css ('display', 'none');
             /*document.getElementById('al').scrollIntoView();*/
             $(".other-buff").scrollTop($("#al").position().top);
-            $('.song-row').contextmenu(function(event) {
+            $('.song-row').contextmenu(function (event) {
+                var max_top;
                 max_top = $(window).height() - 90 - 230;
                 if (event.pageY > max_top) {
                     $('.song-row-menu').css({
@@ -127,6 +130,7 @@ export class UI {
                         display: "block"
                     });
                 }
+                (<any>window).APP.ui.contextObj = $(this).get(0);
             });
         });
         this.switch_top ("clear", album.artimg);
@@ -139,13 +143,13 @@ export class UI {
                     return a.trackNumber - b.trackNumber;
                 });
             }
-            var max_top;
             var rendered = Mustache.render(template, artist);
             $('.other-buff').html(rendered);
             $('.other-buff').css ('display', 'block');
             $('.topcontent-wrapper').css ('display', 'none');
             $(".other-buff").scrollTop($("#al").position().top);
-            $('.song-row').contextmenu(function(event) {
+            $('.song-row').contextmenu(function (event) {
+                var max_top;
                 max_top = $(window).height() - 90 - 230;
                 if (event.pageY > max_top) {
                     $('.song-row-menu').css({
@@ -163,6 +167,7 @@ export class UI {
                         display: "block"
                     });
                 }
+                (<any>window).APP.ui.contextObj = $(this).get(0);
             });
         });
         this.switch_top ("clear", artist.artimg);
@@ -220,13 +225,13 @@ export class UI {
                 // names must be equal
                 return 0;
             });
-            var max_top;
             var rendered = Mustache.render(template, struct);
             $('#songs').html(rendered);
             $("#songs").animate({
                     scrollTop: 0
                 }, 0);
-            $('.song-row').contextmenu(function(event) {
+            $('.song-row').contextmenu(function (event) {
+                var max_top;
                 max_top = $(window).height() - 90 - 230;
                 if (event.pageY > max_top) {
                     $('.song-row-menu').css({
@@ -244,6 +249,7 @@ export class UI {
                         display: "block"
                     });
                 }
+                (<any>window).APP.ui.contextObj = $(this).get(0);
             });
         });
         this.switch_top ("red", 'none');
@@ -260,8 +266,8 @@ export class UI {
             $(".other-buff").animate({
                     scrollTop: 0
                 }, 0);
-            var max_top;
-            $('.song-row').contextmenu(function(event) {
+            $('.song-row').contextmenu(function (event) {
+                var max_top;
                 max_top = $(window).height() - 90 - 230;
                 if (event.pageY > max_top) {
                     $('.song-row-menu').css({
@@ -279,6 +285,7 @@ export class UI {
                         display: "block"
                     });
                 }
+                (<any>window).APP.ui.contextObj = $(this).get(0);
             });
         });
         this.switch_top ("red", 'none');
@@ -321,5 +328,51 @@ export class UI {
                 });
             }
         });
+    }
+
+    context = (event) => {
+        var max_top;
+        max_top = $(window).height() - 90 - 230;
+        if (event.pageY > max_top) {
+            $('.song-row-menu').css({
+                bottom: ($(window).height() - event.pageY - 15) + "px",
+                top: 'initial',
+                left: event.pageX + "px",
+                display: "block"
+            });
+        }
+        else {
+            $('.song-row-menu').css({
+                top: event.pageY + "px",
+                left: event.pageX + "px",
+                bottom: 'initial',
+                display: "block"
+            });
+        }
+        console.log (this);
+        //(<any>window).APP.ui.contextObj = $(this).get(0);
+    }
+
+    openNav = () => {
+        "use strict";
+        if (!this.navOpened) {
+            $("#menu > i").css("color", "#212121");
+            $("#nav").css("left", "0px");
+            $("#menu").css("color", "rgb(255, 255, 255)");
+            $("#menu > i").text("close");
+            this.navOpened = true;
+            $('.disable-nav').css('display', 'block');
+            $('.disable-nav').css('z-index', '104');
+        }
+        else {
+            $("#menu > i").css("color", "#fff");
+            $("#nav").css("left", "-280px");
+            $("#menu").addClass("white");
+            $("#menu").css("color", "rgb(80, 77, 71)");
+            $("#menu > i").text("menu");
+            this.navOpened = false;
+            $('.disable-nav').css('display', 'none');
+            $('.disable-nav').css('z-index', '-1');
+        }
     }
 }

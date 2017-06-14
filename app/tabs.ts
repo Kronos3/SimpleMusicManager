@@ -18,6 +18,7 @@ export class Tabs {
         $('.topcontent-wrapper').css ('display', 'flex');
         this.ui.switch_top ('red', 'none');
         this.current = 0;
+        this.setBottom ();
     }
 
     dis_1 = () => {
@@ -26,6 +27,7 @@ export class Tabs {
         $('.topcontent-wrapper').css ('display', 'flex');
         this.ui.switch_top ('red', 'none');
         this.current = 1;
+        this.setBottom ();
     }
 
     dis_2 = () => {
@@ -34,6 +36,7 @@ export class Tabs {
         $('.topcontent-wrapper').css ('display', 'flex');
         this.ui.switch_top ('red', 'none');
         this.current = 2;
+        this.setBottom ();
     }
 
     dis_3 = () => {
@@ -42,5 +45,10 @@ export class Tabs {
         $('.topcontent-wrapper').css ('display', 'flex');
         this.ui.switch_top ('red', 'none');
         this.current = 3;
+        this.setBottom ();
+    }
+
+    setBottom = () => {
+        (<any>document.querySelector('.home-tabs')).select(this.current);
     }
 }

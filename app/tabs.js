@@ -9,6 +9,7 @@ var Tabs = (function () {
             $('.topcontent-wrapper').css('display', 'flex');
             _this.ui.switch_top('red', 'none');
             _this.current = 0;
+            _this.setBottom();
         };
         this.dis_1 = function () {
             $('.topcontent-wrapper').css('transform', 'translateX(-100vw)');
@@ -16,6 +17,7 @@ var Tabs = (function () {
             $('.topcontent-wrapper').css('display', 'flex');
             _this.ui.switch_top('red', 'none');
             _this.current = 1;
+            _this.setBottom();
         };
         this.dis_2 = function () {
             $('.topcontent-wrapper').css('transform', 'translateX(-200vw)');
@@ -23,6 +25,7 @@ var Tabs = (function () {
             $('.topcontent-wrapper').css('display', 'flex');
             _this.ui.switch_top('red', 'none');
             _this.current = 2;
+            _this.setBottom();
         };
         this.dis_3 = function () {
             $('.topcontent-wrapper').css('transform', 'translateX(-300vw)');
@@ -30,6 +33,10 @@ var Tabs = (function () {
             $('.topcontent-wrapper').css('display', 'flex');
             _this.ui.switch_top('red', 'none');
             _this.current = 3;
+            _this.setBottom();
+        };
+        this.setBottom = function () {
+            document.querySelector('.home-tabs').select(_this.current);
         };
         this.app = app;
         this.current = 0;
