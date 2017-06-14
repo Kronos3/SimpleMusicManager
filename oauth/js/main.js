@@ -16,7 +16,9 @@ function __login(){
         success: function(resultData) { 
             $('.wrongpass').css('display', 'none');
             window.location.replace("http://localhost:8000/oauth/redirect.html");
+        },
+        error: function() {
+            $('.wrongpass').css('display', 'block');
         }
     });
-    saveData.error(function() { $('.wrongpass').css('display', 'block'); });
 }

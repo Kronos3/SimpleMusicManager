@@ -237,11 +237,13 @@ def refresh():
     out_p = ""
     try:
         out_s = gm_api_mob.get_all_songs ()
-        out_s = eval(str(out_s).replace ("http://", "http://localhost:8000/.cache/").replace ("https://", "http://localhost:8000/.cache/"))
-        write_img_cache (str(out_s))
+        if os.fork () == 0:
+            write_img_cache (str(out_s))
+        out_s = eval(str(out_s).replace ("http://", "http://localhost:8001/.cache/").replace ("https://", "http://localhost:8001/.cache/"))
         out_p = gm_api_mob.get_all_user_playlist_contents ()
-        out_p = eval(str(out_p).replace ("http://", "http://localhost:8000/.cache/").replace ("https://", "http://localhost:8000/.cache/"))
-        write_img_cache (str(out_p))
+        if os.fork () == 0:
+            write_img_cache (str(out_p))
+        out_p = eval(str(out_p).replace ("http://", "http://localhost:8001/.cache/").replace ("https://", "http://localhost:8001/.cache/"))
     except:
         pass
     global gm_library

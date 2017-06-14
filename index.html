@@ -62,10 +62,10 @@
     <button id="max" onclick="maximize()"></button>
     <button id="min" onclick="minimize()"></button>
 </div>
-<div class="disable" onclick="login_close()"></div>
+<div class="disable" onclick="window.APP.login.gps.close()"></div>
 <div class="disable-nav" onclick="nav_close()"></div>
 <div class="window" onclick=" $('.song-row-menu').css('display', 'none');$('.playlist-row-menu').css('display', 'none')">
-<iframe class="login" src="/oauth/" onLoad="window.APP.gpsLoginRedirect(this.contentWindow.location);"></iframe>
+<iframe class="login" src="/oauth/" onLoad="window.APP.login.gps.loginRedirect(this.contentWindow.location);"></iframe>
 <div class="queue-disable" onclick="$('.mini-dialog-wrapper').toggleClass ('mini-dialog-open'); $('.queue-music-btn').toggleClass('queue-music-open'); $('.queue-disable').css('display', 'none');"></div>
 <div class="top-bar red card-panel lighten-2 no-shadow">
     <button id="menu" onclick="openNav()" class="waves-effect  waves-light waves-circle btn-float red lighten-2">
@@ -87,7 +87,7 @@
             <input id="search" class="search" type="text" placeholder="Search">
         </div>
     </div>
-    <input id="sign-in" class="sign-in-small" onclick="open_login()" type="submit" value="Sign In"> 
+    <input id="sign-in" class="sign-in-small" onclick="window.APP.login.gps.login()" type="submit" value="Sign In"> 
 </div>
 <div class="home-wrapper">
     <paper-tabs class="home-tabs" selected="0" noink>

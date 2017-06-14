@@ -10,36 +10,48 @@ class GPSLogin {
         this.app = app;
     }
 
-    updateStatus () {
+    updateStatus = (callback?: (boolean) => void, refresh?: boolean) => {
         var saveData = $.ajax({
             type: 'POST',
             url: "/check_login",
             dataType: "text",
-            success: function(resultData) { 
+            success: (resultData) => { 
                 this.close ();
                 $('#sign-in').css ('display', 'none');
                 this.loginStatus = true;
+                if (typeof callback != 'undefined') {
+                    callback (true);
+                }
+                if (refresh) {
+                    this.app.ui.refresh ();
+                }
             },
             error: () => {
                 this.loginStatus = false;
-                this.login ();
+                if (typeof callback != 'undefined') {
+                    callback (false);
+                }
             }
         });
     }
 
-    login () { // Open login dialogue
-        $('.login').css('display', 'block');
-        $('.disable').css('display', 'block');
-        $('.disable').css('z-index', '104');
+    login = () => { // Open login dialogue
+        this.updateStatus ((status) => {
+            if (!status) {
+                $('.login').css('display', 'block');
+                $('.disable').css('display', 'block');
+                $('.disable').css('z-index', '104');
+            }
+        })
     }
 
-    close () { // Close login dialogue
+    close = () => { // Close login dialogue
         $('.login').css('display', 'none');
         $('.disable').css('display', 'none');
         $('.disable').css('z-index', '-1');
     }
     
-    gpsLoginRedirect = (url) => { //Handles oauth from GPS redirect (after login complete)
+    loginRedirect = (url) => { //Handles oauth from GPS redirect (after login complete)
         if (url != "http://localhost:8001/oauth/"){
             this.close ();
             $('#sign-in').css ('display', 'none');
@@ -90,5 +102,7 @@ export class Login {
         this.app = app;
         this.gps = new GPSLogin (this.app);
         this.oauth = new oauthLogin ();
+        this.gps.updateStatus (() => {return}, true);
+        this.oauth.updateStatus ();
     }
 }

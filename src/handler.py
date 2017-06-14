@@ -60,7 +60,7 @@ class postHandler (server.SimpleHTTPRequestHandler):
             except:
                 traceback.print_exc(file=sys.stdout)
             self.send_response(301)
-            self.send_header('Location','http://localhost:8000')
+            self.send_header('Location','http://localhost:8001')
             self.end_headers()
             return
         
@@ -87,6 +87,21 @@ class postHandler (server.SimpleHTTPRequestHandler):
         MainRHandler.gmusic.write_data ()
         self.send_response(200)
         self.end_headers()
+    
+    def do_REFRESH (self): # Moved from post
+        if self.path[1:] == 'force':
+            MainRHandler.gmusic.write_data ()
+            return True
+        
+        if not MainRHandler.gmusic.loaded:
+            MainRHandler.gmusic.write_data ()
+        
+        if MainRHandler.gmusic.loaded:
+            self.send_response(200)
+        else:
+            self.send_response(502)
+        self.end_headers()
+
     
     def do_DELETE (self):
         _id = self.path[1:]

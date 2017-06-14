@@ -81,11 +81,11 @@ class Library:
             if album == '':
                 b_album['name'] = 'Unknown Album'
             b_album['img'] = self.songs[self.albums[album][0]].albumArtRef[0]['url']
-            if self.songs[self.albums[album][0]].artistArtRef != 'http://localhost:8000/img/noart.png':
+            if self.songs[self.albums[album][0]].artistArtRef != 'http://localhost:8001/img/noart.png':
                 b_album['artimg'] = self.songs[self.albums[album][0]].artistArtRef[0]['url'] + "=s1920-e100"
-                gmusic.img_gen_cache_http (b_album['artimg'].replace ("http://localhost:8000/.cache/", ""))
+                gmusic.img_gen_cache_http (b_album['artimg'].replace ("http://localhost:8001/.cache/", ""))
             else:
-                b_album['artimg'] = 'http://localhost:8000/img/noart.png'
+                b_album['artimg'] = 'http://localhost:8001/img/noart.png'
             b_album['artist'] = self.songs[self.albums[album][0]].albumArtist
             b_album['year'] = self.songs[self.albums[album][0]].year
             if b_album['year'] in [0, '0']:
@@ -121,11 +121,11 @@ class Library:
             if album == '':
                 b_album['name'] = 'Unknown Album'
             b_album['img'] = self.songs[self.albums[album][0]].albumArtRef[0]['url']
-            if self.songs[self.albums[album][0]].artistArtRef != 'http://localhost:8000/img/noart.png':
+            if self.songs[self.albums[album][0]].artistArtRef != 'http://localhost:8001/img/noart.png':
                 b_album['artimg'] = self.songs[self.albums[album][0]].artistArtRef[0]['url'] + "=s1920-e100"
-                gmusic.img_gen_cache_http (b_album['artimg'].replace ("http://localhost:8000/.cache/", ""))
+                gmusic.img_gen_cache_http (b_album['artimg'].replace ("http://localhost:8001/.cache/", ""))
             else:
-                b_album['artimg'] = 'http://localhost:8000/img/noart.png'
+                b_album['artimg'] = 'http://localhost:8001/img/noart.png'
             b_album['artist'] = self.songs[self.albums[album][0]].albumArtist
             b_album['year'] = self.songs[self.albums[album][0]].year
             b_album['genre'] = self.songs[self.albums[album][0]].genre
@@ -159,13 +159,13 @@ class Library:
             b_artist['name'] = artist
             if artist == '':
                 b_artist['name'] = 'Unknown artist'
-            if self.songs[self.artists[artist][0]].artistArtRef != 'http://localhost:8000/img/noart.png':
+            if self.songs[self.artists[artist][0]].artistArtRef != 'http://localhost:8001/img/noart.png':
                 b_artist['img'] = self.songs[self.artists[artist][0]].artistArtRef[0]['url'] + "=w250-h250-p-e100"
                 b_artist['artimg'] = self.songs[self.artists[artist][0]].artistArtRef[0]['url'] + "=s1920-e100"
-                gmusic.img_gen_cache_http (b_artist['img'].replace ("http://localhost:8000/.cache/", ""))
+                gmusic.img_gen_cache_http (b_artist['img'].replace ("http://localhost:8001/.cache/", ""))
                 b_artist['letter'] = ''
             else:
-                b_artist['img'] = 'http://localhost:8000/img/noart.png'
+                b_artist['img'] = 'http://localhost:8001/img/noart.png'
                 b_artist['letter'] = b_artist['name'][0]
             b_artist['albums'] = self.get_salbums (self.get_ssongs(self.artists[artist]))['albums']
             b_artist['index'] = i
@@ -236,11 +236,11 @@ class PlayList:
 class Song:
     def __init__ (self, _p_song):
         self._in = _p_song
-        self.albumArtRef = [{'url':'http://localhost:8000/img/default_album.svg'}]
+        self.albumArtRef = [{'url':'http://localhost:8001/img/default_album.svg'}]
         self.albumArtist = 'Unknown Artist'
         self.year = '-'
         self.genre = '-'
-        self.artistArtRef = 'http://localhost:8000/img/noart.png'
+        self.artistArtRef = 'http://localhost:8001/img/noart.png'
         for k in _p_song:
             exec ("self.%s = _p_song['%s']" % (k, k))
         if not self.albumArtist:

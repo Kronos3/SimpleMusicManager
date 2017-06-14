@@ -146,14 +146,115 @@ exports.IPC = IPC;
 },{}],3:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
+var GPSLogin = (function () {
+    function GPSLogin(app) {
+        var _this = this;
+        this.updateStatus = function (callback, refresh) {
+            var saveData = $.ajax({
+                type: 'POST',
+                url: "/check_login",
+                dataType: "text",
+                success: function (resultData) {
+                    _this.close();
+                    $('#sign-in').css('display', 'none');
+                    _this.loginStatus = true;
+                    if (typeof callback != 'undefined') {
+                        callback(true);
+                    }
+                    if (refresh) {
+                        _this.app.ui.refresh();
+                    }
+                },
+                error: function () {
+                    _this.loginStatus = false;
+                    if (typeof callback != 'undefined') {
+                        callback(false);
+                    }
+                }
+            });
+        };
+        this.login = function () {
+            _this.updateStatus(function (status) {
+                if (!status) {
+                    $('.login').css('display', 'block');
+                    $('.disable').css('display', 'block');
+                    $('.disable').css('z-index', '104');
+                }
+            });
+        };
+        this.close = function () {
+            $('.login').css('display', 'none');
+            $('.disable').css('display', 'none');
+            $('.disable').css('z-index', '-1');
+        };
+        this.loginRedirect = function (url) {
+            if (url != "http://localhost:8001/oauth/") {
+                _this.close();
+                $('#sign-in').css('display', 'none');
+                _this.loginStatus = true;
+                _this.app.ui.refresh();
+            }
+        };
+        this.loginStatus = false;
+        this.app = app;
+    }
+    return GPSLogin;
+}());
+var oauthLogin = (function () {
+    function oauthLogin() {
+        var _this = this;
+        this.updateStatus = function () {
+            $.ajax({
+                type: 'CHECKOAUTH',
+                url: '/',
+                success: function () {
+                    _this.loginStatus = true;
+                },
+                error: function () {
+                    _this.perform();
+                    _this.loginStatus = false;
+                }
+            });
+        };
+        this.perform = function () {
+            $.ajax({
+                type: 'GETOAUTHURL',
+                url: '/',
+                success: function (data) {
+                    console.log(data);
+                    window.open(data);
+                }
+            });
+        };
+        this.loginStatus = false;
+    }
+    return oauthLogin;
+}());
+var Login = (function () {
+    function Login(app) {
+        this.app = app;
+        this.gps = new GPSLogin(this.app);
+        this.oauth = new oauthLogin();
+        this.gps.updateStatus(function () { return; }, true);
+        this.oauth.updateStatus();
+    }
+    return Login;
+}());
+exports.Login = Login;
+
+},{}],4:[function(require,module,exports){
+"use strict";
+exports.__esModule = true;
 var songcontroller_1 = require("./songcontroller");
 var ui_1 = require("./ui");
 var ipc_1 = require("./ipc");
+var login_1 = require("./login");
 var App = (function () {
     function App() {
         this.ipc = new ipc_1.IPC(this);
         this.songcontroller = new songcontroller_1.SongController(this, this.ipc);
         this.ui = new ui_1.UI(this);
+        this.login = new login_1.Login(this);
     }
     return App;
 }());
@@ -163,7 +264,7 @@ $(document).ready(function () {
     window.APP = new App();
 });
 
-},{"./ipc":2,"./songcontroller":4,"./ui":5}],4:[function(require,module,exports){
+},{"./ipc":2,"./login":3,"./songcontroller":5,"./ui":6}],5:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
 var UTIL = require("./util");
@@ -332,7 +433,7 @@ var SongController = (function () {
 }());
 exports.SongController = SongController;
 
-},{"./controls":1,"./util":6}],5:[function(require,module,exports){
+},{"./controls":1,"./util":7}],6:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
 var Mustache = require("mustache");
@@ -612,7 +713,7 @@ var UI = (function () {
 }());
 exports.UI = UI;
 
-},{"mustache":7}],6:[function(require,module,exports){
+},{"mustache":8}],7:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
 function find(a, b) {
@@ -680,7 +781,7 @@ function getRandomInt(min, max) {
 }
 exports.getRandomInt = getRandomInt;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
  * http://github.com/janl/mustache.js
@@ -1312,4 +1413,4 @@ exports.getRandomInt = getRandomInt;
   return mustache;
 }));
 
-},{}]},{},[1,2,3,4,5,6]);
+},{}]},{},[1,2,4,5,6,7]);
