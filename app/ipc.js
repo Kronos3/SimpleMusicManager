@@ -2,18 +2,12 @@
 exports.__esModule = true;
 var IPC = (function () {
     function IPC(app) {
-        var _this = this;
-        this.requestSong = function (id, finished) {
-            _this.urlExists(id, function (status) {
-                if (!status) {
-                    var saveData = $.ajax({
-                        type: 'STREAM',
-                        url: "/" + id,
-                        dataType: "type",
-                        success: function (resultData) {
-                            finished(resultData);
-                        }
-                    });
+        this.requestSong = function (id, _context, finished) {
+            var saveData = $.ajax({
+                type: 'STREAM',
+                url: "/" + id,
+                success: function (resultData) {
+                    finished(resultData, _context);
                 }
             });
         };

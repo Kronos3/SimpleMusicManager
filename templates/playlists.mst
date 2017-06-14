@@ -1,8 +1,7 @@
 <div id="content-wrapper">
     <div class="albums">
         {{#playlists}}
-        <paper-card class="hoverable" onclick="parse_playlist (window.playlists.playlists[{{index}}])" image="http://localhost:8000/img/noalb.png">
-            <div class="hover-play" onclick="parse_playlist(window.playlists.playlists[{{index}}]); setTimeout(function(){song_click($('.other-buff').children('#al').children('.song-wrapper').children('tbody').children().first().next())}, 60);"><i class="fa fa-play" aria-hidden="true"></i></div>
+        <paper-card class="hoverable" onclick="window.APP.ui.parse_playlist (window.APP.ui.rawPlaylists.playlists[{{index}}])" image="/img/noalb.png">
             <i class="playlist-letter nav-icon material-icons">library_music</i>
             <div class="card-content">
                 <p class="album-name truncate">{{name}}</p>

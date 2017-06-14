@@ -54,6 +54,7 @@ std::string string_format(const std::string fmt_str, ...) {
 void generate_cache (char* filename) {
     ifstream infile(filename);
     string url;
+    cout << "Start caching" << endl;
     while (getline(infile, url))
     {
         std::istringstream iss(url);
@@ -68,10 +69,15 @@ void generate_cache (char* filename) {
         command = string_format ("./download %s %s", url.c_str(), s.c_str());
         system (command.c_str());
     }
+    cout << endl
+         << "-----" << endl
+         << "Finished caching" << endl
+         << "-----" << endl;
 }
 
 int main(int argc, char **argv)
 {
+    cout << argv[1] << endl;
     generate_cache (argv[1]);
     return 0;
 }

@@ -17,7 +17,7 @@
                 <th class="tbl-rating"><i class="fa fa-thumbs-up" aria-hidden="true"></i></th>
             </tr>
             {{#songs}}
-            <tr class="song-row" data-streamUrl="{{streamUrl}}" ondblclick="song_click(this)" data-index="{{songnum}}" data-id="{{id}}" oncontextmenu="return false;">
+            <tr class="song-row" data-streamUrl="{{streamUrl}}" ondblclick="window.APP.songcontroller.songClick(this)" data-index="{{songnum}}" data-id="{{id}}" oncontextmenu="return false;">
                 <td class="tbl-num"><i class="fa fa-play song-play" aria-hidden="true"></i><span class="song-number">{{trackNumber}}</span></td>
                 <td class="tbl-name">{{title}}</td>
                 <td class="tbl-time">{{minutes}}</td>

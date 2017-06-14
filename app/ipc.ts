@@ -9,17 +9,12 @@ export class IPC {
         this.app = app;
     }
 
-    requestSong = (id: string, finished: (s: string) => void) => {
-        this.urlExists(id, (status) => {
-            if (!status) {
-                var saveData = $.ajax ({
-                    type: 'STREAM',
-                    url: "/" + id,
-                    dataType: "type",
-                    success: (resultData) => {
-                        finished (resultData);
-                    }
-                });
+    requestSong = (id: string, _context: Object, finished: (s: string, context: Object) => void) => {
+        var saveData = $.ajax ({
+            type: 'STREAM',
+            url: "/" + id,
+            success: (resultData) => {
+                finished(resultData, _context);
             }
         });
     } 

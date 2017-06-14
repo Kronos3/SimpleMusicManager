@@ -46,7 +46,7 @@ export class controls { // Handles UI portion of song playing
         }
     }
 
-    play = (__play) => {
+    play = (__play?:boolean) => {
         if ($('#play').hasClass('disabled')){
             $(this.controller.currentSongDiv).children('.tbl-num').children('span').css('background-image', "url(''");
             return;

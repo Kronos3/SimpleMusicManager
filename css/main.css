@@ -816,6 +816,7 @@ tr.title-row > th.tbl-name, tr.title-row > tr.tbl-num, tr.title-row > tr.tbl-alb
 .song-row:hover {
     background: #eee !important;
     cursor: pointer;
+    transition: background 0.12s;
 }
 
 .song-play {
@@ -832,9 +833,15 @@ tr.title-row > th.tbl-name, tr.title-row > tr.tbl-num, tr.title-row > tr.tbl-alb
     display: block;
 }
 
+.song-row,
+.song-row .song-number {
+    transition: none;
+}
+
 .song-row:hover > .tbl-num > .song-number {
     color: #eee !important;
-    background-image: url('../img/noalb.png') !important;
+    background: #eee !important;
+    transition: background 0.12s;
 }
 
 .song-row:hover > .tbl-num > .song-play {

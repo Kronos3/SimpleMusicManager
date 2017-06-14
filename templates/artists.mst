@@ -1,6 +1,6 @@
 <div class="content-wrapper-artists">
     {{#artists}}
-    <div class="artists" onclick="goto_artist(window.artists.artists[{{index}}])">
+    <div class="artists" onclick="window.APP.ui.goto_artist(window.APP.ui.rawArtists.artists[{{index}}])">
         <img src="{{img}}" class="artists-img card">
         <p class="artists-name">{{name}}</p>
         <span class="artist-letter">{{letter}}</span>

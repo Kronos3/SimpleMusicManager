@@ -39,3 +39,4 @@ load_lib.py
 testing
 bin-*
 .temp
+.temp-cache

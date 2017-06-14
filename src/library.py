@@ -66,6 +66,11 @@ class Library:
         if self._pin != None:
             for _list in self._pin:
                 self.playlists.append(PlayList(_list).get_json())
+        
+        if (os.fork != 0):
+            gmusic.cache_file.close ()
+            os.system ("./generate_cache .temp-cache")
+            gmusic.cache_file = open ('.temp-cache', 'w+')
     
     def get_stream (self, i):
         for x in self.songs:
@@ -83,7 +88,7 @@ class Library:
             b_album['img'] = self.songs[self.albums[album][0]].albumArtRef[0]['url']
             if self.songs[self.albums[album][0]].artistArtRef != 'http://localhost:8001/img/noart.png':
                 b_album['artimg'] = self.songs[self.albums[album][0]].artistArtRef[0]['url'] + "=s1920-e100"
-                gmusic.img_gen_cache_http (b_album['artimg'].replace ("http://localhost:8001/.cache/", ""))
+                gmusic.cache_file.write (b_album['artimg'].replace ("http://localhost:8001/.cache/", "http://") + '\n')
             else:
                 b_album['artimg'] = 'http://localhost:8001/img/noart.png'
             b_album['artist'] = self.songs[self.albums[album][0]].albumArtist
@@ -123,7 +128,7 @@ class Library:
             b_album['img'] = self.songs[self.albums[album][0]].albumArtRef[0]['url']
             if self.songs[self.albums[album][0]].artistArtRef != 'http://localhost:8001/img/noart.png':
                 b_album['artimg'] = self.songs[self.albums[album][0]].artistArtRef[0]['url'] + "=s1920-e100"
-                gmusic.img_gen_cache_http (b_album['artimg'].replace ("http://localhost:8001/.cache/", ""))
+                gmusic.cache_file.write (b_album['artimg'].replace ("http://localhost:8001/.cache/", "http://") + '\n')
             else:
                 b_album['artimg'] = 'http://localhost:8001/img/noart.png'
             b_album['artist'] = self.songs[self.albums[album][0]].albumArtist
@@ -162,7 +167,7 @@ class Library:
             if self.songs[self.artists[artist][0]].artistArtRef != 'http://localhost:8001/img/noart.png':
                 b_artist['img'] = self.songs[self.artists[artist][0]].artistArtRef[0]['url'] + "=w250-h250-p-e100"
                 b_artist['artimg'] = self.songs[self.artists[artist][0]].artistArtRef[0]['url'] + "=s1920-e100"
-                gmusic.img_gen_cache_http (b_artist['img'].replace ("http://localhost:8001/.cache/", ""))
+                gmusic.cache_file.write (b_artist['artimg'].replace ("http://localhost:8001/.cache/", "http://") + '\n')
                 b_artist['letter'] = ''
             else:
                 b_artist['img'] = 'http://localhost:8001/img/noart.png'

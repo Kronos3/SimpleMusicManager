@@ -3,6 +3,7 @@ import {App} from './main'
 import {IPC} from './ipc'
 import * as UTIL from './util'
 import {controls} from './controls'
+var Mustache = require ("mustache");
 declare var $;
 
 interface artRef {
@@ -83,6 +84,7 @@ export class SongController {
 
     constructor (app: App, ipc: IPC) {
         this.audio = new Audio;
+        this.audio.volume = 0.5;
         this.app = app;
         this.ipc = ipc;
         this.config = initConfig ();
@@ -91,18 +93,28 @@ export class SongController {
         document.querySelector('#song-time').addEventListener('immediate-value-change', (e) => {
             this.songTimeChanging = true;
         });
-        document.querySelector('#song-time').addEventListener('change', function(e) {;
+        document.querySelector('#song-time').addEventListener('change', (e) => {;
             this.audio.currentTime = (<any>document.querySelector('#song-time')).value;
             this.songTimeChanging = false;
         });
-        document.querySelector('#song-vol').addEventListener('immediate-value-change', function(e) {;
+        document.querySelector('#song-vol').addEventListener('immediate-value-change', (e) => {;
             this.audio.volume = ((<any>document.querySelector('#song-vol')).immediateValue / 100);
         });
-        document.querySelector('#song-vol').addEventListener('change', function(e) {
+        document.querySelector('#song-vol').addEventListener('change', (e) => {
             this.audio.volume = ((<any>document.querySelector('#song-vol')).value / 100);
         });
 
+        this.queue = [];
+        this.queueEl = [];
+
         this.initAudioEvents();
+    }
+
+    genMetaFromRaw = (struct) => {
+        this.metaSongs = [];
+        struct.songs.forEach((song) => {
+            this.metaSongs.push (<metaSong>song);
+        });
     }
 
     initAudioEvents = () => {
@@ -119,10 +131,10 @@ export class SongController {
         });
 
         this.audio.addEventListener('error', () => {
-            this.ipc.requestSong (this.currentSong.id, (url) => {
-                this.setSong (url);
-                this.audio.currentTime = (<any>document.querySelector('#song-time')).value;
-                this.controls.play (true);
+            this.ipc.requestSong (this.currentSong.id, this, (url, __this) => {
+                (<any>__this).setSong (url);
+                (<any>__this).audio.currentTime = (<any>document.querySelector('#song-time')).value;
+                (<any>__this).controls.play (true);
             });
         });
 
@@ -148,28 +160,24 @@ export class SongController {
     }
 
     findSongIndexFromEl = (el: Element) => {
-        return (this.findSongIndex ($(el).data('id'), "id"));
+        return (this.findSongIndexID ($(el).data('id')));
     }
 
     findSongFromEl = (el: Element) => {
         return (this.metaSongs[this.findSongIndexFromEl(el)]);
     }
 
-    findSongIndex = (attr: string, token: any): number => {
+    findSongIndexID = (token: any): number => {
         for (var i = 0; i!=this.metaSongs.length; i++) {
-            if (this.metaSongs[i][attr] == token) {
+            if (this.metaSongs[i].id == token) {
                 return i;
             }
         }
     }
-    
-    findSong = (attr: string, token: any): metaSong => {
-        return this.metaSongs[this.findSongIndex(attr, token)];
-    }
 
     generateQueue (e: Element) {
-        $(e).parent ().children ('.song-list').forEach(element => {
-            this.queue.push(this.findSongFromEl(element.get(0)));
+        $(e).parent ().children ('.song-list').toArray().forEach((element) => {
+            this.queue.push(this.findSongFromEl(element));
             this.queueEl.push (element);
         });
     }
@@ -192,14 +200,28 @@ export class SongController {
         return null;
     }
 
+    findSongIndexinEl = (id: string, ar: Element[]): number => {
+        for (var i = 0; i != ar.length; i++) {
+            if ($(ar[i]).data('id') == id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     playSong = (song: metaSong) => {
+        $('#play').removeClass ('disabled');
+        $('#back').removeClass ('disabled');
+        $('#skip').removeClass ('disabled');
         this.currentSongIndex = UTIL.find (song, this.metaSongs);
         this.currentSong = this.metaSongs[this.currentSongIndex];
         this.currentSongDiv = this.findSonginEl (this.currentSong.id, this.queueEl);
-        this.ipc.requestSong (this.currentSong.id, (url) => {
-            this.setSong (url);
-            this.queueIndex = UTIL.find (this.currentSongDiv, this.queue);
-            this.increment_song ();
+        this.queueIndex = this.findSongIndexinEl (this.currentSong.id, this.queueEl);
+        this.parseInfo();
+        this.ipc.requestSong (this.currentSong.id, this, (url, __this) => {
+            (<any>__this).setSong (url);
+            (<any>__this).increment_song ();
+            (<any>__this).controls.play (true);
         });
     }
 
@@ -209,8 +231,8 @@ export class SongController {
         }
 
         var n:number; // Buffer for queue index pointing to next song
-        if (!this.controls.n_repeat) {
-            if (this.controls.n_shuffle) {
+        if (this.controls.n_repeat == 0) {
+            if (this.controls.n_shuffle == 1) {
                 n = Math.floor((Math.random() * this.queue.length) + 0);
             }
             else {
@@ -240,8 +262,32 @@ export class SongController {
         else if (this.controls.n_repeat == 2) {
             n = this.queueIndex;
         }
-
         this.playSong (this.queue[n]);
+    }
+
+    prevSong = () => {
+        if ($('#back').hasClass('disabled')) {
+            return;
+        }
+        if (this.audio.currentTime > 5) { // Restart the song 
+            this.audio.currentTime = 0;
+        }
+        else { // Go back one song
+            var n:number = this.queueIndex - 1;
+            if (n < 0) {
+                n = 0;
+            }
+            this.audio.currentTime = 0;
+            this.playSong (this.queue[n]);
+        }
+    }
+
+    parseInfo = () => { // Put the info in the bottom left
+        $.get('templates/songinfo.mst', (template) => {
+            var rendered = Mustache.render(template, this.currentSong);
+            $('#song-info-template').html(rendered);
+        });
+        $('#song-time').css('display', 'block');
     }
 
     increment_song = () => {

@@ -253,6 +253,7 @@ var UI = (function () {
                 success: function (resultData) {
                     $.getJSON("data/library.json", function (json) {
                         _this.rawSongs = json;
+                        _this.app.songcontroller.genMetaFromRaw(_this.rawSongs);
                         _this.parse_songs(_this.rawSongs);
                     });
                     $.getJSON("data/albums.json", function (json) {
@@ -279,11 +280,11 @@ var UI = (function () {
         this.app = app;
         this.tabs = new tabs_1.Tabs(this.app, this);
         $('.search').blur(function () {
-            $(_this).parent('.top-search-inner').removeClass("white");
-            $(_this).parent('.top-search-inner').addClass("with-back");
-            $(_this).parent('.top-search-inner').css('box-shadow', 'none');
-            $(_this).prev('.search-icon').css('color', '#fff');
-            $(_this).css('color', '#fff');
+            $(this).parent('.top-search-inner').removeClass("white");
+            $(this).parent('.top-search-inner').addClass("with-back");
+            $(this).parent('.top-search-inner').css('box-shadow', 'none');
+            $(this).prev('.search-icon').css('color', '#fff');
+            $(this).css('color', '#fff');
         })
             .focus(function () {
             $(this).parent('.top-search-inner').removeClass("with-back");

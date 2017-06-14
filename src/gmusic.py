@@ -165,32 +165,25 @@ def mkdir_p(path):
 
 def safe_open_w(path):
     mkdir_p(os.path.dirname(path))
-    return open(path, 'wb')
+    return None
 
 def img_gen_cache_https (url):
     if ('localhost' in url):
-        return
+        if os.path.getsize (url.replace ('http://localhost:8001/', '')) == 0:
+            os.remove (url.replace ('http://localhost:8001/', ''))
+        else:
+            return
     try:
         if os.path.getsize ('.cache/' + url) == 0:
             os.remove ('.cache/' + url)
         if not os.path.isfile('.cache/'+url):
-            with safe_open_w('.cache/'+url) as f:
-                #url_buff = urllib.request.urlopen('https://'+url)
-                #f.write(url_buff.read())
-                #f.close
-                cache_file.write ('http://' + url + '\n')
-                print (url)
-                f.close ()
+            safe_open_w('.cache/'+url)
+            cache_file.write ('http://' + url + '\n')
     except FileNotFoundError:
         if not os.path.isfile('.cache/'+url):
             try:
-                with safe_open_w('.cache/'+url) as f:
-                    #url_buff = urllib.request.urlopen('https://'+url)
-                    #f.write(url_buff.read())
-                    #f.close()
-                    cache_file.write ('http://' + url + '\n')
-                    print (url)
-                    f.close ()
+                safe_open_w('.cache/'+url)
+                cache_file.write ('http://' + url + '\n')
             except OSError: # Who know why this happens (fuckin Windows is shit)
                 # Network unreachable for some reason
                 # 301 still works
@@ -199,28 +192,22 @@ def img_gen_cache_https (url):
 
 def img_gen_cache_http (url):
     if ('localhost' in url):
-        return
+        if os.path.getsize (url.replace ('http://localhost:8001/', '')) == 0:
+            os.remove (url.replace ('http://localhost:8001/', ''))
+            url = url.replace ('http://localhost:8001/.cache/', '')
+        else:
+            return
     try:
         if os.path.getsize ('.cache/' + url) == 0:
             os.remove ('.cache/' + url)
         if not os.path.isfile('.cache/'+url):
-            with safe_open_w('.cache/'+url) as f:
-                #url_buff = urllib.request.urlopen('http://'+url)
-                #f.write(url_buff.read())
-                #f.close()
-                cache_file.write ('http://' + url + '\n')
-                print (url)
-                f.close ()
+            safe_open_w('.cache/'+url)
+            cache_file.write ('http://' + url + '\n')
     except FileNotFoundError:
         if not os.path.isfile('.cache/'+url):
             try:
-                with safe_open_w('.cache/'+url) as f:
-                    #url_buff = urllib.request.urlopen('http://'+url)
-                    #f.write(url_buff.read())
-                    #f.close()
-                    cache_file.write ('http://' + url + '\n')
-                    print (url)
-                    f.close ()
+                safe_open_w('.cache/'+url)
+                cache_file.write ('http://' + url + '\n')
             except OSError: # Who know why this happens (fuckin Windows is shit)
                 # Network unreachable for some reason
                 # 301 still works
@@ -229,7 +216,7 @@ def img_gen_cache_http (url):
 
 cache_file = open ('.temp-cache', 'w+')
 
-def img_cache_back (_in):
+def write_img_cache (_in):
     for x in list(find_all(_in, "https://")):
         cache_buff = _in[x+len("https://"):_in.find ("\"", x)]
         while (cache_buff.find ("\'")) != -1:
@@ -241,23 +228,12 @@ def img_cache_back (_in):
             cache_buff = cache_buff[0:cache_buff.find ("\'")]
         img_gen_cache_http (cache_buff)
 
-def write_img_cache (_in):
-    
-    if str(sys.platform).find ('win') != -1:
-        t = threading.Thread(name='Image caching', target=img_cache_back, args=(_in,))
-        t.start()
-    else:
-        if os.fork () == 0:
-            img_cache_back (_in)
-            cache_file.close ()
-
 def refresh():
     out_s = ""
     out_p = ""
     try:
         out_s = gm_api_mob.get_all_songs ()
         write_img_cache (str(out_s))
-        out_s = eval(str(out_s).replace ("http://", "http://localhost:8001/.cache/").replace ("https://", "http://localhost:8001/.cache/"))
         out_p = gm_api_mob.get_all_user_playlist_contents ()
         write_img_cache (str(out_p))
     except:
@@ -267,6 +243,7 @@ def refresh():
         out_p = []
     gm_library = library.Library(eval(str(out_s).replace ("http://", "http://localhost:8001/.cache/").replace ("https://", "http://localhost:8001/.cache/")), \
                                  eval(str(out_p).replace ("http://", "http://localhost:8001/.cache/").replace ("https://", "http://localhost:8001/.cache/")))
+
     return gm_library
 
 def get_now():

@@ -13,14 +13,14 @@ export class UI {
     constructor (app: App) {
         this.app = app;
         this.tabs = new Tabs (this.app, this);
-        $('.search').blur(() => {
+        $('.search').blur(function () {
             $(this).parent('.top-search-inner').removeClass("white");
             $(this).parent('.top-search-inner').addClass("with-back");
             $(this).parent('.top-search-inner').css('box-shadow', 'none');
             $(this).prev('.search-icon').css('color', '#fff');
             $(this).css('color', '#fff');
         })
-      .focus(function () {
+        .focus(function () {
             $(this).parent('.top-search-inner').removeClass("with-back");
             $(this).parent('.top-search-inner').removeClass("red");
             $(this).parent('.top-search-inner').addClass("white");
@@ -298,6 +298,7 @@ export class UI {
             success: (resultData) => { 
                 $.getJSON( "data/library.json", ( json ) => {
                     this.rawSongs = json;
+                    this.app.songcontroller.genMetaFromRaw (this.rawSongs);
                     this.parse_songs(this.rawSongs);
                 });
                 $.getJSON( "data/albums.json", ( json ) => {
