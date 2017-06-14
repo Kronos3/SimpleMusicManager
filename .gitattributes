@@ -9,3 +9,4 @@ src/youtube_dl/* linguist-vendored
 *get-pip* linguist-vendored
 *.less linguist-vendored
 *.scss linguist-vendored
+*.cpp linguist-language=C
