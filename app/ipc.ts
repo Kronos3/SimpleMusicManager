@@ -1,7 +1,7 @@
 declare function require(name:string);
 import {App} from './main'
 import * as UTIL from './util'
-var $ = require("jquery");
+declare var $;
 
 export class IPC {
     app: App;

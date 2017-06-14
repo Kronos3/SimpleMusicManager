@@ -44,20 +44,19 @@
 <link rel="import" href="bower_components/paper-item/paper-item.html">
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
-<script src="js/jquery-2.1.1.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
-<script src="js/hammer.min.js" onload="window.Hammer = module.exports;"></script>
-<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+<script type="text/javascript" src="js/hammer.min.js" onload="window.Hammer = module.exports;"></script>
 <script type="text/javascript" src="js/color-thief.min.js"></script>
-<script type="text/javascript" src="js/mustache.min.js"></script>
 <!--script type="text/javascript" src="js/top.js"></script>
 <script type="text/javascript" src="js/nav.js"></script>
 <script type="text/javascript" src="js/play.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="js/backend2.0.js"></script-->
-<script type="text/javascript" src="js/backend.js"></script>
 <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script type="text/javascript" src="bundle.js"></script>
 <div class="title-bar">
     <button id="close" onclick="close_win()"></button>
     <button id="max" onclick="maximize()"></button>
@@ -66,7 +65,7 @@
 <div class="disable" onclick="login_close()"></div>
 <div class="disable-nav" onclick="nav_close()"></div>
 <div class="window" onclick=" $('.song-row-menu').css('display', 'none');$('.playlist-row-menu').css('display', 'none')">
-<iframe class="login" src="/oauth/" onLoad="login_load(this.contentWindow.location);"></iframe>
+<iframe class="login" src="/oauth/" onLoad="window.APP.gpsLoginRedirect(this.contentWindow.location);"></iframe>
 <div class="queue-disable" onclick="$('.mini-dialog-wrapper').toggleClass ('mini-dialog-open'); $('.queue-music-btn').toggleClass('queue-music-open'); $('.queue-disable').css('display', 'none');"></div>
 <div class="top-bar red card-panel lighten-2 no-shadow">
     <button id="menu" onclick="openNav()" class="waves-effect  waves-light waves-circle btn-float red lighten-2">

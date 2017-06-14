@@ -1,8 +1,7 @@
 import {App} from "./main"
-/// <reference path="js/mustache.min.js" />
 declare function require(name:string);
-var $ = require("jquery");
-var Mustache = require("mustache");
+var Mustache = require ("mustache");
+declare var $;
 
 export class UI {
     app: App;
@@ -258,5 +257,42 @@ export class UI {
         });
         this.switch_top ("red", 'none');
         this.in_playlist = true;
+    }
+
+    rawSongs;
+    rawalbums;
+    rawArtists;
+    rawPlaylists;
+
+    refresh = () => {
+        var saveData = $.ajax({
+            type: 'POST',
+            url: "/library",
+            dataType: "text",
+            success: (resultData) => { 
+                $.getJSON( "data/library.json", ( json ) => {
+                    this.rawSongs = json;
+                    this.parse_songs(this.rawSongs);
+                });
+                $.getJSON( "data/albums.json", ( json ) => {
+                    this.rawalbums = json
+                    this.parse_albums(this.rawalbums);
+                });
+                $.getJSON( "data/artists.json", ( json ) => {
+                    this.rawArtists = json
+                    this.parse_artists(this.rawArtists);
+                });
+                $.getJSON( "data/playlists.json", ( json ) => {
+                    this.rawPlaylists = json
+                    for (var i = 0; i != this.rawPlaylists.playlists.length; i++) {
+                        $('#playlist-drop').append ("<li class='playlist-item truncate'><a href='#'>" + this.rawPlaylists.playlists[i].name + "</a></li>");
+                    }
+                    $('.playlist-item').click (function () {
+                        $('#playlist-drop-btn').text ($(this).text());
+                    });
+                    this.parse_playlists(this.rawPlaylists);
+                });
+            }
+        });
     }
 }

@@ -3,7 +3,7 @@ import {App} from './main'
 import {IPC} from './ipc'
 import * as UTIL from './util'
 import {controls} from './controls'
-var $ = require("jquery");
+declare var $;
 
 interface artRef {
     kind?: string;

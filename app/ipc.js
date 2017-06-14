@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-var $ = require("jquery");
 var IPC = (function () {
     function IPC(app) {
         var _this = this;

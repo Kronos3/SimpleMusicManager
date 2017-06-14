@@ -1,6 +1,5 @@
 "use strict";
 exports.__esModule = true;
-var $ = require("jquery");
 var Mustache = require("mustache");
 var UI = (function () {
     function UI(app) {
@@ -224,6 +223,37 @@ var UI = (function () {
             });
             _this.switch_top("red", 'none');
             _this.in_playlist = true;
+        };
+        this.refresh = function () {
+            var saveData = $.ajax({
+                type: 'POST',
+                url: "/library",
+                dataType: "text",
+                success: function (resultData) {
+                    $.getJSON("data/library.json", function (json) {
+                        _this.rawSongs = json;
+                        _this.parse_songs(_this.rawSongs);
+                    });
+                    $.getJSON("data/albums.json", function (json) {
+                        _this.rawalbums = json;
+                        _this.parse_albums(_this.rawalbums);
+                    });
+                    $.getJSON("data/artists.json", function (json) {
+                        _this.rawArtists = json;
+                        _this.parse_artists(_this.rawArtists);
+                    });
+                    $.getJSON("data/playlists.json", function (json) {
+                        _this.rawPlaylists = json;
+                        for (var i = 0; i != _this.rawPlaylists.playlists.length; i++) {
+                            $('#playlist-drop').append("<li class='playlist-item truncate'><a href='#'>" + _this.rawPlaylists.playlists[i].name + "</a></li>");
+                        }
+                        $('.playlist-item').click(function () {
+                            $('#playlist-drop-btn').text($(this).text());
+                        });
+                        _this.parse_playlists(_this.rawPlaylists);
+                    });
+                }
+            });
         };
         this.app = app;
         $('.search').blur(function () {

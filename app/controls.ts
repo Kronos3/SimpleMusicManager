@@ -2,7 +2,7 @@ declare function require(name:string);
 import {App} from './main'
 import {IPC} from './ipc'
 import * as UTIL from './util'
-var $ = require("jquery");
+declare var $;
 import {SongController} from './songcontroller'
 
 export class controls { // Handles UI portion of song playing
