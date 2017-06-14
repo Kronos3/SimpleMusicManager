@@ -44,10 +44,11 @@ from gmusicapi.protocol import mobileclient
 from gmusicapi.utils import utils
 import traceback
 
-if sys.version_info < (3, 0):
-    from urllib2 import urlopen
-else:
-    from urllib.request import urlopen
+
+#if sys.version_info < (3, 0):
+#    from urllib2 import urlopen
+#else:
+#    from urllib.request import urlopen
 
 import urllib
 
@@ -167,21 +168,29 @@ def safe_open_w(path):
     return open(path, 'wb')
 
 def img_gen_cache_https (url):
+    if ('localhost' in url):
+        return
     try:
         if os.path.getsize ('.cache/' + url) == 0:
             os.remove ('.cache/' + url)
         if not os.path.isfile('.cache/'+url):
             with safe_open_w('.cache/'+url) as f:
-                url_buff = urllib.request.urlopen('https://'+url)
-                f.write(url_buff.read())
-                f.close()
+                #url_buff = urllib.request.urlopen('https://'+url)
+                #f.write(url_buff.read())
+                #f.close
+                cache_file.write ('http://' + url + '\n')
+                print (url)
+                f.close ()
     except FileNotFoundError:
         if not os.path.isfile('.cache/'+url):
             try:
                 with safe_open_w('.cache/'+url) as f:
-                    url_buff = urllib.request.urlopen('https://'+url)
-                    f.write(url_buff.read())
-                    f.close()
+                    #url_buff = urllib.request.urlopen('https://'+url)
+                    #f.write(url_buff.read())
+                    #f.close()
+                    cache_file.write ('http://' + url + '\n')
+                    print (url)
+                    f.close ()
             except OSError: # Who know why this happens (fuckin Windows is shit)
                 # Network unreachable for some reason
                 # 301 still works
@@ -189,26 +198,36 @@ def img_gen_cache_https (url):
                 os.remove ('.cache/' + url)
 
 def img_gen_cache_http (url):
+    if ('localhost' in url):
+        return
     try:
         if os.path.getsize ('.cache/' + url) == 0:
             os.remove ('.cache/' + url)
         if not os.path.isfile('.cache/'+url):
             with safe_open_w('.cache/'+url) as f:
-                url_buff = urllib.request.urlopen('http://'+url)
-                f.write(url_buff.read())
-                f.close()
+                #url_buff = urllib.request.urlopen('http://'+url)
+                #f.write(url_buff.read())
+                #f.close()
+                cache_file.write ('http://' + url + '\n')
+                print (url)
+                f.close ()
     except FileNotFoundError:
         if not os.path.isfile('.cache/'+url):
             try:
                 with safe_open_w('.cache/'+url) as f:
-                    url_buff = urllib.request.urlopen('http://'+url)
-                    f.write(url_buff.read())
-                    f.close()
+                    #url_buff = urllib.request.urlopen('http://'+url)
+                    #f.write(url_buff.read())
+                    #f.close()
+                    cache_file.write ('http://' + url + '\n')
+                    print (url)
+                    f.close ()
             except OSError: # Who know why this happens (fuckin Windows is shit)
                 # Network unreachable for some reason
                 # 301 still works
                 # Just leave it to redirect
                 os.remove ('.cache/' + url)
+
+cache_file = open ('.temp-cache', 'w+')
 
 def img_cache_back (_in):
     for x in list(find_all(_in, "https://")):
@@ -230,24 +249,24 @@ def write_img_cache (_in):
     else:
         if os.fork () == 0:
             img_cache_back (_in)
-            
+            cache_file.close ()
 
 def refresh():
     out_s = ""
     out_p = ""
     try:
         out_s = gm_api_mob.get_all_songs ()
-        if os.fork () == 0:
-            write_img_cache (str(out_s))
+        write_img_cache (str(out_s))
         out_s = eval(str(out_s).replace ("http://", "http://localhost:8001/.cache/").replace ("https://", "http://localhost:8001/.cache/"))
         out_p = gm_api_mob.get_all_user_playlist_contents ()
-        if os.fork () == 0:
-            write_img_cache (str(out_p))
-        out_p = eval(str(out_p).replace ("http://", "http://localhost:8001/.cache/").replace ("https://", "http://localhost:8001/.cache/"))
+        write_img_cache (str(out_p))
     except:
-        pass
+        traceback.print_exc()
     global gm_library
-    gm_library = library.Library(out_s, out_p)
+    if out_p == "":
+        out_p = []
+    gm_library = library.Library(eval(str(out_s).replace ("http://", "http://localhost:8001/.cache/").replace ("https://", "http://localhost:8001/.cache/")), \
+                                 eval(str(out_p).replace ("http://", "http://localhost:8001/.cache/").replace ("https://", "http://localhost:8001/.cache/")))
     return gm_library
 
 def get_now():
@@ -267,7 +286,7 @@ def get_text_color(color):
 def sit_add_colors(lib):
     out_lib = []
     for item in lib:
-        fd = urlopen(item['wideImageUrl'])
+        #fd = urlopen(item['wideImageUrl'])
         f = io.BytesIO(fd.read())
         color_thief = ColorThief(f)
         item['primary'] = color_thief.get_color(quality=1)

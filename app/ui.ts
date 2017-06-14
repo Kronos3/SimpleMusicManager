@@ -1,4 +1,5 @@
 import {App} from "./main"
+import {Tabs} from "./tabs"
 declare function require(name:string);
 var Mustache = require ("mustache");
 declare var $;
@@ -7,10 +8,12 @@ export class UI {
     app: App;
     in_songs: boolean;
     in_playlist: boolean;
+    tabs: Tabs;
     
     constructor (app: App) {
         this.app = app;
-            $('.search').blur(() => {
+        this.tabs = new Tabs (this.app, this);
+        $('.search').blur(() => {
             $(this).parent('.top-search-inner').removeClass("white");
             $(this).parent('.top-search-inner').addClass("with-back");
             $(this).parent('.top-search-inner').css('box-shadow', 'none');
@@ -30,6 +33,29 @@ export class UI {
 
     get = (s: string) => {
         return document.querySelector (s);
+    }
+
+    scrolled = () => {
+        if ($(".other-buff > .album").position() == undefined || this.in_songs) {
+            return;
+        }
+        
+        if ($('.other-buff > .album').hasClass ('playlist-wrapper')) {
+            return;
+        }
+        
+        var elmnt = document.querySelector(".other-buff");
+        var x = elmnt.scrollLeft;
+        var y = elmnt.scrollTop;
+        if (y >= ($(".other-buff > .album").position().top)) {
+            this.switch_top('red', '');
+        }
+        else if (y == (elmnt.scrollHeight - (<any>elmnt).offsetHeight)) {
+            this.switch_top('red', '');
+        }
+        else {
+            this.switch_top('clear', '');
+        }
     }
 
     switch_top = (t, artist_img = undefined) => {

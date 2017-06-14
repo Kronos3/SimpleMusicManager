@@ -1,11 +1,32 @@
 "use strict";
 exports.__esModule = true;
+var tabs_1 = require("./tabs");
 var Mustache = require("mustache");
 var UI = (function () {
     function UI(app) {
         var _this = this;
         this.get = function (s) {
             return document.querySelector(s);
+        };
+        this.scrolled = function () {
+            if ($(".other-buff > .album").position() == undefined || _this.in_songs) {
+                return;
+            }
+            if ($('.other-buff > .album').hasClass('playlist-wrapper')) {
+                return;
+            }
+            var elmnt = document.querySelector(".other-buff");
+            var x = elmnt.scrollLeft;
+            var y = elmnt.scrollTop;
+            if (y >= ($(".other-buff > .album").position().top)) {
+                _this.switch_top('red', '');
+            }
+            else if (y == (elmnt.scrollHeight - elmnt.offsetHeight)) {
+                _this.switch_top('red', '');
+            }
+            else {
+                _this.switch_top('clear', '');
+            }
         };
         this.switch_top = function (t, artist_img) {
             if (artist_img === void 0) { artist_img = undefined; }
@@ -256,6 +277,7 @@ var UI = (function () {
             });
         };
         this.app = app;
+        this.tabs = new tabs_1.Tabs(this.app, this);
         $('.search').blur(function () {
             $(_this).parent('.top-search-inner').removeClass("white");
             $(_this).parent('.top-search-inner').addClass("with-back");

@@ -1,8 +1,7 @@
 <div id="content-wrapper">
     <div class="albums">
         {{#albums}}
-        <paper-card class="hoverable" ondrag="albumdrag(event, this)" id="album-{{index}}" image="{{img}}" onclick="goto_album(window.albums.albums[{{index}}])">
-            <div class="hover-play" onclick="goto_album(window.albums.albums[{{index}}]); setTimeout(function(){song_click($('#main').children('#al').children('.song-wrapper').children('tbody').children().first().next())}, 60);"><i class="fa fa-play" aria-hidden="true"></i></div>
+        <paper-card class="hoverable" id="album-{{index}}" image="{{img}}" onclick="window.APP.ui.goto_album(window.APP.ui.rawalbums.albums[{{index}}])">
             <div class="card-content">
                 <p class="album-name truncate">{{name}}</p>
                 <p class="album-artist truncate">{{artist}}</p>

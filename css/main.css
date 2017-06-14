@@ -834,7 +834,7 @@ tr.title-row > th.tbl-name, tr.title-row > tr.tbl-num, tr.title-row > tr.tbl-alb
 
 .song-row:hover > .tbl-num > .song-number {
     color: #eee !important;
-    background-image: url('../img/paused.png') !important;
+    background-image: url('../img/noalb.png') !important;
 }
 
 .song-row:hover > .tbl-num > .song-play {

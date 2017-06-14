@@ -264,7 +264,7 @@ $(document).ready(function () {
     window.APP = new App();
 });
 
-},{"./ipc":2,"./login":3,"./songcontroller":5,"./ui":6}],5:[function(require,module,exports){
+},{"./ipc":2,"./login":3,"./songcontroller":5,"./ui":7}],5:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
 var UTIL = require("./util");
@@ -433,15 +433,78 @@ var SongController = (function () {
 }());
 exports.SongController = SongController;
 
-},{"./controls":1,"./util":7}],6:[function(require,module,exports){
+},{"./controls":1,"./util":8}],6:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
+var Tabs = (function () {
+    function Tabs(app, ui) {
+        var _this = this;
+        this.dis_0 = function () {
+            $('.topcontent-wrapper').css('transform', 'translateX(-0)');
+            $('.other-buff').css('display', 'none');
+            $('.topcontent-wrapper').css('display', 'flex');
+            _this.ui.switch_top('red', 'none');
+            _this.current = 0;
+        };
+        this.dis_1 = function () {
+            $('.topcontent-wrapper').css('transform', 'translateX(-100vw)');
+            $('.other-buff').css('display', 'none');
+            $('.topcontent-wrapper').css('display', 'flex');
+            _this.ui.switch_top('red', 'none');
+            _this.current = 1;
+        };
+        this.dis_2 = function () {
+            $('.topcontent-wrapper').css('transform', 'translateX(-200vw)');
+            $('.other-buff').css('display', 'none');
+            $('.topcontent-wrapper').css('display', 'flex');
+            _this.ui.switch_top('red', 'none');
+            _this.current = 2;
+        };
+        this.dis_3 = function () {
+            $('.topcontent-wrapper').css('transform', 'translateX(-300vw)');
+            $('.other-buff').css('display', 'none');
+            $('.topcontent-wrapper').css('display', 'flex');
+            _this.ui.switch_top('red', 'none');
+            _this.current = 3;
+        };
+        this.app = app;
+        this.current = 0;
+        this.ui = ui;
+    }
+    return Tabs;
+}());
+exports.Tabs = Tabs;
+
+},{}],7:[function(require,module,exports){
+"use strict";
+exports.__esModule = true;
+var tabs_1 = require("./tabs");
 var Mustache = require("mustache");
 var UI = (function () {
     function UI(app) {
         var _this = this;
         this.get = function (s) {
             return document.querySelector(s);
+        };
+        this.scrolled = function () {
+            if ($(".other-buff > .album").position() == undefined || _this.in_songs) {
+                return;
+            }
+            if ($('.other-buff > .album').hasClass('playlist-wrapper')) {
+                return;
+            }
+            var elmnt = document.querySelector(".other-buff");
+            var x = elmnt.scrollLeft;
+            var y = elmnt.scrollTop;
+            if (y >= ($(".other-buff > .album").position().top)) {
+                _this.switch_top('red', '');
+            }
+            else if (y == (elmnt.scrollHeight - elmnt.offsetHeight)) {
+                _this.switch_top('red', '');
+            }
+            else {
+                _this.switch_top('clear', '');
+            }
         };
         this.switch_top = function (t, artist_img) {
             if (artist_img === void 0) { artist_img = undefined; }
@@ -692,6 +755,7 @@ var UI = (function () {
             });
         };
         this.app = app;
+        this.tabs = new tabs_1.Tabs(this.app, this);
         $('.search').blur(function () {
             $(_this).parent('.top-search-inner').removeClass("white");
             $(_this).parent('.top-search-inner').addClass("with-back");
@@ -713,7 +777,7 @@ var UI = (function () {
 }());
 exports.UI = UI;
 
-},{"mustache":8}],7:[function(require,module,exports){
+},{"./tabs":6,"mustache":9}],8:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
 function find(a, b) {
@@ -781,7 +845,7 @@ function getRandomInt(min, max) {
 }
 exports.getRandomInt = getRandomInt;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
  * http://github.com/janl/mustache.js
@@ -1413,4 +1477,4 @@ exports.getRandomInt = getRandomInt;
   return mustache;
 }));
 
-},{}]},{},[1,2,4,5,6,7]);
+},{}]},{},[1,2,4,5,7,8]);
