@@ -1,5 +1,5 @@
 <paper-listbox class="ytlistbox">
     {{#videos}}
-    <paper-item onclick="load_yt ('{{url}}')" class="waves-effect"><img src="{{img}}"><p class="title truncate">{{title}}</p><p class="author">{{author}}</p></paper-item>
+    <paper-item onclick="window.APP.ytapi.loadVid ('{{url}}')" class="waves-effect"><img src="{{img}}"><p class="title truncate">{{title}}</p><p class="author">{{author}}</p></paper-item>
     {{/videos}}
 </paper-listbox>

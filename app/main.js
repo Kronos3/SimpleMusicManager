@@ -4,11 +4,13 @@ var songcontroller_1 = require("./songcontroller");
 var ui_1 = require("./ui");
 var ipc_1 = require("./ipc");
 var login_1 = require("./login");
+var youtube_1 = require("./youtube");
 var App = (function () {
     function App() {
         this.ipc = new ipc_1.IPC(this);
         this.songcontroller = new songcontroller_1.SongController(this, this.ipc);
         this.ui = new ui_1.UI(this);
+        this.ytapi = new youtube_1.YouTubeAPI(this);
         this.login = new login_1.Login(this);
     }
     return App;

@@ -243,11 +243,13 @@ var songcontroller_1 = require("./songcontroller");
 var ui_1 = require("./ui");
 var ipc_1 = require("./ipc");
 var login_1 = require("./login");
+var youtube_1 = require("./youtube");
 var App = (function () {
     function App() {
         this.ipc = new ipc_1.IPC(this);
         this.songcontroller = new songcontroller_1.SongController(this, this.ipc);
         this.ui = new ui_1.UI(this);
+        this.ytapi = new youtube_1.YouTubeAPI(this);
         this.login = new login_1.Login(this);
     }
     return App;
@@ -263,7 +265,7 @@ $(document).ready(function () {
     };
 });
 
-},{"./ipc":2,"./login":3,"./songcontroller":5,"./ui":7}],5:[function(require,module,exports){
+},{"./ipc":2,"./login":3,"./songcontroller":5,"./ui":7,"./youtube":9}],5:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
 var UTIL = require("./util");
@@ -341,6 +343,7 @@ var SongController = (function () {
         };
         this.songClick = function (el) {
             _this.generateQueue(el);
+            _this.audio.currentTime = 0;
             _this.playSong(_this.findSongFromEl(el));
         };
         this.findSonginEl = function (id, ar) {
@@ -419,6 +422,7 @@ var SongController = (function () {
             if ($('#back').hasClass('disabled')) {
                 return;
             }
+            console.log(_this.audio.currentTime);
             if (_this.audio.currentTime > 5) {
                 _this.audio.currentTime = 0;
             }
@@ -427,7 +431,6 @@ var SongController = (function () {
                 if (n < 0) {
                     n = 0;
                 }
-                _this.audio.currentTime = 0;
                 _this.playSong(_this.queue[n]);
             }
         };
@@ -470,7 +473,7 @@ var SongController = (function () {
     }
     SongController.prototype.generateQueue = function (e) {
         var _this = this;
-        $(e).parent().children('.song-list').toArray().forEach(function (element) {
+        $(e).parent().children('.____song-list').toArray().forEach(function (element) {
             _this.queue.push(_this.findSongFromEl(element));
             _this.queueEl.push(element);
         });
@@ -479,7 +482,7 @@ var SongController = (function () {
 }());
 exports.SongController = SongController;
 
-},{"./controls":1,"./util":8,"mustache":9}],6:[function(require,module,exports){
+},{"./controls":1,"./util":8,"mustache":10}],6:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
 var Tabs = (function () {
@@ -881,7 +884,7 @@ var UI = (function () {
 }());
 exports.UI = UI;
 
-},{"./tabs":6,"mustache":9}],8:[function(require,module,exports){
+},{"./tabs":6,"mustache":10}],8:[function(require,module,exports){
 "use strict";
 exports.__esModule = true;
 function find(a, b) {
@@ -950,6 +953,82 @@ function getRandomInt(min, max) {
 exports.getRandomInt = getRandomInt;
 
 },{}],9:[function(require,module,exports){
+"use strict";
+exports.__esModule = true;
+var Mustache = require("mustache");
+var YouTubeAPI = (function () {
+    function YouTubeAPI(app) {
+        var _this = this;
+        this.loadStart = function () {
+            $('#yt-load').css('display', 'block');
+        };
+        this.loadEnd = function () {
+            $('#yt-load').css('display', 'none');
+        };
+        this.search = function (token) {
+            _this.loadStart();
+            $.ajax({
+                type: 'SEARCHYT',
+                url: encodeURI(token),
+                success: function (data) {
+                    var s;
+                    s = data.split('\n');
+                    for (var i = 0; i != s.length; i++) {
+                        $.getJSON('https://www.googleapis.com/youtube/v3/videos?id=' + s[i] + '&key=AIzaSyAofmivOMlh5VmMl0_AoTeDgOm8FOwCBOc&fields=items(id,snippet(title,channelTitle,thumbnails(default)))&part=snippet', function (p, status, xhr) {
+                            if (p.items[0] != undefined) {
+                                var buf = {
+                                    img: p.items[0].snippet.thumbnails["default"].url,
+                                    url: p.items[0].id,
+                                    title: p.items[0].snippet.title,
+                                    author: p.items[0].snippet.channelTitle
+                                };
+                                _this.results.push(buf);
+                                _this.parse(_this.results);
+                            }
+                            if (i == s.length) {
+                                _this.loadEnd();
+                            }
+                        });
+                    }
+                }
+            });
+        };
+        this.parse = function (struct) {
+            $.get('templates/ytsearch.mst', function (template) {
+                var obj = {};
+                obj.videos = struct;
+                var rendered = Mustache.render(template, obj);
+                $('#ytpl-list').html(rendered);
+                $("#ytpl-list").animate({
+                    scrollTop: 0
+                }, 0);
+            });
+        };
+        this.loadVid = function (url) {
+            if (url != _this.currentURL) {
+                _this.currentURL = url;
+                document.querySelector('#yt-vid').src = "http://www.youtube.com/embed/" + _this.currentURL;
+            }
+            $('#ytpl-inner').css('transform', 'translateX(-620px)');
+            $('#ytdl').css('display', 'block', 'important');
+        };
+        this.back = function () {
+            $('#ytpl-inner').css('transform', 'translateX(0)');
+            $('#ytdl').css('display', 'none');
+        };
+        this.app = app;
+        this.results = [];
+        $('#ytsearch').keypress(function (e) {
+            if (e.which == 13) {
+                window.APP.ytapi.search($(this).val());
+            }
+        });
+    }
+    return YouTubeAPI;
+}());
+exports.YouTubeAPI = YouTubeAPI;
+
+},{"mustache":10}],10:[function(require,module,exports){
 /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
  * http://github.com/janl/mustache.js

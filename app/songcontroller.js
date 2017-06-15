@@ -75,6 +75,7 @@ var SongController = (function () {
         };
         this.songClick = function (el) {
             _this.generateQueue(el);
+            _this.audio.currentTime = 0;
             _this.playSong(_this.findSongFromEl(el));
         };
         this.findSonginEl = function (id, ar) {
@@ -153,6 +154,7 @@ var SongController = (function () {
             if ($('#back').hasClass('disabled')) {
                 return;
             }
+            console.log(_this.audio.currentTime);
             if (_this.audio.currentTime > 5) {
                 _this.audio.currentTime = 0;
             }
@@ -161,7 +163,6 @@ var SongController = (function () {
                 if (n < 0) {
                     n = 0;
                 }
-                _this.audio.currentTime = 0;
                 _this.playSong(_this.queue[n]);
             }
         };
@@ -204,7 +205,7 @@ var SongController = (function () {
     }
     SongController.prototype.generateQueue = function (e) {
         var _this = this;
-        $(e).parent().children('.song-list').toArray().forEach(function (element) {
+        $(e).parent().children('.____song-list').toArray().forEach(function (element) {
             _this.queue.push(_this.findSongFromEl(element));
             _this.queueEl.push(element);
         });

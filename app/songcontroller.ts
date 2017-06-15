@@ -176,7 +176,7 @@ export class SongController {
     }
 
     generateQueue (e: Element) {
-        $(e).parent ().children ('.song-list').toArray().forEach((element) => {
+        $(e).parent ().children ('.____song-list').toArray().forEach((element) => {
             this.queue.push(this.findSongFromEl(element));
             this.queueEl.push (element);
         });
@@ -188,6 +188,7 @@ export class SongController {
 
     songClick = (el: Element) => {
         this.generateQueue (el);
+        this.audio.currentTime = 0;
         this.playSong (this.findSongFromEl (el));
     }
 
@@ -272,6 +273,7 @@ export class SongController {
         if ($('#back').hasClass('disabled')) {
             return;
         }
+        console.log (this.audio.currentTime);
         if (this.audio.currentTime > 5) { // Restart the song 
             this.audio.currentTime = 0;
         }
@@ -280,7 +282,6 @@ export class SongController {
             if (n < 0) {
                 n = 0;
             }
-            this.audio.currentTime = 0;
             this.playSong (this.queue[n]);
         }
     }

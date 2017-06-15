@@ -41,6 +41,7 @@
 <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="bower_components/paper-item/paper-item.html">
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="bower_components/iron-icons/iron-icons.html">
 <script type="text/javascript" src="js/jquery-3.2.1.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
 <script type="text/javascript" src="js/hammer.min.js" onload="window.Hammer = module.exports;"></script>
@@ -184,7 +185,7 @@
 </div>
 <div class="mini-dialog-wrapper">
     <div class="ytplayer-top">
-        <a id="ytback" onclick="ytback()" class="btn waves-effect waves-light"><i class="material-icons">keyboard_backspace</i></a>
+        <a id="ytback" onclick="window.APP.ytapi.back()" class="btn waves-effect waves-light"><i class="material-icons">keyboard_backspace</i></a>
         <div class="top-search-wrapper">
             <div id="search-color" class="top-search-inner  lighten-3 red">
                 <i class="search-icon material-icons">search</i>
