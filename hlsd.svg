@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created by diasvg.py -->
+<svg width="47.256cm" height="40.327cm" viewBox="2.294 0.852 49.550 41.179"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+<rect x="20.300" y="5.500" width="12.435" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="20.300" y="5.500" width="12.435" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="26.518" y="6.450"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+Main</text>
+<rect x="20.300" y="6.900" width="12.435" height="4.200" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="20.300" y="6.900" width="12.435" height="4.200" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="20.450" y="7.600"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++ipc: IPC</text>
+<text x="20.450" y="8.400"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++songcontroller: SongController</text>
+<text x="20.450" y="9.200"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++ui: UI</text>
+<text x="20.450" y="10.000"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++ytapi: YouTubeAPI</text>
+<text x="20.450" y="10.800"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++login: Login</text>
+<rect x="6.661" y="9.910" width="5.130" height="5.600" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="6.661" y="9.910" width="5.130" height="5.600" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="9.226" y="10.860"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+IPC</text>
+<text x="9.226" y="11.635"  fill="#000000" text-anchor="middle" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Interprocess</text>
+<text x="9.226" y="12.335"  fill="#000000" text-anchor="middle" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+control</text>
+<text x="9.226" y="13.035"  fill="#000000" text-anchor="middle" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Makes all socket</text>
+<text x="9.226" y="13.735"  fill="#000000" text-anchor="middle" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+server calls to</text>
+<text x="9.226" y="14.435"  fill="#000000" text-anchor="middle" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+the python</text>
+<text x="9.226" y="15.135"  fill="#000000" text-anchor="middle" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+backend</text>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="11.791,12.710 14.581,12.710 14.581,7.400 19.965,7.400 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="19.332,7.650 20.132,7.400 19.332,7.150 "/>
+<rect x="5.125" y="16.919" width="8.200" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="5.125" y="16.919" width="8.200" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="9.225" y="17.869"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+SongController</text>
+<rect x="5.125" y="18.319" width="8.200" height="12.750" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="5.125" y="18.319" width="8.200" height="12.750" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="5.275" y="19.019"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++audio: HTMLAudio</text>
+<text x="5.275" y="19.744"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Audio component</text>
+<text x="5.275" y="20.444"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+of software</text>
+<text x="5.275" y="21.569"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++queue: Song[]</text>
+<text x="5.275" y="22.294"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Array of the</text>
+<text x="5.275" y="22.994"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+upcoming songs</text>
+<text x="5.275" y="23.694"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+in the queue.</text>
+<text x="5.275" y="24.819"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++metaSongs: Song[]</text>
+<text x="5.275" y="25.544"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+An array of all</text>
+<text x="5.275" y="26.244"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+the songs</text>
+<text x="5.275" y="26.944"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+currently in the</text>
+<text x="5.275" y="27.644"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+cache</text>
+<text x="5.275" y="28.344"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Keeps</text>
+<text x="5.275" y="29.044"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+information</text>
+<text x="5.275" y="29.744"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+about song&apos;s</text>
+<text x="5.275" y="30.444"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+metadata</text>
+<rect x="5.125" y="31.069" width="8.200" height="3.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="5.125" y="31.069" width="8.200" height="3.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="5.275" y="31.769"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++setSong(url:string)</text>
+<text x="5.275" y="32.569"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++playSong(song:Song)</text>
+<text x="5.275" y="33.369"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++pause()</text>
+<text x="5.275" y="34.169"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++refresh()</text>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="13.325,17.619 15.681,17.619 15.681,8.200 19.965,8.200 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="19.332,8.450 20.132,8.200 19.332,7.950 "/>
+<rect x="23.337" y="13.351" width="8.200" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="23.337" y="13.351" width="8.200" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="27.437" y="14.301"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+UI</text>
+<rect x="23.337" y="14.751" width="8.200" height="8.550" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="23.337" y="14.751" width="8.200" height="8.550" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="23.487" y="15.451"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++switch_top()</text>
+<text x="23.487" y="16.176"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Changes the</text>
+<text x="23.487" y="16.876"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+color of the</text>
+<text x="23.487" y="17.576"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+topbar</text>
+<text x="23.487" y="18.701"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++goto_album(album)</text>
+<text x="23.487" y="19.426"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Display selected</text>
+<text x="23.487" y="20.126"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+album</text>
+<text x="23.487" y="21.251"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++goto_artist(artist)</text>
+<text x="23.487" y="21.976"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Display selected</text>
+<text x="23.487" y="22.676"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+artist</text>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="27.437,13.351 27.437,15.826 16.831,15.826 16.831,9.000 19.965,9.000 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="19.332,9.250 20.132,9.000 19.332,8.750 "/>
+<rect x="35.873" y="11.220" width="8.200" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="35.873" y="11.220" width="8.200" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="39.973" y="12.170"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+ytapi</text>
+<rect x="35.873" y="12.620" width="8.200" height="2.600" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="35.873" y="12.620" width="8.200" height="2.600" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="36.023" y="13.320"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++search(token)</text>
+<text x="36.023" y="14.120"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++parse()</text>
+<text x="36.023" y="14.920"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++loadVid(url:string)</text>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="39.973,11.220 39.973,12.536 17.900,12.536 17.900,9.800 19.965,9.800 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="19.332,10.050 20.132,9.800 19.332,9.550 "/>
+<rect x="23.724" y="23.782" width="7.430" height="2.800" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="23.724" y="23.782" width="7.430" height="2.800" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="27.439" y="24.732"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+Login</text>
+<text x="27.439" y="25.507"  fill="#000000" text-anchor="middle" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Manages both</text>
+<text x="27.439" y="26.207"  fill="#000000" text-anchor="middle" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+login methods</text>
+<rect x="23.724" y="26.582" width="7.430" height="8.800" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="23.724" y="26.582" width="7.430" height="8.800" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="23.874" y="27.282"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++gps: GPSLogin</text>
+<text x="23.874" y="28.007"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Google play</text>
+<text x="23.874" y="28.707"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+services. Can</text>
+<text x="23.874" y="29.407"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+only make</text>
+<text x="23.874" y="30.107"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+requests for</text>
+<text x="23.874" y="30.807"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+metadata and</text>
+<text x="23.874" y="31.507"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+stream URLs.</text>
+<text x="23.874" y="32.632"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++oauth: oauthLogin</text>
+<text x="23.874" y="33.357"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+oauthLogin for</text>
+<text x="23.874" y="34.057"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+uploading/downloa</text>
+<text x="23.874" y="34.757"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+ding music</text>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="23.724,25.182 18.850,25.182 18.850,10.600 19.965,10.600 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="19.332,10.850 20.132,10.600 19.332,10.350 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="5.125,33.969 2.344,33.969 2.344,12.710 6.326,12.710 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="5.693,12.960 6.493,12.710 5.693,12.460 "/>
+<rect x="36.396" y="16.791" width="6.660" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="36.396" y="16.791" width="6.660" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="39.726" y="17.741"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+GPSLogin</text>
+<rect x="36.396" y="18.191" width="6.660" height="13.200" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="36.396" y="18.191" width="6.660" height="13.200" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="36.546" y="18.891"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++updateStatus()</text>
+<text x="36.546" y="19.616"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Check if logged</text>
+<text x="36.546" y="20.316"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+in</text>
+<text x="36.546" y="21.441"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++login()</text>
+<text x="36.546" y="22.166"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+open the login</text>
+<text x="36.546" y="22.866"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+dialogue which</text>
+<text x="36.546" y="23.566"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+will securely</text>
+<text x="36.546" y="24.266"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+send credentails</text>
+<text x="36.546" y="24.966"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+to server</text>
+<text x="36.546" y="26.091"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++close()</text>
+<text x="36.546" y="26.816"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Close the login</text>
+<text x="36.546" y="27.516"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+dialog</text>
+<text x="36.546" y="28.641"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++loginRedirect()</text>
+<text x="36.546" y="29.366"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Handles return</text>
+<text x="36.546" y="30.066"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+status from</text>
+<text x="36.546" y="30.766"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+server</text>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="31.154,25.182 33.575,25.182 33.575,17.491 36.060,17.491 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="35.428,17.741 36.228,17.491 35.428,17.241 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="43.056,18.691 46.867,18.691 46.867,3.315 11.791,3.315 11.791,9.575 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="11.541,8.943 11.791,9.743 12.041,8.943 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="43.056,21.241 47.916,21.241 47.916,2.245 9.226,2.245 9.226,9.575 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="8.976,8.943 9.226,9.743 9.476,8.943 "/>
+<rect x="36.550" y="33.729" width="6.275" height="1.400" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="36.550" y="33.729" width="6.275" height="1.400" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="39.688" y="34.679"  fill="#000000" text-anchor="middle" font-size="1.00" font-family="sans" font-style="normal" font-weight="700">
+oauthLogin</text>
+<rect x="36.550" y="35.129" width="6.275" height="6.000" fill="#FFFFFF" stroke="none" stroke-width="0"/>
+<rect x="36.550" y="35.129" width="6.275" height="6.000" fill="none" stroke="#000000" stroke-width="0.100" />
+<text x="36.700" y="35.829"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++updateStatus()</text>
+<text x="36.700" y="36.554"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Check if logged</text>
+<text x="36.700" y="37.254"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+in</text>
+<text x="36.700" y="38.379"  fill="#000000" text-anchor="start" font-size="0.80" font-family="monospace" font-style="normal" font-weight="400">
++perform()</text>
+<text x="36.700" y="39.104"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+Open oauth</text>
+<text x="36.700" y="39.804"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+dialog (Google</text>
+<text x="36.700" y="40.504"  fill="#000000" text-anchor="start" font-size="0.70" font-family="sans" font-style="normal" font-weight="400">
+official login)</text>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="31.154,32.432 33.652,32.432 33.652,34.429 36.215,34.429 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="35.582,34.679 36.382,34.429 35.582,34.179 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100" stroke-dasharray="0.40,0.40" points="42.825,35.629 49.500,35.629 49.500,0.902 6.661,0.902 6.661,9.575 "/>
+<polyline fill="none" stroke="#000000" stroke-width="0.100"  points="6.411,8.943 6.661,9.743 6.911,8.943 "/>
+</svg>
